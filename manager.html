@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Indian Affair - Manager Dashboard</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--red:#8B1A1A;--dark-red:#5C1010;--orange:#D4722A;--gold:#D4A43A;--light-gold:#F5E6C8;--cream:#FFF8F0;--dark:#1A1A1A;--gray:#666;--green:#2a9d2a}
+body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:var(--cream);color:var(--dark);line-height:1.5}
+
+.header{background:linear-gradient(135deg,var(--dark-red),var(--red));color:white;padding:1.2rem 1rem;text-align:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.3)}
+.header h1{font-size:1.5rem;letter-spacing:2px;font-weight:700}
+.header .subtitle{font-size:.85rem;color:var(--gold);margin-top:.2rem}
+
+.container{max-width:900px;margin:0 auto;padding:1rem}
+
+.filter-bar{display:flex;gap:.5rem;margin-bottom:1rem;flex-wrap:wrap}
+.filter-bar button{padding:.5rem 1.2rem;border:2px solid var(--gold);border-radius:25px;background:transparent;color:var(--dark);font-size:.85rem;cursor:pointer;font-weight:600;transition:.2s}
+.filter-bar button.active{background:var(--gold);color:var(--dark-red)}
+
+.no-orders{text-align:center;color:var(--gray);padding:3rem 1rem;font-size:1.1rem}
+
+.order-card{background:white;border-radius:12px;padding:1.2rem;margin-bottom:1rem;box-shadow:0 2px 8px rgba(0,0,0,.08);border-left:4px solid var(--orange)}
+.order-card.accepted{border-left-color:var(--green)}
+
+.order-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.5rem;margin-bottom:.7rem}
+.order-number{font-size:1.2rem;font-weight:700;color:var(--red)}
+.order-time{font-size:.82rem;color:var(--gray)}
+.order-type-badge{display:inline-block;padding:.2rem .6rem;border-radius:12px;font-size:.75rem;font-weight:700;text-transform:uppercase}
+.badge-pickup{background:var(--light-gold);color:var(--dark-red)}
+.badge-delivery{background:var(--red);color:white}
+
+.order-customer{font-size:.9rem;margin-bottom:.5rem}
+.order-customer strong{color:var(--dark)}
+
+.order-items{background:var(--light-gold);border-radius:8px;padding:.7rem;margin-bottom:.7rem;font-size:.88rem}
+.order-items .item-line{display:flex;justify-content:space-between;padding:.15rem 0}
+.order-items .total-line{border-top:2px solid var(--gold);margin-top:.3rem;padding-top:.3rem;font-weight:700}
+
+.order-meta{font-size:.82rem;color:var(--gray);margin-bottom:.7rem}
+.order-meta span{margin-right:1rem}
+
+.order-notes{font-size:.85rem;background:#fff3e0;padding:.5rem .7rem;border-radius:6px;margin-bottom:.7rem}
+
+.order-actions{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+.order-actions select{padding:.45rem .6rem;border:1px solid #ccc;border-radius:6px;font-size:.9rem;min-height:40px}
+.btn-accept{padding:.5rem 1.4rem;background:var(--green);color:white;border:none;border-radius:6px;font-size:.9rem;font-weight:600;cursor:pointer;min-height:40px;transition:.15s}
+.btn-accept:hover{background:#228b22}
+
+.order-status{display:inline-flex;align-items:center;gap:.4rem;padding:.4rem .8rem;border-radius:6px;font-size:.88rem;font-weight:600}
+.status-pending{background:#fff3e0;color:var(--orange)}
+.status-accepted{background:#e8f5e9;color:var(--green)}
+
+.back-link{display:inline-block;margin-bottom:1rem;color:var(--orange);text-decoration:none;font-size:.9rem;font-weight:600}
+.back-link:hover{text-decoration:underline}
+
+@media(max-width:768px){
+  .header h1{font-size:1.2rem}
+  .container{padding:.75rem}
+  .order-card{padding:1rem}
+  .order-actions select,.btn-accept{min-height:44px;font-size:.95rem}
+  .order-header{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <h1>INDIAN AFFAIR</h1>
+  <div class="subtitle">Manager Dashboard</div>
+</header>
+
+<div class="container">
+  <a href="index.html" class="back-link">&larr; Back to Menu</a>
+
+  <div class="filter-bar">
+    <button class="active" onclick="setFilter('all')">All</button>
+    <button onclick="setFilter('pending')">Pending</button>
+    <button onclick="setFilter('accepted')">Accepted</button>
+  </div>
+
+  <div id="orders-container">
+    <div class="no-orders">No orders yet.</div>
+  </div>
+</div>
+
+<script>
+let filter = 'all';
+
+function setFilter(f) {
+  filter = f;
+  document.querySelectorAll('.filter-bar button').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  renderOrders();
+}
+
+function getOrders() {
+  return JSON.parse(localStorage.getItem('ia_orders') || '[]');
+}
+
+function saveOrders(orders) {
+  localStorage.setItem('ia_orders', JSON.stringify(orders));
+}
+
+function acceptOrder(orderNumber, selectId) {
+  const mins = document.getElementById(selectId).value;
+  if (!mins) {
+    alert('Please select an estimated time.');
+    return;
+  }
+  const orders = getOrders();
+  const order = orders.find(o => o.orderNumber === orderNumber);
+  if (order) {
+    order.status = 'accepted';
+    order.estimatedMins = parseInt(mins);
+    order.acceptedAt = new Date().toISOString();
+    saveOrders(orders);
+    renderOrders();
+  }
+}
+
+function formatTime(isoStr) {
+  const d = new Date(isoStr);
+  return d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) + ' ' + d.toLocaleDateString();
+}
+
+function renderOrders() {
+  const container = document.getElementById('orders-container');
+  let orders = getOrders();
+
+  // Sort newest first
+  orders.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+  if (filter !== 'all') {
+    orders = orders.filter(o => o.status === filter);
+  }
+
+  if (orders.length === 0) {
+    container.innerHTML = '<div class="no-orders">No orders found.</div>';
+    return;
+  }
+
+  container.innerHTML = orders.map((o, i) => {
+    const itemsHtml = o.items.map(it =>
+      `<div class="item-line"><span>${it.qty}x ${it.name}</span><span>$${it.lineTotal.toFixed(2)}</span></div>`
+    ).join('');
+
+    const selectId = 'time-' + i;
+    const isAccepted = o.status === 'accepted';
+    const typeBadge = o.orderType === 'delivery'
+      ? '<span class="order-type-badge badge-delivery">Delivery</span>'
+      : '<span class="order-type-badge badge-pickup">Pickup</span>';
+
+    const actionsHtml = isAccepted
+      ? `<div class="order-status status-accepted">&#10003; Accepted &mdash; ${o.estimatedMins} mins</div>`
+      : `<select id="${selectId}">
+           <option value="">Est. time...</option>
+           <option value="15">15 minutes</option>
+           <option value="20">20 minutes</option>
+           <option value="30">30 minutes</option>
+           <option value="45">45 minutes</option>
+           <option value="60">60 minutes</option>
+         </select>
+         <button class="btn-accept" onclick="acceptOrder('${o.orderNumber}','${selectId}')">Accept Order</button>`;
+
+    return `
+      <div class="order-card ${isAccepted ? 'accepted' : ''}">
+        <div class="order-header">
+          <div>
+            <span class="order-number">${o.orderNumber}</span>
+            ${typeBadge}
+          </div>
+          <span class="order-time">${formatTime(o.timestamp)}</span>
+        </div>
+        <div class="order-customer">
+          <strong>${o.customer.name}</strong> &mdash; ${o.customer.phone}
+          ${o.customer.email ? ' &mdash; ' + o.customer.email : ''}
+        </div>
+        ${o.orderType === 'delivery' && o.customer.address ? `<div class="order-customer"><strong>Deliver to:</strong> ${o.customer.address}</div>` : ''}
+        <div class="order-items">
+          ${itemsHtml}
+          <div class="item-line total-line"><span>Total</span><span>$${o.subtotal.toFixed(2)}</span></div>
+        </div>
+        <div class="order-meta">
+          <span>Spice: ${o.spiceLevel}</span>
+          <span>Payment: ${o.payment.replace(/-/g,' ').replace(/\b\w/g,l=>l.toUpperCase())}</span>
+        </div>
+        ${o.instructions ? `<div class="order-notes"><strong>Notes:</strong> ${o.instructions}</div>` : ''}
+        <div class="order-actions">
+          ${actionsHtml}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// Auto-refresh every 5 seconds
+renderOrders();
+setInterval(renderOrders, 5000);
+</script>
+</body>
+</html>

@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Indian Affair Restobar - Order Online</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--red:#8B1A1A;--dark-red:#5C1010;--orange:#D4722A;--gold:#D4A43A;--light-gold:#F5E6C8;--cream:#FFF8F0;--dark:#1A1A1A;--gray:#666;--light-gray:#F5F5F5}
+body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:var(--cream);color:var(--dark);line-height:1.5}
+a{color:var(--orange);text-decoration:none}
+
+/* Header */
+.header{background:linear-gradient(135deg,var(--dark-red),var(--red));color:white;padding:1.2rem 1rem;text-align:center;position:sticky;top:54px;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.3)}
+.header h1{font-size:1.8rem;letter-spacing:2px;font-weight:700}
+.header .subtitle{font-size:.85rem;color:var(--gold);margin-top:.2rem;letter-spacing:1px}
+.header .location{font-size:.75rem;color:var(--light-gold);opacity:.8;margin-top:.15rem}
+
+/* Order Type Toggle */
+.order-type-bar{background:var(--dark-red);padding:.6rem 1rem;display:flex;justify-content:center;gap:.5rem;position:sticky;top:126px;z-index:99}
+.order-type-bar button{padding:.45rem 1.5rem;border:2px solid var(--gold);border-radius:25px;background:transparent;color:var(--gold);font-size:.85rem;cursor:pointer;font-weight:600;transition:.2s}
+.order-type-bar button.active{background:var(--gold);color:var(--dark-red)}
+
+/* Category Tabs */
+.tabs{display:flex;overflow-x:auto;background:white;border-bottom:2px solid var(--light-gold);position:sticky;top:172px;z-index:98;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex-shrink:0;padding:.7rem 1.2rem;border:none;background:none;font-size:.85rem;font-weight:600;color:var(--gray);cursor:pointer;border-bottom:3px solid transparent;transition:.2s;white-space:nowrap}
+.tabs button.active{color:var(--red);border-bottom-color:var(--red)}
+
+/* Main Layout */
+.main{display:flex;max-width:1200px;margin:0 auto;min-height:calc(100vh - 200px)}
+.menu-panel{flex:1;padding:1rem}
+.cart-panel{width:360px;background:white;border-left:1px solid #e0d5c8;padding:1rem;position:sticky;top:219px;height:calc(100vh - 219px);overflow-y:auto;display:flex;flex-direction:column}
+
+/* Menu Section */
+.menu-section{margin-bottom:1.5rem}
+.menu-section h2{font-size:1.15rem;color:var(--red);border-bottom:2px solid var(--gold);padding-bottom:.4rem;margin-bottom:.8rem;letter-spacing:1px}
+.menu-item{background:white;border-radius:10px;padding:.9rem 1rem;margin-bottom:.6rem;justify-content:space-between;box-shadow:0 1px 4px rgba(0,0,0,.06);transition:.15s;gap:.5rem}
+.menu-item:hover{box-shadow:0 2px 8px rgba(0,0,0,.12);transform:translateY(-1px)}
+.item-info h3{font-size:.95rem;color:var(--dark)}
+.item-info .price{color:var(--orange);font-weight:700;font-size:.95rem;margin-top:.15rem}
+.item-info .desc{font-size:.78rem;color:var(--gray);margin-top:.1rem}
+.add-btn{background:var(--red);color:white;border:none;padding:.45rem 1rem;border-radius:6px;cursor:pointer;font-size:.85rem;font-weight:600;white-space:nowrap;transition:.15s}
+.add-btn:hover{background:var(--dark-red)}
+
+/* Food thumbnails */
+.food-thumb{width:64px;height:64px;border-radius:10px;background:var(--light-gold);display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0;margin-right:.8rem;overflow:hidden}
+.food-thumb img{width:100%;height:100%;object-fit:cover;border-radius:10px}
+.menu-item{display:flex;align-items:center}
+.menu-item .item-info{flex:1;min-width:0}
+
+/* Curry Builder */
+.curry-builder{background:white;border-radius:10px;padding:1rem;margin-bottom:.6rem;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.curry-builder h3{font-size:.95rem;margin-bottom:.6rem;color:var(--dark)}
+.curry-builder .selectors{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.7rem}
+.curry-builder select{padding:.4rem .6rem;border:1px solid #ccc;border-radius:6px;font-size:.85rem;flex:1;min-width:140px}
+.curry-price{color:var(--orange);font-weight:700;font-size:.95rem;margin-right:1rem}
+
+/* Cart */
+.cart-title{font-size:1.1rem;font-weight:700;color:var(--red);margin-bottom:.7rem;display:flex;justify-content:space-between;align-items:center}
+.cart-count{background:var(--red);color:white;border-radius:50%;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;font-size:.75rem}
+.cart-empty{color:var(--gray);font-size:.9rem;text-align:center;padding:2rem 0}
+.cart-items{flex:1;overflow-y:auto}
+.cart-item{display:flex;justify-content:space-between;align-items:center;padding:.55rem 0;border-bottom:1px solid #f0ebe4;font-size:.85rem}
+.cart-item-left{flex:1;min-width:0}
+.cart-item-name{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cart-item-detail{font-size:.75rem;color:var(--gray)}
+.cart-item-right{display:flex;align-items:center;gap:.4rem;flex-shrink:0;margin-left:.5rem}
+.qty-btn{width:24px;height:24px;border:1px solid #ccc;border-radius:4px;background:white;cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center}
+.qty-btn:hover{background:var(--light-gold)}
+.remove-btn{color:#c00;cursor:pointer;font-size:.8rem;margin-left:.3rem;border:none;background:none}
+
+/* Spice Level */
+.spice-section{margin:.7rem 0;padding:.6rem;background:var(--light-gold);border-radius:8px}
+.spice-section label{font-size:.8rem;font-weight:600;color:var(--dark-red);display:block;margin-bottom:.35rem}
+.spice-options{display:flex;gap:.4rem}
+.spice-options button{flex:1;padding:.3rem;border:2px solid var(--gold);border-radius:5px;background:white;cursor:pointer;font-size:.78rem;font-weight:600;transition:.15s}
+.spice-options button.active{background:var(--red);color:white;border-color:var(--red)}
+
+/* Cart Footer */
+.cart-footer{border-top:2px solid var(--gold);padding-top:.7rem;margin-top:.5rem}
+.cart-total{display:flex;justify-content:space-between;font-size:1.05rem;font-weight:700;color:var(--dark);margin-bottom:.7rem}
+.checkout-btn{width:100%;padding:.7rem;background:var(--gold);color:var(--dark-red);border:none;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;transition:.15s;letter-spacing:.5px}
+.checkout-btn:hover{background:var(--orange);color:white}
+.checkout-btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* Mobile Cart Toggle */
+.mobile-cart-toggle{display:none;position:fixed;bottom:calc(1rem + env(safe-area-inset-bottom));right:1rem;background:var(--red);color:white;border:none;width:64px;height:64px;border-radius:50%;font-size:1.3rem;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.3);z-index:200;flex-direction:column;align-items:center;justify-content:center;line-height:1;-webkit-tap-highlight-color:transparent}
+.mobile-cart-toggle .badge{position:absolute;top:-4px;right:-4px;background:var(--gold);color:var(--dark-red);border-radius:50%;width:22px;height:22px;font-size:.75rem;display:flex;align-items:center;justify-content:center;font-weight:700}
+
+/* Checkout Modal */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;justify-content:center;align-items:center;padding:1rem}
+.modal-overlay.active{display:flex}
+.modal{background:white;border-radius:14px;max-width:500px;width:100%;max-height:90vh;overflow-y:auto;padding:1.8rem}
+.modal h2{color:var(--red);margin-bottom:1rem;font-size:1.3rem}
+.modal label{display:block;font-size:.85rem;font-weight:600;color:var(--dark);margin-bottom:.25rem;margin-top:.7rem}
+.modal input,.modal textarea,.modal select{width:100%;padding:.55rem .7rem;border:1px solid #ccc;border-radius:6px;font-size:.9rem;font-family:inherit}
+.modal textarea{resize:vertical;min-height:60px}
+.modal .form-row{margin-bottom:.2rem}
+.payment-options{display:flex;flex-direction:column;gap:.5rem;margin-top:.5rem}
+.payment-options label{display:flex;align-items:center;gap:.5rem;font-weight:400;cursor:pointer;padding:.5rem .7rem;border:1px solid #ddd;border-radius:8px;transition:.15s}
+.payment-options label:hover{border-color:var(--gold)}
+.payment-options input[type=radio]{accent-color:var(--red)}
+.modal-actions{display:flex;gap:.7rem;margin-top:1.2rem}
+.modal-actions button{flex:1;padding:.65rem;border:none;border-radius:8px;font-size:.95rem;font-weight:600;cursor:pointer;transition:.15s}
+.btn-cancel{background:#eee;color:var(--dark)}
+.btn-cancel:hover{background:#ddd}
+.btn-place-order{background:var(--red);color:white}
+.btn-place-order:hover{background:var(--dark-red)}
+
+/* Order Confirmation */
+.confirmation{text-align:center;padding:2rem 1rem}
+.confirmation .check-circle{width:70px;height:70px;border-radius:50%;background:#2a9d2a;color:white;font-size:2.2rem;display:inline-flex;align-items:center;justify-content:center;margin-bottom:1rem}
+.confirmation h2{color:var(--red);margin-bottom:.3rem}
+.confirmation .order-num{font-size:1.6rem;font-weight:700;color:var(--gold);margin:.5rem 0}
+.confirmation .summary{text-align:left;background:var(--light-gold);border-radius:10px;padding:1rem;margin:1rem auto;max-width:450px;font-size:.88rem}
+.confirmation .summary .line{display:flex;justify-content:space-between;padding:.2rem 0}
+.confirmation .summary .total-line{border-top:2px solid var(--gold);margin-top:.4rem;padding-top:.4rem;font-weight:700;font-size:1rem}
+.btn-new-order{margin-top:1.2rem;padding:.65rem 2rem;background:var(--red);color:white;border:none;border-radius:8px;font-size:1rem;font-weight:600;cursor:pointer}
+.btn-new-order:hover{background:var(--dark-red)}
+
+/* Responsive */
+@media(max-width:768px){
+  .header h1{font-size:1.3rem}
+  .header .subtitle{font-size:.8rem}
+  .main{flex-direction:column}
+  .cart-panel{width:100%;position:fixed;bottom:0;left:0;right:0;height:auto;max-height:70vh;border-left:none;border-top:2px solid var(--gold);box-shadow:0 -4px 16px rgba(0,0,0,.15);transform:translateY(100%);transition:transform .3s;z-index:150;padding:1rem 1rem calc(1rem + env(safe-area-inset-bottom))}
+  .cart-panel.open{transform:translateY(0)}
+  .mobile-cart-toggle{display:flex}
+  .menu-panel{padding:.75rem;padding-bottom:90px}
+  .tabs{top:162px}
+  .order-type-bar{top:116px}
+
+  /* Larger touch targets on mobile */
+  .order-type-bar button{padding:.55rem 1.8rem;font-size:.9rem}
+  .tabs button{padding:.75rem 1rem;font-size:.9rem}
+  .add-btn{padding:.55rem 1.2rem;font-size:.9rem;min-height:44px}
+  .qty-btn{width:32px;height:32px;font-size:1rem}
+  .remove-btn{font-size:1rem;min-width:32px;min-height:32px;display:flex;align-items:center;justify-content:center}
+  .menu-item{padding:1rem;gap:.75rem}
+  .item-info h3{font-size:1rem}
+  .item-info .price{font-size:1rem}
+  .cart-item{padding:.7rem 0;font-size:.9rem}
+
+  /* Food thumbnails mobile */
+  .food-thumb{width:54px;height:54px;font-size:1.6rem;margin-right:.6rem}
+
+  /* Curry builder mobile */
+  .curry-builder select{font-size:.95rem;padding:.55rem .7rem;min-height:44px}
+  .curry-builder .selectors{flex-direction:column}
+
+  /* Spice buttons */
+  .spice-options button{padding:.5rem;font-size:.85rem;min-height:40px}
+
+  /* Checkout button */
+  .checkout-btn{padding:.8rem;font-size:1.05rem;min-height:48px}
+
+  /* Modal mobile */
+  .modal{padding:1.4rem;border-radius:14px 14px 0 0;max-height:95vh;margin-top:auto}
+  .modal input,.modal textarea,.modal select{font-size:1rem;padding:.65rem .7rem;min-height:44px}
+  .modal-actions button{min-height:48px;font-size:1rem}
+  .payment-options label{padding:.65rem .7rem;font-size:.95rem}
+
+  /* Confirmation mobile */
+  .confirmation{padding:1.5rem .5rem}
+  .btn-new-order{min-height:48px;font-size:1rem;width:100%}
+}
+</style>
+</head>
+<body>
+
+<nav style="background:linear-gradient(135deg,var(--dark-red),var(--red));padding:.5rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:101;box-shadow:0 2px 12px rgba(0,0,0,.3)">
+  <a href="home.html" style="display:flex;align-items:center;gap:.6rem;text-decoration:none">
+    <img src="logo.png" alt="Indian Affair Logo" style="width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--gold)">
+    <span style="color:white;font-size:1rem;font-weight:700;letter-spacing:1.5px">INDIAN AFFAIR</span>
+  </a>
+  <button id="ia-nav-toggle" style="display:none;background:none;border:none;color:white;font-size:1.6rem;cursor:pointer" onclick="document.getElementById('ia-nav-links').classList.toggle('ia-nav-open')">&#9776;</button>
+  <div id="ia-nav-links" style="display:flex;gap:1.5rem;align-items:center">
+    <a href="home.html" style="color:var(--light-gold);font-size:.85rem;font-weight:600;letter-spacing:.5px;text-decoration:none">Home</a>
+    <a href="menu.html" style="color:var(--light-gold);font-size:.85rem;font-weight:600;letter-spacing:.5px;text-decoration:none">Menu</a>
+    <a href="index.html" style="color:white;font-size:.85rem;font-weight:600;letter-spacing:.5px;text-decoration:none;border-bottom:2px solid var(--gold);padding-bottom:2px">Order Online</a>
+    <a href="about.html" style="color:var(--light-gold);font-size:.85rem;font-weight:600;letter-spacing:.5px;text-decoration:none">About</a>
+    <a href="contact.html" style="color:var(--light-gold);font-size:.85rem;font-weight:600;letter-spacing:.5px;text-decoration:none">Contact</a>
+  </div>
+</nav>
+<style>
+@media(max-width:768px){
+  #ia-nav-toggle{display:block!important}
+  #ia-nav-links{display:none!important;flex-direction:column;width:100%;gap:.5rem;padding-top:.5rem}
+  #ia-nav-links.ia-nav-open{display:flex!important}
+  nav{flex-wrap:wrap}
+}
+</style>
+
+<header class="header">
+  <div style="display:flex;align-items:center;justify-content:center;gap:.9rem">
+    <img src="logo.png" alt="Indian Affair Logo" style="width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);flex-shrink:0">
+    <div>
+      <h1>INDIAN AFFAIR RESTOBAR</h1>
+      <div class="subtitle">Authentic Indian & Nepali Cuisine</div>
+      <div class="location">Taupo, New Zealand &nbsp;|&nbsp; <a href="manager.html" style="color:var(--light-gold);font-size:.75rem;opacity:.6">Manager</a></div>
+    </div>
+  </div>
+</header>
+
+<div class="order-type-bar">
+  <button id="btn-pickup" class="active" onclick="setOrderType('pickup')">Pickup</button>
+  <button id="btn-delivery" onclick="setOrderType('delivery')">Delivery</button>
+</div>
+
+<div class="tabs" id="tabs"></div>
+
+<div class="main" id="main-content">
+  <div class="menu-panel" id="menu-panel"></div>
+  <div class="cart-panel" id="cart-panel">
+    <div class="cart-title">Your Order <span class="cart-count" id="cart-count">0</span></div>
+    <div class="cart-items" id="cart-items">
+      <div class="cart-empty">Your cart is empty</div>
+    </div>
+    <div id="cart-footer-area"></div>
+  </div>
+</div>
+
+<button class="mobile-cart-toggle" id="mobile-cart-btn" onclick="toggleMobileCart()">
+  <span style="font-size:1.5rem">&#128722;</span>
+  <span class="badge" id="mobile-badge">0</span>
+</button>
+
+<!-- Checkout Modal -->
+<div class="modal-overlay" id="checkout-modal">
+  <div class="modal">
+    <h2>Checkout</h2>
+    <form id="checkout-form" onsubmit="placeOrder(event)">
+      <div class="form-row">
+        <label>Name *</label>
+        <input type="text" id="f-name" required>
+      </div>
+      <div class="form-row">
+        <label>Phone *</label>
+        <input type="tel" id="f-phone" required>
+      </div>
+      <div class="form-row">
+        <label>Email</label>
+        <input type="email" id="f-email">
+      </div>
+      <div class="form-row" id="address-row" style="display:none">
+        <label>Delivery Address *</label>
+        <input type="text" id="f-address">
+      </div>
+      <div class="form-row">
+        <label>Special Instructions</label>
+        <textarea id="f-instructions" placeholder="Any allergies or special requests..."></textarea>
+      </div>
+      <div class="form-row">
+        <label>Payment Method *</label>
+        <div class="payment-options">
+          <label><input type="radio" name="payment" value="pay-on-pickup" checked> Pay on Pickup</label>
+          <label id="pay-delivery-option" style="display:none"><input type="radio" name="payment" value="pay-on-delivery"> Pay on Delivery</label>
+          <label><input type="radio" name="payment" value="pay-online"> Pay Online (Stripe)</label>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-cancel" onclick="closeCheckout()">Cancel</button>
+        <button type="submit" class="btn-place-order">Place Order</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Confirmation Modal -->
+<div class="modal-overlay" id="confirm-modal">
+  <div class="modal" id="confirm-content"></div>
+</div>
+
+<script>
+// ==================== FOOD EMOJI MAP ====================
+// Maps item IDs and keywords to appropriate food emojis used as thumbnails
+const FOOD_EMOJI = {
+  // Starters
+  st1:'🧅', st2:'🥟', st3:'🥦', st4:'🍟', st5:'🍗', st6:'🍢', st7:'🍖', st8:'🍗',
+  st9:'🥩', st10:'🦐', st11:'🍗', st12:'🐟', st13:'🍽️', st14:'🦐', st15:'🌶️',
+  st16:'🦐', st17:'🥬', st18:'🥗',
+  // Veg mains
+  v1:'🫛', v2:'🥔', v3:'🍲', v4:'🥦', v5:'🍅', v6:'🥛', v7:'🍄', v8:'🫑', v9:'🌶️',
+  v10:'🫘', v11:'🫘', v12:'🥬', v13:'🧀', v14:'🥔', v15:'🌿', v16:'🫑', v17:'🍛',
+  v18:'🫛', v19:'🍆',
+  // Chef specials
+  cs1:'🍗', cs2:'🥩', cs3:'🐐', cs4:'🍗', cs5:'🥘', cs6:'🧀', cs7:'🥘', cs8:'🦐',
+  cs9:'🍖', cs10:'🥩',
+  // Biryani
+  bi1:'🍚', bi2:'🍚', bi3:'🍚', bi4:'🍚',
+  // Bread & rice
+  br1:'🫓', br2:'🫓', br3:'🧄', br4:'🧀', br5:'🧀', br6:'🫙', br7:'🥩', br8:'🥔',
+  br9:'🥔', br10:'🧅', br11:'🫓', br12:'🫓', br13:'🍚', br14:'🍚', br15:'🍚',
+  br16:'🥥', br17:'🥦', br18:'🍳', br19:'🍜',
+  // Kids
+  k1:'🍗', k2:'🐟', k3:'🍟', k4:'🥭', k5:'🍗',
+  // Combos
+  co1:'🎁', co2:'🎁', co3:'🎁', co4:'🎁',
+  // Breakfast
+  bk1:'🫓', bk2:'🫓', bk3:'🫓', bk4:'🥞', bk5:'🥞', bk6:'🥟',
+};
+
+// Category-level banner emojis
+const CAT_EMOJI = {
+  starters:'🍢', vegMains:'🌿', curry:'🍛', chefsSpecial:'👨‍🍳', biryani:'🍚',
+  bread:'🫓', kids:'🧒', combos:'🎉', breakfast:'☀️'
+};
+
+// ==================== MENU DATA ====================
+const MENU = {
+  starters: {
+    label: 'Starters',
+    items: [
+      {id:'st1',name:'Onion Bhaji',price:10.90,desc:'Onion rings in chickpea batter, deep fried (gf, df)'},
+      {id:'st2',name:'Vegetable Samosa (2 pcs)',price:10.90,desc:'Triangular pastry filled with potatoes and peas'},
+      {id:'st3',name:'Vegetable Pakora',price:10.90,desc:'Sliced vegetables dipped in batter, deep fried (gf, df)'},
+      {id:'st4',name:'Chips Chilly',price:18.00,desc:'French fries sautéed with onion, capsicum & soy sauce (df)'},
+      {id:'st5',name:'Chicken Tikka (5 pcs)',price:17.90,desc:'Boneless chicken marinated overnight, roasted in tandoor (gf)'},
+      {id:'st6',name:'Chicken Malai Kebab (5 pcs)',price:17.90,desc:'Marinated chicken brochettes — mild (gf)'},
+      {id:'st7',name:'Tangiri Kebab (3 pcs)',price:17.90,desc:'Chicken drumsticks, smoke roasted in chef\'s marinade (gf)'},
+      {id:'st8',name:'Chicken Pakora (8 pcs)',price:17.00,desc:'Boneless chicken in chickpea batter, deep fried (gf, df)'},
+      {id:'st9',name:'Seekh Kebab (5 pcs)',price:17.00,desc:'Mince lamb on a skewer, finished in tandoor (gf)'},
+      {id:'st10',name:'Prawn Pakora (8 pcs)',price:22.00,desc:'King prawn cutlets dipped in batter, deep fried (gf, df)'},
+      {id:'st11',name:'Tandoori Chicken (5 pcs)',price:22.00,desc:'Chicken on the bone, marinated with yoghurt, roasted in tandoor (gf)'},
+      {id:'st12',name:'Fish Pakora (8 pcs)',price:22.00,desc:'Fish in spiced chickpea flour batter, deep fried (gf, df)'},
+      {id:'st13',name:'Mixed Platter',price:24.00,desc:'Samosa, Mix Pakora, Chicken Tikka & Seekh Kebab'},
+      {id:'st14',name:'Tandoori Prawns / Mussels (8 pcs)',price:22.00,desc:'Marinated with spiced yogurt, barbecued in tandoor (gf)'},
+      {id:'st15',name:'Chicken Chilly / Paneer Chilly (8 pcs)',price:22.00,desc:'Corn flour coated, sautéed with onion, capsicum, ginger, garlic & soy sauce'},
+      {id:'st16',name:'Pan Fried Prawns / Mussels (8 pcs)',price:22.00,desc:'Sautéed with onion, capsicum & soy sauce (df)'},
+      {id:'st17',name:'Veg Manchurian',price:21.00,desc:'Mixed vegetable balls deep fried, cooked in soy sauce (df)'},
+      {id:'st18',name:'Veg Platter',price:22.00,desc:'Samosa, Mix Pakora & Onion Bhaji on sizzling platter'},
+    ]
+  },
+  vegMains: {
+    label: 'Vegetarian',
+    note: 'All mains served with plain rice',
+    items: [
+      {id:'v1',name:'Aloo Mutter',price:20.90,desc:'Potatoes and peas in tomato onion sauce with cumin'},
+      {id:'v2',name:'Bombay Aloo / Zeera Aloo',price:20.90,desc:'Diced fried potatoes with tomato, cumin seeds & herbs'},
+      {id:'v3',name:'Tadka Daal / Dal Fry',price:20.90,desc:'Yellow lentils with garlic, ginger, onion, tomato & spices'},
+      {id:'v4',name:'Aloo Gobi',price:20.90,desc:'Potatoes and cauliflower, finished with fresh coriander'},
+      {id:'v5',name:'Vegetable Makhani / Butter Paneer',price:20.90,desc:'Mix vegetables or cottage cheese in creamy tomato sauce'},
+      {id:'v6',name:'Vegetable Korma',price:20.90,desc:'Mix vegetables in creamy white gravy'},
+      {id:'v7',name:'Matar Mushroom Masala',price:22.90,desc:'Mushrooms and peas in creamy onion, tomato & cashew sauce'},
+      {id:'v8',name:'Vegetarian Jalfrezi',price:22.90,desc:'Mix vegetables in sweet and sour gravy'},
+      {id:'v9',name:'Vegetable Kolhapuri',price:22.90,desc:'Mix vegetables with herbs and spices, finished in dry red chilli'},
+      {id:'v10',name:'Daal Makhani',price:22.90,desc:'Whole lentils slow cooked overnight'},
+      {id:'v11',name:'Chana Masala',price:22.90,desc:'Chickpeas with potato and light spices'},
+      {id:'v12',name:'Palak Paneer / Palak Mushroom / Palak Aloo',price:22.90,desc:'Cottage cheese, mushroom or potato in fresh spinach purée'},
+      {id:'v13',name:'Matar Paneer',price:22.90,desc:'Cottage cheese and peas in chef\'s special gravy'},
+      {id:'v14',name:'Malai Kofta',price:22.90,desc:'Potato and cottage cheese balls in malai gravy'},
+      {id:'v15',name:'Methi Malai Matar / Paneer',price:22.90,desc:'Cottage cheese and peas with fenugreek in cashew cream gravy'},
+      {id:'v16',name:'Kadai Paneer',price:22.90,desc:'Cottage cheese with ginger, garlic & bell peppers in spiced tomato onion sauce'},
+      {id:'v17',name:'Paneer Tikka Masala',price:22.90,desc:'Kadai paneer style with cumin flavour (gf)'},
+      {id:'v18',name:'Bhindi Masala',price:23.90,desc:'🌟 Indian Affairs signature! Okra in masala sauce (gf, df)'},
+      {id:'v19',name:'Eggplant and Mushroom',price:23.90,desc:'🌟 Indian Affairs signature! Grandma\'s recipe (gf, df)'},
+    ]
+  },
+  curry: {
+    label: 'Meat Mains',
+    isCurryBuilder: true,
+    note: 'All mains served with plain rice',
+    proteins: [
+      {name:'Chicken',price:23.90},
+      {name:'Beef',price:23.90},
+      {name:'Lamb',price:25.90},
+      {name:'Goat',price:26.90},
+      {name:'Fish',price:27.90},
+      {name:'Prawn',price:27.90},
+      {name:'Scallop',price:28.90},
+    ],
+    styles: ['Butter/Makhani','Korma','Tikka Masala','Madras','Saag','Jalfrezi','Mango','Rogan Josh','Vindaloo','Kadai','Bhuna','Do Piaza','Nawabi','Goan Curry','Malabari']
+  },
+  chefsSpecial: {
+    label: "Chef's Specials",
+    items: [
+      {id:'cs1',name:'Punjabi Chicken Rara (Keto)',price:28.90,desc:'Famous Punjabi chicken with mince in thick spiced gravy (gf, df)'},
+      {id:'cs2',name:'Lamb / Goat Dhansak (Keto)',price:28.90,desc:'Tender diced lamb or goat with lentils — very popular! (gf, df)'},
+      {id:'cs3',name:'Chef Special Goat Curry (Keto)',price:28.90,desc:'Home-style goat with garlic, ginger, brown onion & tomato (gf, df)'},
+      {id:'cs4',name:'Malai Chicken',price:28.90,desc:'Chicken malai kebab in malai sauce (gf)'},
+      {id:'cs5',name:'Kathmandu Vegetable Balti',price:26.90,desc:'🌟 Very popular! Traditional Nepali recipe from grandma\'s kitchen'},
+      {id:'cs6',name:'Kathmandu Paneer Balti',price:27.90,desc:'Traditional Nepali paneer curry from grandma\'s kitchen'},
+      {id:'cs7',name:'Kathmandu Balti — Chicken / Lamb / Goat',price:29.90,desc:'Traditional Nepali curry from grandma\'s kitchen'},
+      {id:'cs8',name:'Kathmandu Balti — Prawn or Fish',price:31.90,desc:'Traditional Nepali curry from grandma\'s kitchen'},
+      {id:'cs9',name:'Googley Korma',price:30.90,desc:'Two textures of tender meat in korma sauce (gf)'},
+      {id:'cs10',name:'Googley Masala (Keto)',price:31.90,desc:'Two textures of tender meat in masala sauce — 750ml (gf, df)'},
+    ]
+  },
+  biryani: {
+    label: 'Biryani',
+    items: [
+      {id:'bi1',name:'Vegetable Biryani',price:20.90,desc:'Basmati rice with vegetables, herbs & spices. Served with raita (gf)'},
+      {id:'bi2',name:'Chicken Biryani',price:22.90,desc:'Basmati rice with chicken and aromatic spices. Served with raita (gf)'},
+      {id:'bi3',name:'Lamb / Goat / Beef Biryani',price:24.90,desc:'Basmati rice with lamb, herbs & spices. Served with raita (gf)'},
+      {id:'bi4',name:'Prawn Biryani',price:26.90,desc:'Basmati rice with prawn, herbs & spices. Served with raita (gf)'},
+    ]
+  },
+  bread: {
+    label: 'Bread & Rice',
+    items: [
+      {id:'br1',name:'Naan / Roti',price:5.00,desc:'Plain flour bread cooked in tandoori oven'},
+      {id:'br2',name:'Tandoori Roti',price:5.00,desc:'Wholemeal flour bread — vegan & dairy free available'},
+      {id:'br3',name:'Garlic Naan / Garlic Roti',price:6.00,desc:'Naan coated with fresh crushed garlic'},
+      {id:'br4',name:'Cheese Naan',price:7.50,desc:'Naan stuffed with cheese and butter'},
+      {id:'br5',name:'Cheese & Garlic Naan',price:8.00,desc:'Naan stuffed with coriander, cheese and garlic'},
+      {id:'br6',name:'Kashmiri Naan',price:7.50,desc:'Naan stuffed with dried fruits, cooked in tandoor'},
+      {id:'br7',name:'Keema Naan',price:8.50,desc:'Naan filled with mince lamb'},
+      {id:'br8',name:'Aloo Kulcha Amritsari',price:7.50,desc:'Chef\'s favourite! Naan stuffed with lightly spiced mashed potato'},
+      {id:'br9',name:'Stuffed Paratha',price:7.50,desc:'Chef\'s favourite! Wholemeal bread stuffed with potato & mix vegetables'},
+      {id:'br10',name:'Onion Kulcha',price:7.50,desc:'Chef\'s favourite! Naan stuffed with onion and fresh coriander'},
+      {id:'br11',name:'Laccha Paratha',price:6.50,desc:'Layered flatbread cooked in tandoori oven'},
+      {id:'br12',name:'Gluten Free Roti',price:7.50,desc:'Chickpea flour flatbread — North Indian speciality'},
+      {id:'br13',name:'Plain Rice (500ml)',price:4.00},
+      {id:'br14',name:'Zeera Rice',price:10.00,desc:'Rice cooked with cumin seeds (gf)'},
+      {id:'br15',name:'Pulav Rice / Mushroom Rice',price:11.00,desc:'Green peas & herb / Mushroom spiced basmati (gf)'},
+      {id:'br16',name:'Coconut Rice',price:11.00,desc:'(gf)'},
+      {id:'br17',name:'Cauliflower Rice (Keto)',price:11.00,desc:'500ml container (gf)'},
+      {id:'br18',name:'Fried Rice — Chicken / Veg / Egg',price:20.00,desc:'(df)'},
+      {id:'br19',name:'Chowmein — Veg / Egg / Chicken',price:21.90,desc:'(df)'},
+    ]
+  },
+  kids: {
+    label: 'Kids Menu',
+    items: [
+      {id:'k1',name:'Chicken Nuggets & Chips',price:12.00,desc:'Golden fried nuggets served with sauce'},
+      {id:'k2',name:'Fish Fingers & Chips',price:12.00,desc:'Crunchy fish fingers served with sauce'},
+      {id:'k3',name:'French Fries',price:5.50},
+      {id:'k4',name:'Mango Chicken',price:17.00,desc:'Served with fluffy rice and naan bread'},
+      {id:'k5',name:'Butter Chicken (Kids)',price:17.00,desc:'Served with fluffy rice and naan bread'},
+    ]
+  },
+  combos: {
+    label: 'Combo Deals',
+    items: [
+      {id:'co1',name:'Combo — Butter Chicken, Rice, Naan, Drink',price:22.90,desc:'Single serve combo'},
+      {id:'co2',name:'Combo 2 — 2x Curry, 2 Naan, 2 Rice, 2 Drinks',price:28.00,desc:'Perfect for two'},
+      {id:'co3',name:'Double Deal (for 2)',price:42.00,desc:'Mega Butter Chicken, 2 Naan, Rice, 1.5L Drink'},
+      {id:'co4',name:'Family Combo',price:55.00,desc:'Large Curries, Onion Bhaji, 3 Naan, Rice, 1.5L Drink (excl. Chef Specials)'},
+    ]
+  },
+  breakfast: {
+    label: 'Breakfast (until 2pm)',
+    items: [
+      {id:'bk1',name:'Chole Bhature',price:18.90,desc:'Chana masala with deep-fried bhatura bread'},
+      {id:'bk2',name:'Aloo Puri',price:16.90,desc:'Deep-fried wholemeal bread served with potato curry'},
+      {id:'bk3',name:'Parathas / Kulchas (stuffed)',price:15.40,desc:'Stuffed with Potato, Onion, Cauliflower, Paneer or Mixed ($13.90–$16.90)'},
+      {id:'bk4',name:'Dosa',price:22.90,desc:'Famous South Indian crepe — Plain, Masala, Paneer or American Chopsuey ($18.90–$26.90)'},
+      {id:'bk5',name:'Idly / Medu Wada / Uttapam',price:19.90,desc:'South Indian breakfast favourites ($16.90–$22.90)'},
+      {id:'bk6',name:'Mo:Mos — Chicken or Veg',price:22.90,desc:'Steam, Fried, Kothe, Jhol or Chilly style ($18.90–$26.90). Available until 2pm'},
+    ]
+  }
+};
+
+// ==================== STATE ====================
+let cart = [];
+let orderType = 'pickup';
+let spiceLevel = 'Medium';
+let activeCategory = 'breakfast';
+
+// ==================== ORDER TYPE ====================
+function setOrderType(type) {
+  orderType = type;
+  document.getElementById('btn-pickup').classList.toggle('active', type === 'pickup');
+  document.getElementById('btn-delivery').classList.toggle('active', type === 'delivery');
+}
+
+// ==================== RENDER TABS ====================
+function renderTabs() {
+  const tabsEl = document.getElementById('tabs');
+  tabsEl.innerHTML = '';
+  for (const [key, cat] of Object.entries(MENU)) {
+    const btn = document.createElement('button');
+    btn.textContent = cat.label;
+    btn.className = key === activeCategory ? 'active' : '';
+    btn.onclick = () => {
+      activeCategory = key;
+      document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('section-' + key)?.scrollIntoView({behavior:'smooth', block:'start'});
+    };
+    tabsEl.appendChild(btn);
+  }
+}
+
+// ==================== RENDER MENU ====================
+function renderMenu() {
+  const panel = document.getElementById('menu-panel');
+  panel.innerHTML = '';
+
+  for (const [key, cat] of Object.entries(MENU)) {
+    const section = document.createElement('div');
+    section.className = 'menu-section';
+    section.id = 'section-' + key;
+
+    const h2 = document.createElement('h2');
+    const catEmoji = CAT_EMOJI[key] || '🍽️';
+    h2.innerHTML = `${catEmoji} ${cat.label}`;
+    section.appendChild(h2);
+
+    if (cat.isCurryBuilder) {
+      if (cat.note) {
+        const noteEl = document.createElement('p');
+        noteEl.style.cssText = 'font-size:.8rem;color:var(--gray);margin-bottom:.6rem;font-style:italic';
+        noteEl.textContent = cat.note;
+        section.appendChild(noteEl);
+      }
+      // Curry builder
+      const builder = document.createElement('div');
+      builder.className = 'curry-builder';
+      builder.innerHTML = `
+        <h3>Select Your Curry</h3>
+        <div class="selectors">
+          <select id="curry-protein">
+            <option value="">-- Select Protein --</option>
+            ${cat.proteins.map(p => `<option value="${p.name}" data-price="${p.price}">${p.name} - $${p.price.toFixed(2)}</option>`).join('')}
+          </select>
+          <select id="curry-style">
+            <option value="">-- Select Curry Style --</option>
+            ${cat.styles.map(s => `<option value="${s}">${s}</option>`).join('')}
+          </select>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <span class="curry-price" id="curry-price-display"></span>
+          <button class="add-btn" onclick="addCurry()">Add to Cart</button>
+        </div>
+      `;
+      section.appendChild(builder);
+
+      // Update price on protein change
+      setTimeout(() => {
+        document.getElementById('curry-protein').addEventListener('change', function() {
+          const sel = this.options[this.selectedIndex];
+          const p = sel.dataset.price;
+          document.getElementById('curry-price-display').textContent = p ? '$' + parseFloat(p).toFixed(2) : '';
+        });
+      }, 0);
+    } else {
+      if (cat.note) {
+        const noteEl = document.createElement('p');
+        noteEl.style.cssText = 'font-size:.8rem;color:var(--gray);margin-bottom:.6rem;font-style:italic';
+        noteEl.textContent = cat.note;
+        section.appendChild(noteEl);
+      }
+      cat.items.forEach(item => {
+        const emoji = FOOD_EMOJI[item.id] || '🍽️';
+        const div = document.createElement('div');
+        div.className = 'menu-item';
+        div.innerHTML = `
+          <div class="food-thumb">${emoji}</div>
+          <div class="item-info">
+            <h3>${item.name}</h3>
+            <div class="price">$${item.price.toFixed(2)}</div>
+            ${item.desc ? `<div class="desc">${item.desc}</div>` : ''}
+          </div>
+          <button class="add-btn" onclick="addItem('${item.id}')">Add</button>
+        `;
+        section.appendChild(div);
+      });
+    }
+
+    panel.appendChild(section);
+  }
+}
+
+// ==================== CART LOGIC ====================
+function findMenuItem(id) {
+  for (const cat of Object.values(MENU)) {
+    if (cat.items) {
+      const found = cat.items.find(i => i.id === id);
+      if (found) return found;
+    }
+  }
+  return null;
+}
+
+function addItem(id) {
+  const item = findMenuItem(id);
+  if (!item) return;
+  const existing = cart.find(c => c.id === id && !c.curryStyle);
+  if (existing) {
+    existing.qty++;
+  } else {
+    cart.push({id: item.id, name: item.name, price: item.price, qty: 1});
+  }
+  renderCart();
+}
+
+function addCurry() {
+  const proteinEl = document.getElementById('curry-protein');
+  const styleEl = document.getElementById('curry-style');
+  const protein = proteinEl.value;
+  const style = styleEl.value;
+  if (!protein || !style) {
+    alert('Please select both a protein and curry style.');
+    return;
+  }
+  const priceData = MENU.curry.proteins.find(p => p.name === protein);
+  const cartId = 'curry-' + protein + '-' + style;
+  const existing = cart.find(c => c.id === cartId);
+  if (existing) {
+    existing.qty++;
+  } else {
+    cart.push({
+      id: cartId,
+      name: protein + ' ' + style,
+      curryStyle: style,
+      price: priceData.price,
+      qty: 1
+    });
+  }
+  proteinEl.selectedIndex = 0;
+  styleEl.selectedIndex = 0;
+  document.getElementById('curry-price-display').textContent = '';
+  renderCart();
+}
+
+function updateQty(idx, delta) {
+  cart[idx].qty += delta;
+  if (cart[idx].qty <= 0) cart.splice(idx, 1);
+  renderCart();
+}
+
+function removeItem(idx) {
+  cart.splice(idx, 1);
+  renderCart();
+}
+
+function getSubtotal() {
+  return cart.reduce((sum, c) => sum + c.price * c.qty, 0);
+}
+
+function renderCart() {
+  const container = document.getElementById('cart-items');
+  const footerArea = document.getElementById('cart-footer-area');
+  const count = cart.reduce((s, c) => s + c.qty, 0);
+  document.getElementById('cart-count').textContent = count;
+  document.getElementById('mobile-badge').textContent = count;
+
+  if (cart.length === 0) {
+    container.innerHTML = '<div class="cart-empty">Your cart is empty</div>';
+    footerArea.innerHTML = '';
+    return;
+  }
+
+  container.innerHTML = cart.map((c, i) => `
+    <div class="cart-item">
+      <div class="cart-item-left">
+        <div class="cart-item-name">${c.name}</div>
+        <div class="cart-item-detail">$${c.price.toFixed(2)} each</div>
+      </div>
+      <div class="cart-item-right">
+        <button class="qty-btn" onclick="updateQty(${i},-1)">&minus;</button>
+        <span style="min-width:18px;text-align:center;font-weight:600">${c.qty}</span>
+        <button class="qty-btn" onclick="updateQty(${i},1)">+</button>
+        <button class="remove-btn" onclick="removeItem(${i})">&times;</button>
+        <span style="min-width:55px;text-align:right;font-weight:600">$${(c.price * c.qty).toFixed(2)}</span>
+      </div>
+    </div>
+  `).join('');
+
+  footerArea.innerHTML = `
+    <div class="spice-section">
+      <label>Spice Level</label>
+      <div class="spice-options">
+        <button class="${spiceLevel==='Mild'?'active':''}" onclick="setSpice('Mild')">Mild</button>
+        <button class="${spiceLevel==='Medium'?'active':''}" onclick="setSpice('Medium')">Medium</button>
+        <button class="${spiceLevel==='Hot'?'active':''}" onclick="setSpice('Hot')">Hot</button>
+      </div>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <span>Subtotal</span>
+        <span>$${getSubtotal().toFixed(2)}</span>
+      </div>
+      <button class="checkout-btn" onclick="openCheckout()">Proceed to Checkout</button>
+    </div>
+  `;
+}
+
+function setSpice(level) {
+  spiceLevel = level;
+  renderCart();
+}
+
+// ==================== CHECKOUT ====================
+function openCheckout() {
+  if (cart.length === 0) return;
+  const modal = document.getElementById('checkout-modal');
+  modal.classList.add('active');
+
+  const addrRow = document.getElementById('address-row');
+  const payDelivery = document.getElementById('pay-delivery-option');
+  if (orderType === 'delivery') {
+    addrRow.style.display = 'block';
+    document.getElementById('f-address').required = true;
+    payDelivery.style.display = 'flex';
+  } else {
+    addrRow.style.display = 'none';
+    document.getElementById('f-address').required = false;
+    payDelivery.style.display = 'none';
+    // Reset to pay-on-pickup if delivery was selected
+    const radios = document.querySelectorAll('input[name="payment"]');
+    radios[0].checked = true;
+  }
+}
+
+function closeCheckout() {
+  document.getElementById('checkout-modal').classList.remove('active');
+}
+
+function placeOrder(e) {
+  e.preventDefault();
+  const name = document.getElementById('f-name').value.trim();
+  const phone = document.getElementById('f-phone').value.trim();
+  const email = document.getElementById('f-email').value.trim();
+  const address = document.getElementById('f-address').value.trim();
+  const instructions = document.getElementById('f-instructions').value.trim();
+  const payment = document.querySelector('input[name="payment"]:checked').value;
+
+  if (!name || !phone) {
+    alert('Please fill in your name and phone number.');
+    return;
+  }
+  if (orderType === 'delivery' && !address) {
+    alert('Please enter your delivery address.');
+    return;
+  }
+
+  const orderSeq = parseInt(localStorage.getItem('ia_order_seq') || '0') + 1;
+  localStorage.setItem('ia_order_seq', orderSeq);
+  const orderNum = '#IA-' + String(orderSeq).padStart(4, '0');
+
+  const orderDetails = {
+    orderNumber: orderNum,
+    orderType,
+    spiceLevel,
+    customer: {name, phone, email, address},
+    items: cart.map(c => ({name: c.name, qty: c.qty, price: c.price, lineTotal: c.price * c.qty})),
+    subtotal: getSubtotal(),
+    payment,
+    instructions,
+    timestamp: new Date().toISOString()
+  };
+
+  orderDetails.status = 'pending';
+  orderDetails.estimatedMins = null;
+
+  // Save to localStorage for manager
+  const orders = JSON.parse(localStorage.getItem('ia_orders') || '[]');
+  orders.push(orderDetails);
+  localStorage.setItem('ia_orders', JSON.stringify(orders));
+
+  console.log('=== NEW ORDER ===');
+  console.log(JSON.stringify(orderDetails, null, 2));
+  console.log('=================');
+
+  if (payment === 'pay-online') {
+    alert('Stripe payment integration coming soon! For now, please select another payment method or pay at the restaurant.');
+    return;
+  }
+
+  // Show confirmation with pending status
+  showConfirmation(orderDetails);
+}
+
+let confirmPollTimer = null;
+
+function showConfirmation(order) {
+  document.getElementById('checkout-modal').classList.remove('active');
+  renderConfirmContent(order);
+  document.getElementById('confirm-modal').classList.add('active');
+
+  // Poll for manager acceptance
+  if (confirmPollTimer) clearInterval(confirmPollTimer);
+  confirmPollTimer = setInterval(() => {
+    const orders = JSON.parse(localStorage.getItem('ia_orders') || '[]');
+    const updated = orders.find(o => o.orderNumber === order.orderNumber);
+    if (updated && updated.status === 'accepted') {
+      clearInterval(confirmPollTimer);
+      confirmPollTimer = null;
+      renderConfirmContent(updated);
+    }
+  }, 2000);
+
+  // Reset cart
+  cart = [];
+  renderCart();
+}
+
+function renderConfirmContent(order) {
+  const itemsHtml = order.items.map(i =>
+    `<div class="line"><span>${i.qty}x ${i.name}</span><span>$${i.lineTotal.toFixed(2)}</span></div>`
+  ).join('');
+
+  const isAccepted = order.status === 'accepted';
+  const statusHtml = isAccepted
+    ? `<div class="check-circle">&#10003;</div>
+       <h2>Your order is confirmed!</h2>
+       <p>Ready in <strong>${order.estimatedMins} minutes</strong></p>`
+    : `<div class="check-circle" style="background:var(--orange)">&#9202;</div>
+       <h2>Order Placed!</h2>
+       <p style="color:var(--gray);font-size:.9rem">Waiting for restaurant confirmation...</p>`;
+
+  document.getElementById('confirm-content').innerHTML = `
+    <div class="confirmation">
+      ${statusHtml}
+      <p>Thank you, ${order.customer.name}!</p>
+      <div class="order-num">${order.orderNumber}</div>
+      <p style="color:var(--gray);font-size:.88rem">${order.orderType === 'pickup' ? 'We\'ll have your order ready for pickup.' : 'Your order will be delivered to:'}</p>
+      ${order.orderType === 'delivery' ? `<p style="font-weight:600">${order.customer.address}</p>` : ''}
+      <div class="summary">
+        ${itemsHtml}
+        <div class="line"><span>Spice Level</span><span>${order.spiceLevel}</span></div>
+        <div class="line total-line"><span>Total</span><span>$${order.subtotal.toFixed(2)}</span></div>
+        <div class="line"><span>Payment</span><span>${order.payment.replace(/-/g,' ').replace(/\b\w/g,l=>l.toUpperCase())}</span></div>
+        ${order.instructions ? `<div class="line" style="flex-direction:column;margin-top:.4rem"><strong>Notes:</strong> ${order.instructions}</div>` : ''}
+      </div>
+      <button class="btn-new-order" onclick="startNewOrder()">Place Another Order</button>
+    </div>
+  `;
+}
+
+function startNewOrder() {
+  if (confirmPollTimer) { clearInterval(confirmPollTimer); confirmPollTimer = null; }
+  document.getElementById('confirm-modal').classList.remove('active');
+  document.getElementById('checkout-form').reset();
+}
+
+// ==================== MOBILE CART ====================
+function toggleMobileCart() {
+  document.getElementById('cart-panel').classList.toggle('open');
+}
+
+// Close mobile cart when clicking outside
+document.addEventListener('click', function(e) {
+  const cartPanel = document.getElementById('cart-panel');
+  const toggleBtn = document.getElementById('mobile-cart-btn');
+  if (window.innerWidth <= 768 && cartPanel.classList.contains('open')) {
+    if (!cartPanel.contains(e.target) && !toggleBtn.contains(e.target)) {
+      cartPanel.classList.remove('open');
+    }
+  }
+});
+
+// Close modals on overlay click
+document.getElementById('checkout-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeCheckout();
+});
+document.getElementById('confirm-modal').addEventListener('click', function(e) {
+  if (e.target === this) this.classList.remove('active');
+});
+
+// ==================== INIT ====================
+renderTabs();
+renderMenu();
+renderCart();
+</script>
+
+<!-- ==================== CHAT WIDGET ==================== -->
+<style>
+/* Chat bubble */
+.chat-bubble{position:fixed;bottom:calc(5rem + env(safe-area-inset-bottom));right:1rem;z-index:400;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--dark-red),var(--red));border:none;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;font-size:1.5rem;transition:.2s;-webkit-tap-highlight-color:transparent}
+.chat-bubble:hover{transform:scale(1.08)}
+.chat-bubble .chat-notif{position:absolute;top:-3px;right:-3px;background:var(--gold);color:var(--dark-red);border-radius:50%;width:18px;height:18px;font-size:.65rem;font-weight:700;display:flex;align-items:center;justify-content:center}
+
+/* Chat window */
+.chat-window{position:fixed;bottom:calc(6.5rem + env(safe-area-inset-bottom));right:1rem;z-index:401;width:340px;max-width:calc(100vw - 2rem);background:white;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.18);display:flex;flex-direction:column;overflow:hidden;transform:scale(.85) translateY(20px);opacity:0;pointer-events:none;transition:transform .2s,opacity .2s;transform-origin:bottom right}
+.chat-window.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all}
+
+.chat-head{background:linear-gradient(135deg,var(--dark-red),var(--red));color:white;padding:.85rem 1rem;display:flex;align-items:center;gap:.7rem}
+.chat-avatar{width:36px;height:36px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.chat-head-info{flex:1;min-width:0}
+.chat-head-name{font-weight:700;font-size:.95rem}
+.chat-head-status{font-size:.72rem;color:var(--light-gold);display:flex;align-items:center;gap:.3rem}
+.chat-head-status::before{content:'';width:6px;height:6px;border-radius:50%;background:#4ade80;flex-shrink:0}
+.chat-close{background:none;border:none;color:white;cursor:pointer;font-size:1.2rem;padding:.2rem;opacity:.8}
+.chat-close:hover{opacity:1}
+
+.chat-messages{flex:1;overflow-y:auto;padding:.9rem;display:flex;flex-direction:column;gap:.6rem;height:320px;scroll-behavior:smooth}
+.chat-msg{max-width:85%;padding:.55rem .8rem;border-radius:12px;font-size:.875rem;line-height:1.45;word-break:break-word}
+.chat-msg.bot{background:var(--light-gold);color:var(--dark);border-bottom-left-radius:3px;align-self:flex-start}
+.chat-msg.user{background:var(--red);color:white;border-bottom-right-radius:3px;align-self:flex-end}
+.chat-msg a{color:var(--orange);text-decoration:underline}
+.chat-msg.bot a{color:var(--dark-red)}
+
+/* Quick replies */
+.chat-quick{display:flex;flex-wrap:wrap;gap:.4rem;padding:.5rem .9rem .2rem;border-top:1px solid #f0ebe4}
+.quick-btn{background:white;border:1.5px solid var(--gold);color:var(--dark-red);border-radius:20px;padding:.3rem .75rem;font-size:.78rem;cursor:pointer;font-weight:600;transition:.15s;white-space:nowrap}
+.quick-btn:hover{background:var(--light-gold)}
+
+/* Input area */
+.chat-input-row{display:flex;gap:.4rem;padding:.7rem .8rem;border-top:1px solid #f0ebe4}
+.chat-input{flex:1;padding:.5rem .75rem;border:1.5px solid #ddd;border-radius:20px;font-size:.875rem;font-family:inherit;outline:none;transition:.15s}
+.chat-input:focus{border-color:var(--gold)}
+.chat-send{background:var(--red);color:white;border:none;border-radius:50%;width:34px;height:34px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;transition:.15s}
+.chat-send:hover{background:var(--dark-red)}
+
+/* Typing indicator */
+.typing-dots{display:flex;gap:4px;align-items:center;padding:.55rem .8rem}
+.typing-dots span{width:7px;height:7px;border-radius:50%;background:var(--gray);animation:bounce .9s infinite}
+.typing-dots span:nth-child(2){animation-delay:.15s}
+.typing-dots span:nth-child(3){animation-delay:.3s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+</style>
+
+<!-- Chat bubble button -->
+<button class="chat-bubble" id="chat-bubble-btn" onclick="toggleChat()" title="Chat with us">
+  🍛
+  <span class="chat-notif" id="chat-notif">1</span>
+</button>
+
+<!-- Chat window -->
+<div class="chat-window" id="chat-window">
+  <div class="chat-head">
+    <div class="chat-avatar">🧑‍🍳</div>
+    <div class="chat-head-info">
+      <div class="chat-head-name">Indian Affair Assistant</div>
+      <div class="chat-head-status">Online — ask me anything!</div>
+    </div>
+    <button class="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-messages" id="chat-messages"></div>
+  <div class="chat-quick" id="chat-quick"></div>
+  <div class="chat-input-row">
+    <input class="chat-input" id="chat-input" type="text" placeholder="Type a question..." autocomplete="off" onkeydown="if(event.key==='Enter')sendChat()">
+    <button class="chat-send" onclick="sendChat()">➤</button>
+  </div>
+</div>
+
+<script>
+// ==================== CHAT BOT ====================
+let chatOpen = false;
+let chatGreeted = false;
+let chatTyping = false;
+
+const BOT_KB = [
+  // Hours
+  {patterns:['hour','open','close','when','time','trading'],
+   reply:'We\'re open <strong>9am – 10pm every day</strong> 🕘<br>That includes weekends and public holidays!'},
+
+  // Location / address
+  {patterns:['where','address','location','find','located','taupo','map','directions'],
+   reply:'We\'re at <strong>34 Ruapehu St, Taupo 3330</strong> 📍<br>Easy to find in central Taupo!'},
+
+  // Phone
+  {patterns:['phone','call','ring','number','contact'],
+   reply:'Give us a call on <strong>07 378 2295</strong> 📞<br>Or place your order right here!'},
+
+  // Website
+  {patterns:['website','site','online'],
+   reply:'You\'re already here! 😄 You can browse our menu and place a pickup or delivery order directly on this page.'},
+
+  // Delivery
+  {patterns:['deliver','delivery','bring','ship'],
+   reply:'Yes, we do <strong>delivery!</strong> 🛵<br>Select "Delivery" at the top and enter your address at checkout. For delivery zones, give us a ring on 07 378 2295.'},
+
+  // Gluten free
+  {patterns:['gluten','gf','coeliac','celiac'],
+   reply:'Lots of our dishes are <strong>gluten free (gf)</strong> — these are marked on the menu. We can also accommodate requests — just add a note at checkout or call us on 07 378 2295.'},
+
+  // Dairy free
+  {patterns:['dairy','df','lactose','milk'],
+   reply:'Many dishes are <strong>dairy free (df)</strong> — marked on the menu. We can usually adapt others too. Just leave a note at checkout or give us a call!'},
+
+  // Vegan
+  {patterns:['vegan','plant','plant-based'],
+   reply:'We have plenty of <strong>vegetarian</strong> options and many can be made vegan (no dairy). Check the Vegetarian section and note your preference at checkout. Our staff are happy to help — call 07 378 2295.'},
+
+  // Vegetarian
+  {patterns:['vegetarian','veggie','veg ','no meat'],
+   reply:'We have a dedicated <strong>Vegetarian</strong> section with 19 mains — from Daal Makhani and Palak Paneer to our signature Bhindi Masala and Eggplant & Mushroom! 🌿'},
+
+  // Allergies
+  {patterns:['allerg','nut','peanut'],
+   reply:'⚠️ <strong>Allergy awareness:</strong> Our dishes may contain <strong>nuts and dairy</strong>. Please let us know your allergy at checkout or call us on <strong>07 378 2295</strong> before ordering — we\'ll do our best to accommodate you.'},
+
+  // Halal
+  {patterns:['halal'],
+   reply:'For halal enquiries, please contact us directly on <strong>07 378 2295</strong> — our team will be happy to assist. 🤝'},
+
+  // Spice level
+  {patterns:['spicy','spice','hot','mild','heat'],
+   reply:'You can set your spice level — <strong>Mild, Medium or Hot</strong> — right in your cart before checkout! 🌶️<br>You can also add a special note for custom requests.'},
+
+  // Keto
+  {patterns:['keto','low carb','carb'],
+   reply:'We have several <strong>Keto-friendly</strong> options! Check out the Chef\'s Specials section — the Punjabi Chicken Rara, Dhansak, Goat Curry, and Googley Masala are all keto (gf, df). We also offer <strong>Cauliflower Rice</strong> as a side!'},
+
+  // Momos
+  {patterns:['momo','dumpling','nepali'],
+   reply:'Our <strong>Nepali Mo:Mos</strong> are a must-try! 🥟 Available as Steam, Fried, Kothe, Jhol, or Chilly style in Chicken or Veg. Find them in the Breakfast section (available until 2pm).'},
+
+  // Biryani
+  {patterns:['biryani','biriyani'],
+   reply:'Our <strong>Biryani</strong> options are in the Biryani section — Vegetable ($20.90), Chicken ($22.90), Lamb/Goat/Beef ($24.90) and Prawn ($26.90). All served with raita! 🍚'},
+
+  // Butter chicken
+  {patterns:['butter chicken','makhani'],
+   reply:'<strong>Butter Chicken</strong> is our world-famous dish! 🧡 Available as a main ($23.90), in a kids portion ($17 with rice & naan), or as part of our combo deals. Beef, Lamb & Goat versions also available — just ask!'},
+
+  // Combos / deals
+  {patterns:['combo','deal','special','discount','offer','value','family'],
+   reply:'Check out our <strong>Combo Deals</strong> section! 🎉<br>• Single combo (curry + naan + rice + drink): <strong>$22.90</strong><br>• Double Deal for 2: <strong>$42</strong><br>• Family Combo: <strong>$55</strong>'},
+
+  // Naan / bread
+  {patterns:['naan','bread','roti','paratha','kulcha'],
+   reply:'We have a full range of breads in the Bread & Rice section — Plain Naan ($5), Garlic Naan ($6), Cheese Naan ($7.50), Keema Naan ($8.50), and chef\'s favourites like Aloo Kulcha and Stuffed Paratha! 🫓'},
+
+  // Payment
+  {patterns:['pay','payment','cash','card','eftpos','online pay','stripe'],
+   reply:'We accept <strong>pay on pickup, pay on delivery</strong>, and <strong>online card payment</strong> (coming soon via Stripe). Select your preference at checkout!'},
+
+  // Parking
+  {patterns:['park','parking'],
+   reply:'There\'s parking available near 34 Ruapehu St in Taupo. Street parking is generally easy to find in the area! 🚗'},
+
+  // Wait time / ETA
+  {patterns:['wait','long','how long','eta','ready','minutes'],
+   reply:'Preparation times vary by order, but typically <strong>15–45 minutes</strong> for pickup. The manager will confirm your estimated wait time when they accept your order — you\'ll see it on your confirmation screen!'},
+
+  // Booking / reservation
+  {patterns:['book','reserv','table','dine in','sit'],
+   reply:'For dine-in reservations, please call us on <strong>07 378 2295</strong>. For takeaway and delivery, just order right here! 🍽️'},
+
+  // Kids
+  {patterns:['kid','child','children','junior'],
+   reply:'We have a <strong>Kids Menu</strong>! 🧒 Chicken Nuggets & Chips, Crunchy Fish Fingers & Chips, Mango Chicken, and Butter Chicken — all kid-friendly portions with rice & naan from $12–$17.'},
+
+  // Thank you
+  {patterns:['thank','thanks','cheers','great','awesome','perfect','brilliant'],
+   reply:'You\'re welcome! 😊 Hope you enjoy your meal. Order away and we\'ll have it ready for you! 🍛'},
+
+  // Hello / hi
+  {patterns:['hello','hi','hey','hiya','howdy','sup','kia ora'],
+   reply:'Kia ora! 👋 I\'m here to help with any questions about Indian Affair — menu, hours, delivery, dietary needs, anything! What can I help you with?'},
+
+  // Help
+  {patterns:['help','what can you','what do you'],
+   reply:'I can help with:\n• 🕘 Opening hours\n• 📍 Address & directions\n• 🌿 Vegetarian / vegan / keto / gluten-free options\n• 🛵 Delivery info\n• 🍛 Menu questions\n• 💳 Payment options\n• 📞 Contact details\n\nJust ask!'},
+];
+
+const QUICK_SUGGESTIONS = [
+  {label:'⏰ Hours', text:'What are your opening hours?'},
+  {label:'📍 Location', text:'Where are you located?'},
+  {label:'🌿 Vegetarian', text:'What vegetarian options do you have?'},
+  {label:'🌶️ Spice levels', text:'Can I choose my spice level?'},
+  {label:'🛵 Delivery', text:'Do you deliver?'},
+  {label:'⚠️ Allergies', text:'What about allergies?'},
+];
+
+function botReply(text) {
+  // Normalise
+  const q = text.toLowerCase().replace(/[^\w\s]/g, ' ');
+  for (const entry of BOT_KB) {
+    if (entry.patterns.some(p => q.includes(p))) {
+      return entry.reply;
+    }
+  }
+  // Fallback
+  return 'Great question! For anything I\'m not sure about, please call us on <strong>07 378 2295</strong> or pop in at 34 Ruapehu St, Taupo. We\'re open 9am–10pm every day! 😊';
+}
+
+function appendMsg(html, role) {
+  const msgs = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = 'chat-msg ' + role;
+  div.innerHTML = html;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  return div;
+}
+
+function showTyping() {
+  const msgs = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = 'chat-msg bot';
+  div.id = 'chat-typing';
+  div.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function removeTyping() {
+  const el = document.getElementById('chat-typing');
+  if (el) el.remove();
+}
+
+function sendChat(prefill) {
+  const input = document.getElementById('chat-input');
+  const text = (prefill || input.value).trim();
+  if (!text || chatTyping) return;
+  input.value = '';
+  appendMsg(text, 'user');
+  hideQuickReplies();
+  chatTyping = true;
+  showTyping();
+  setTimeout(() => {
+    removeTyping();
+    chatTyping = false;
+    const reply = botReply(text);
+    appendMsg(reply, 'bot');
+  }, 600 + Math.random() * 400);
+}
+
+function hideQuickReplies() {
+  document.getElementById('chat-quick').innerHTML = '';
+}
+
+function showQuickReplies() {
+  const qr = document.getElementById('chat-quick');
+  qr.innerHTML = QUICK_SUGGESTIONS.map(s =>
+    `<button class="quick-btn" onclick="sendChat('${s.text.replace(/'/g,"\\'")}')">${s.label}</button>`
+  ).join('');
+}
+
+function toggleChat() {
+  chatOpen = !chatOpen;
+  document.getElementById('chat-window').classList.toggle('open', chatOpen);
+  document.getElementById('chat-notif').style.display = 'none';
+
+  if (chatOpen && !chatGreeted) {
+    chatGreeted = true;
+    setTimeout(() => {
+      appendMsg('Kia ora! 👋 I\'m the Indian Affair Assistant. Ask me about our menu, hours, delivery, dietary needs — anything!', 'bot');
+      showQuickReplies();
+    }, 200);
+  }
+
+  if (chatOpen) {
+    setTimeout(() => document.getElementById('chat-input').focus(), 300);
+  }
+}
+
+// Show notification dot after 3 seconds if not opened
+setTimeout(() => {
+  if (!chatOpen) {
+    document.getElementById('chat-notif').style.display = 'flex';
+  }
+}, 3000);
+</script>
+</body>
+</html>
