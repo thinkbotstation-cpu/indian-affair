@@ -31,6 +31,16 @@ function writeOrders(orders) {
 
 // ── Routes ───────────────────────────────────────────────
 
+// GET /menu — return the full menu
+app.get('/menu', (req, res) => {
+  try {
+    const menu = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'menu.json'), 'utf8'));
+    res.json(menu);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to load menu' });
+  }
+});
+
 // GET /orders — return all orders
 app.get('/orders', (req, res) => {
   res.json(readOrders());

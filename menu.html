@@ -144,173 +144,6 @@ a{color:var(--gold);text-decoration:none}
 </footer>
 
 <script>
-const FOOD_EMOJI = {
-  st1:'🧅', st2:'🥟', st3:'🥦', st4:'🍟', st5:'🍗', st6:'🍢', st7:'🍖', st8:'🍗',
-  st9:'🥩', st10:'🦐', st11:'🍗', st12:'🐟', st13:'🍽️', st14:'🦐', st15:'🌶️',
-  st16:'🦐', st17:'🥬', st18:'🥗',
-  v1:'🫛', v2:'🥔', v3:'🍲', v4:'🥦', v5:'🍅', v6:'🥛', v7:'🍄', v8:'🫑', v9:'🌶️',
-  v10:'🫘', v11:'🫘', v12:'🥬', v13:'🧀', v14:'🥔', v15:'🌿', v16:'🫑', v17:'🍛',
-  v18:'🫛', v19:'🍆',
-  cs1:'🍗', cs2:'🥩', cs3:'🐐', cs4:'🍗', cs5:'🥘', cs6:'🧀', cs7:'🥘', cs8:'🦐',
-  cs9:'🍖', cs10:'🥩',
-  bi1:'🍚', bi2:'🍚', bi3:'🍚', bi4:'🍚',
-  br1:'🫓', br2:'🫓', br3:'🧄', br4:'🧀', br5:'🧀', br6:'🫙', br7:'🥩', br8:'🥔',
-  br9:'🥔', br10:'🧅', br11:'🫓', br12:'🫓', br13:'🍚', br14:'🍚', br15:'🍚',
-  br16:'🥥', br17:'🥦', br18:'🍳', br19:'🍜',
-  k1:'🍗', k2:'🐟', k3:'🍟', k4:'🥭', k5:'🍗',
-  co1:'🎁', co2:'🎁', co3:'🎁', co4:'🎁',
-  bk1:'🫓', bk2:'🫓', bk3:'🫓', bk4:'🥞', bk5:'🥞', bk6:'🥟',
-};
-
-const CAT_EMOJI = {
-  starters:'🍢', vegMains:'🌿', curry:'🍛', chefsSpecial:'👨‍🍳', biryani:'🍚',
-  bread:'🫓', kids:'🧒', combos:'🎉', breakfast:'☀️'
-};
-
-const MENU = {
-  starters: {
-    label: 'Starters',
-    items: [
-      {id:'st1',name:'Onion Bhaji',price:10.90,desc:'Onion rings in chickpea batter, deep fried (gf, df)'},
-      {id:'st2',name:'Vegetable Samosa (2 pcs)',price:10.90,desc:'Triangular pastry filled with potatoes and peas'},
-      {id:'st3',name:'Vegetable Pakora',price:10.90,desc:'Sliced vegetables dipped in batter, deep fried (gf, df)'},
-      {id:'st4',name:'Chips Chilly',price:18.00,desc:'French fries sautéed with onion, capsicum & soy sauce (df)'},
-      {id:'st5',name:'Chicken Tikka (5 pcs)',price:17.90,desc:'Boneless chicken marinated overnight, roasted in tandoor (gf)'},
-      {id:'st6',name:'Chicken Malai Kebab (5 pcs)',price:17.90,desc:'Marinated chicken brochettes — mild (gf)'},
-      {id:'st7',name:'Tangiri Kebab (3 pcs)',price:17.90,desc:'Chicken drumsticks, smoke roasted in chef\'s marinade (gf)'},
-      {id:'st8',name:'Chicken Pakora (8 pcs)',price:17.00,desc:'Boneless chicken in chickpea batter, deep fried (gf, df)'},
-      {id:'st9',name:'Seekh Kebab (5 pcs)',price:17.00,desc:'Mince lamb on a skewer, finished in tandoor (gf)'},
-      {id:'st10',name:'Prawn Pakora (8 pcs)',price:22.00,desc:'King prawn cutlets dipped in batter, deep fried (gf, df)'},
-      {id:'st11',name:'Tandoori Chicken (5 pcs)',price:22.00,desc:'Chicken on the bone, marinated with yoghurt, roasted in tandoor (gf)'},
-      {id:'st12',name:'Fish Pakora (8 pcs)',price:22.00,desc:'Fish in spiced chickpea flour batter, deep fried (gf, df)'},
-      {id:'st13',name:'Mixed Platter',price:24.00,desc:'Samosa, Mix Pakora, Chicken Tikka & Seekh Kebab'},
-      {id:'st14',name:'Tandoori Prawns / Mussels (8 pcs)',price:22.00,desc:'Marinated with spiced yogurt, barbecued in tandoor (gf)'},
-      {id:'st15',name:'Chicken Chilly / Paneer Chilly (8 pcs)',price:22.00,desc:'Corn flour coated, sautéed with onion, capsicum, ginger, garlic & soy sauce'},
-      {id:'st16',name:'Pan Fried Prawns / Mussels (8 pcs)',price:22.00,desc:'Sautéed with onion, capsicum & soy sauce (df)'},
-      {id:'st17',name:'Veg Manchurian',price:21.00,desc:'Mixed vegetable balls deep fried, cooked in soy sauce (df)'},
-      {id:'st18',name:'Veg Platter',price:22.00,desc:'Samosa, Mix Pakora & Onion Bhaji on sizzling platter'},
-    ]
-  },
-  vegMains: {
-    label: 'Vegetarian',
-    note: 'All mains served with plain rice',
-    items: [
-      {id:'v1',name:'Aloo Mutter',price:20.90,desc:'Potatoes and peas in tomato onion sauce with cumin'},
-      {id:'v2',name:'Bombay Aloo / Zeera Aloo',price:20.90,desc:'Diced fried potatoes with tomato, cumin seeds & herbs'},
-      {id:'v3',name:'Tadka Daal / Dal Fry',price:20.90,desc:'Yellow lentils with garlic, ginger, onion, tomato & spices'},
-      {id:'v4',name:'Aloo Gobi',price:20.90,desc:'Potatoes and cauliflower, finished with fresh coriander'},
-      {id:'v5',name:'Vegetable Makhani / Butter Paneer',price:20.90,desc:'Mix vegetables or cottage cheese in creamy tomato sauce'},
-      {id:'v6',name:'Vegetable Korma',price:20.90,desc:'Mix vegetables in creamy white gravy'},
-      {id:'v7',name:'Matar Mushroom Masala',price:22.90,desc:'Mushrooms and peas in creamy onion, tomato & cashew sauce'},
-      {id:'v8',name:'Vegetarian Jalfrezi',price:22.90,desc:'Mix vegetables in sweet and sour gravy'},
-      {id:'v9',name:'Vegetable Kolhapuri',price:22.90,desc:'Mix vegetables with herbs and spices, finished in dry red chilli'},
-      {id:'v10',name:'Daal Makhani',price:22.90,desc:'Whole lentils slow cooked overnight'},
-      {id:'v11',name:'Chana Masala',price:22.90,desc:'Chickpeas with potato and light spices'},
-      {id:'v12',name:'Palak Paneer / Palak Mushroom / Palak Aloo',price:22.90,desc:'Cottage cheese, mushroom or potato in fresh spinach purée'},
-      {id:'v13',name:'Matar Paneer',price:22.90,desc:'Cottage cheese and peas in chef\'s special gravy'},
-      {id:'v14',name:'Malai Kofta',price:22.90,desc:'Potato and cottage cheese balls in malai gravy'},
-      {id:'v15',name:'Methi Malai Matar / Paneer',price:22.90,desc:'Cottage cheese and peas with fenugreek in cashew cream gravy'},
-      {id:'v16',name:'Kadai Paneer',price:22.90,desc:'Cottage cheese with ginger, garlic & bell peppers in spiced tomato onion sauce'},
-      {id:'v17',name:'Paneer Tikka Masala',price:22.90,desc:'Kadai paneer style with cumin flavour (gf)'},
-      {id:'v18',name:'Bhindi Masala',price:23.90,desc:'Indian Affair\'s signature! Okra in masala sauce (gf, df)'},
-      {id:'v19',name:'Eggplant and Mushroom',price:23.90,desc:'Indian Affair\'s signature! Grandma\'s recipe (gf, df)'},
-    ]
-  },
-  curry: {
-    label: 'Meat Mains',
-    isCurryBuilder: true,
-    note: 'All mains served with plain rice',
-    proteins: [
-      {name:'Chicken',price:23.90},
-      {name:'Beef',price:23.90},
-      {name:'Lamb',price:25.90},
-      {name:'Goat',price:26.90},
-      {name:'Fish',price:27.90},
-      {name:'Prawn',price:27.90},
-      {name:'Scallop',price:28.90},
-    ],
-    styles: ['Butter/Makhani','Korma','Tikka Masala','Madras','Saag','Jalfrezi','Mango','Rogan Josh','Vindaloo','Kadai','Bhuna','Do Piaza','Nawabi','Goan Curry','Malabari']
-  },
-  chefsSpecial: {
-    label: "Chef's Specials",
-    items: [
-      {id:'cs1',name:'Punjabi Chicken Rara (Keto)',price:28.90,desc:'Famous Punjabi chicken with mince in thick spiced gravy (gf, df)'},
-      {id:'cs2',name:'Lamb / Goat Dhansak (Keto)',price:28.90,desc:'Tender diced lamb or goat with lentils — very popular! (gf, df)'},
-      {id:'cs3',name:'Chef Special Goat Curry (Keto)',price:28.90,desc:'Home-style goat with garlic, ginger, brown onion & tomato (gf, df)'},
-      {id:'cs4',name:'Malai Chicken',price:28.90,desc:'Chicken malai kebab in malai sauce (gf)'},
-      {id:'cs5',name:'Kathmandu Vegetable Balti',price:26.90,desc:'Very popular! Traditional Nepali recipe from grandma\'s kitchen'},
-      {id:'cs6',name:'Kathmandu Paneer Balti',price:27.90,desc:'Traditional Nepali paneer curry from grandma\'s kitchen'},
-      {id:'cs7',name:'Kathmandu Balti — Chicken / Lamb / Goat',price:29.90,desc:'Traditional Nepali curry from grandma\'s kitchen'},
-      {id:'cs8',name:'Kathmandu Balti — Prawn or Fish',price:31.90,desc:'Traditional Nepali curry from grandma\'s kitchen'},
-      {id:'cs9',name:'Googley Korma',price:30.90,desc:'Two textures of tender meat in korma sauce (gf)'},
-      {id:'cs10',name:'Googley Masala (Keto)',price:31.90,desc:'Two textures of tender meat in masala sauce — 750ml (gf, df)'},
-    ]
-  },
-  biryani: {
-    label: 'Biryani',
-    items: [
-      {id:'bi1',name:'Vegetable Biryani',price:20.90,desc:'Basmati rice with vegetables, herbs & spices. Served with raita (gf)'},
-      {id:'bi2',name:'Chicken Biryani',price:22.90,desc:'Basmati rice with chicken and aromatic spices. Served with raita (gf)'},
-      {id:'bi3',name:'Lamb / Goat / Beef Biryani',price:24.90,desc:'Basmati rice with lamb, herbs & spices. Served with raita (gf)'},
-      {id:'bi4',name:'Prawn Biryani',price:26.90,desc:'Basmati rice with prawn, herbs & spices. Served with raita (gf)'},
-    ]
-  },
-  bread: {
-    label: 'Bread & Rice',
-    items: [
-      {id:'br1',name:'Naan / Roti',price:5.00,desc:'Plain flour bread cooked in tandoori oven'},
-      {id:'br2',name:'Tandoori Roti',price:5.00,desc:'Wholemeal flour bread — vegan & dairy free available'},
-      {id:'br3',name:'Garlic Naan / Garlic Roti',price:6.00,desc:'Naan coated with fresh crushed garlic'},
-      {id:'br4',name:'Cheese Naan',price:7.50,desc:'Naan stuffed with cheese and butter'},
-      {id:'br5',name:'Cheese & Garlic Naan',price:8.00,desc:'Naan stuffed with coriander, cheese and garlic'},
-      {id:'br6',name:'Kashmiri Naan',price:7.50,desc:'Naan stuffed with dried fruits, cooked in tandoor'},
-      {id:'br7',name:'Keema Naan',price:8.50,desc:'Naan filled with mince lamb'},
-      {id:'br8',name:'Aloo Kulcha Amritsari',price:7.50,desc:'Chef\'s favourite! Naan stuffed with lightly spiced mashed potato'},
-      {id:'br9',name:'Stuffed Paratha',price:7.50,desc:'Chef\'s favourite! Wholemeal bread stuffed with potato & mix vegetables'},
-      {id:'br10',name:'Onion Kulcha',price:7.50,desc:'Chef\'s favourite! Naan stuffed with onion and fresh coriander'},
-      {id:'br11',name:'Laccha Paratha',price:6.50,desc:'Layered flatbread cooked in tandoori oven'},
-      {id:'br12',name:'Gluten Free Roti',price:7.50,desc:'Chickpea flour flatbread — North Indian speciality'},
-      {id:'br13',name:'Plain Rice (500ml)',price:4.00},
-      {id:'br14',name:'Zeera Rice',price:10.00,desc:'Rice cooked with cumin seeds (gf)'},
-      {id:'br15',name:'Pulav Rice / Mushroom Rice',price:11.00,desc:'Green peas & herb / Mushroom spiced basmati (gf)'},
-      {id:'br16',name:'Coconut Rice',price:11.00,desc:'(gf)'},
-      {id:'br17',name:'Cauliflower Rice (Keto)',price:11.00,desc:'500ml container (gf)'},
-      {id:'br18',name:'Fried Rice — Chicken / Veg / Egg',price:20.00,desc:'(df)'},
-      {id:'br19',name:'Chowmein — Veg / Egg / Chicken',price:21.90,desc:'(df)'},
-    ]
-  },
-  kids: {
-    label: 'Kids Menu',
-    items: [
-      {id:'k1',name:'Chicken Nuggets & Chips',price:12.00,desc:'Golden fried nuggets served with sauce'},
-      {id:'k2',name:'Fish Fingers & Chips',price:12.00,desc:'Crunchy fish fingers served with sauce'},
-      {id:'k3',name:'French Fries',price:5.50},
-      {id:'k4',name:'Mango Chicken',price:17.00,desc:'Served with fluffy rice and naan bread'},
-      {id:'k5',name:'Butter Chicken (Kids)',price:17.00,desc:'Served with fluffy rice and naan bread'},
-    ]
-  },
-  combos: {
-    label: 'Combo Deals',
-    items: [
-      {id:'co1',name:'Combo — Butter Chicken, Rice, Naan, Drink',price:22.90,desc:'Single serve combo'},
-      {id:'co2',name:'Combo 2 — 2x Curry, 2 Naan, 2 Rice, 2 Drinks',price:28.00,desc:'Perfect for two'},
-      {id:'co3',name:'Double Deal (for 2)',price:42.00,desc:'Mega Butter Chicken, 2 Naan, Rice, 1.5L Drink'},
-      {id:'co4',name:'Family Combo',price:55.00,desc:'Large Curries, Onion Bhaji, 3 Naan, Rice, 1.5L Drink (excl. Chef Specials)'},
-    ]
-  },
-  breakfast: {
-    label: 'Breakfast (until 2pm)',
-    items: [
-      {id:'bk1',name:'Chole Bhature',price:18.90,desc:'Chana masala with deep-fried bhatura bread'},
-      {id:'bk2',name:'Aloo Puri',price:16.90,desc:'Deep-fried wholemeal bread served with potato curry'},
-      {id:'bk3',name:'Parathas / Kulchas (stuffed)',price:15.40,desc:'Stuffed with Potato, Onion, Cauliflower, Paneer or Mixed ($13.90–$16.90)'},
-      {id:'bk4',name:'Dosa',price:22.90,desc:'Famous South Indian crepe — Plain, Masala, Paneer or American Chopsuey ($18.90–$26.90)'},
-      {id:'bk5',name:'Idly / Medu Wada / Uttapam',price:19.90,desc:'South Indian breakfast favourites ($16.90–$22.90)'},
-      {id:'bk6',name:'Mo:Mos — Chicken or Veg',price:22.90,desc:'Steam, Fried, Kothe, Jhol or Chilly style ($18.90–$26.90). Available until 2pm'},
-    ]
-  }
-};
-
 function parseTags(desc) {
   if (!desc) return [];
   const tags = [];
@@ -320,70 +153,86 @@ function parseTags(desc) {
   return tags;
 }
 
-function renderMenu() {
+function renderMenu(menuData) {
   const tabsEl = document.getElementById('cat-tabs');
   const content = document.getElementById('menu-content');
+
+  // Group by category
+  const grouped = {};
+  const catOrder = [];
+  menuData.forEach(item => {
+    if (!grouped[item.category]) {
+      grouped[item.category] = [];
+      catOrder.push(item.category);
+    }
+    grouped[item.category].push(item);
+  });
+
   let tabsHTML = '';
   let menuHTML = '';
-  let first = true;
 
-  for (const [key, cat] of Object.entries(MENU)) {
-    const emoji = CAT_EMOJI[key] || '🍽️';
-    tabsHTML += `<button class="${first ? 'active' : ''}" onclick="scrollToCat('${key}',this)">${emoji} ${cat.label}</button>`;
+  catOrder.forEach((cat, idx) => {
+    const sectionId = 'section-' + cat.replace(/[^a-z0-9]/gi, '_');
+    tabsHTML += `<button class="${idx === 0 ? 'active' : ''}" onclick="scrollToCat('${sectionId}',this)">${cat}</button>`;
 
-    menuHTML += `<div class="menu-section" id="section-${key}">`;
-    menuHTML += `<h2>${emoji} ${cat.label}</h2>`;
-    if (cat.note) menuHTML += `<p class="note">${cat.note}</p>`;
+    menuHTML += `<div class="menu-section" id="${sectionId}">`;
+    menuHTML += `<h2>${cat}</h2>`;
+    menuHTML += `<div class="menu-grid">`;
 
-    if (cat.isCurryBuilder) {
-      menuHTML += `<div class="curry-grid"><h3>Choose your protein and curry style</h3>`;
-      menuHTML += `<table class="curry-table"><thead><tr><th>Protein</th><th style="text-align:right">Price</th></tr></thead><tbody>`;
-      for (const p of cat.proteins) {
-        menuHTML += `<tr><td>${p.name}</td><td class="price-cell">$${p.price.toFixed(2)}</td></tr>`;
-      }
-      menuHTML += `</tbody></table>`;
-      menuHTML += `<div class="curry-styles"><h4>Available Curry Styles</h4><div class="styles-list">`;
-      for (const s of cat.styles) {
-        menuHTML += `<span class="style-tag">${s}</span>`;
-      }
-      menuHTML += `</div></div></div>`;
-    } else {
-      menuHTML += `<div class="menu-grid">`;
-      for (const item of cat.items) {
-        const emoji = FOOD_EMOJI[item.id] || '🍽️';
-        const tags = parseTags(item.desc);
-        let tagsHTML = '';
-        if (tags.length) {
-          tagsHTML = '<div class="tags">' + tags.map(t => `<span class="tag tag-${t}">${t}</span>`).join('') + '</div>';
-        }
-        menuHTML += `
-          <div class="menu-card">
-            <div class="thumb">${emoji}</div>
-            <div class="info">
-              <h3>${item.name}</h3>
-              <span class="price">$${item.price.toFixed(2)}</span>
-              ${item.desc ? `<p class="desc">${item.desc}</p>` : ''}
-              ${tagsHTML}
-            </div>
-          </div>`;
-      }
-      menuHTML += `</div>`;
+    for (const item of grouped[cat]) {
+      const tags = parseTags(item.description);
+      const tagsHTML = tags.length
+        ? '<div class="tags">' + tags.map(t => `<span class="tag tag-${t}">${t}</span>`).join('') + '</div>'
+        : '';
+      menuHTML += `
+        <div class="menu-card">
+          <div class="thumb" style="overflow:hidden">
+            <img src="${item.image}" alt="${item.name}" loading="lazy"
+                 style="width:100%;height:100%;object-fit:cover;border-radius:10px"
+                 onerror="this.parentElement.innerHTML='🍽️'">
+          </div>
+          <div class="info">
+            <h3>${item.name}</h3>
+            <span class="price">$${Number(item.price).toFixed(2)}</span>
+            ${item.description ? `<p class="desc">${item.description}</p>` : ''}
+            ${tagsHTML}
+          </div>
+        </div>`;
     }
-    menuHTML += `</div>`;
-    first = false;
-  }
+
+    menuHTML += `</div></div>`;
+  });
 
   tabsEl.innerHTML = tabsHTML;
   content.innerHTML = menuHTML;
 }
 
-function scrollToCat(key, btn) {
+function scrollToCat(sectionId, btn) {
   document.querySelectorAll('.cat-tabs button').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  document.getElementById('section-' + key)?.scrollIntoView({behavior:'smooth', block:'start'});
+  document.getElementById(sectionId)?.scrollIntoView({behavior:'smooth', block:'start'});
 }
 
-renderMenu();
+async function initMenu() {
+  try {
+    const res = await fetch('/menu');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const menuData = await res.json();
+    renderMenu(menuData);
+  } catch (err) {
+    console.error('Menu fetch failed:', err);
+    document.getElementById('menu-content').innerHTML = `
+      <div style="text-align:center;padding:4rem 1rem;color:var(--gray)">
+        <div style="font-size:2.5rem;margin-bottom:1rem">🍛</div>
+        <p style="font-size:1.1rem;font-weight:600;color:var(--red)">Menu temporarily unavailable.</p>
+        <p style="margin-top:.5rem">Please call us on <a href="tel:073782295" style="color:var(--gold);font-weight:700">07-378 2295</a></p>
+      </div>
+    `;
+    document.getElementById('cat-tabs').innerHTML = '';
+  }
+}
+
+initMenu();
 </script>
 
 </body>
