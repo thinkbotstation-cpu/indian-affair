@@ -740,42 +740,74 @@ function placeOrder(e) {
     subtotal: getSubtotal(),
     payment,
     instructions,
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
+    status: 'pending',
+    estimatedMins: null
   };
-
-  orderDetails.status = 'pending';
-  orderDetails.estimatedMins = null;
-
-  // Save to localStorage for manager
-  const orders = JSON.parse(localStorage.getItem('ia_orders') || '[]');
-  orders.push(orderDetails);
-  localStorage.setItem('ia_orders', JSON.stringify(orders));
-
-  console.log('=== NEW ORDER ===');
-  console.log(JSON.stringify(orderDetails, null, 2));
-  console.log('=================');
 
   if (payment === 'pay-online') {
     alert('Stripe payment integration coming soon! For now, please select another payment method or pay at the restaurant.');
     return;
   }
 
+  // Try to save to server; fall back to localStorage if unreachable
+  submitOrder(orderDetails);
+}
+
+async function submitOrder(orderDetails) {
+  let savedToServer = false;
+  try {
+    const res = await fetch('/orders', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(orderDetails)
+    });
+    if (res.ok) {
+      savedToServer = true;
+    }
+  } catch (err) {
+    // Server unreachable — fall through to localStorage
+    console.warn('Server unreachable, falling back to localStorage:', err);
+  }
+
+  if (!savedToServer) {
+    // localStorage fallback
+    const orders = JSON.parse(localStorage.getItem('ia_orders') || '[]');
+    orders.push(orderDetails);
+    localStorage.setItem('ia_orders', JSON.stringify(orders));
+  }
+
+  console.log('=== NEW ORDER ===');
+  console.log(JSON.stringify(orderDetails, null, 2));
+  console.log('=================');
+
   // Show confirmation with pending status
-  showConfirmation(orderDetails);
+  showConfirmation(orderDetails, savedToServer);
 }
 
 let confirmPollTimer = null;
 
-function showConfirmation(order) {
+function showConfirmation(order, onServer) {
   document.getElementById('checkout-modal').classList.remove('active');
   renderConfirmContent(order);
   document.getElementById('confirm-modal').classList.add('active');
 
   // Poll for manager acceptance
   if (confirmPollTimer) clearInterval(confirmPollTimer);
-  confirmPollTimer = setInterval(() => {
-    const orders = JSON.parse(localStorage.getItem('ia_orders') || '[]');
-    const updated = orders.find(o => o.orderNumber === order.orderNumber);
+  confirmPollTimer = setInterval(async () => {
+    let updated = null;
+    if (onServer) {
+      try {
+        const res = await fetch('/orders');
+        if (res.ok) {
+          const orders = await res.json();
+          updated = orders.find(o => o.orderNumber === order.orderNumber);
+        }
+      } catch {}
+    } else {
+      const orders = JSON.parse(localStorage.getItem('ia_orders') || '[]');
+      updated = orders.find(o => o.orderNumber === order.orderNumber);
+    }
     if (updated && updated.status === 'accepted') {
       clearInterval(confirmPollTimer);
       confirmPollTimer = null;

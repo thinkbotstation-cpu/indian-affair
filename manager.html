@@ -74,10 +74,16 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:var(--cr
 <div class="container">
   <a href="index.html" class="back-link">&larr; Back to Menu</a>
 
-  <div class="filter-bar">
-    <button class="active" onclick="setFilter('all')">All</button>
-    <button onclick="setFilter('pending')">Pending</button>
-    <button onclick="setFilter('accepted')">Accepted</button>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;flex-wrap:wrap;gap:.5rem">
+    <div class="filter-bar" style="margin-bottom:0">
+      <button class="active" onclick="setFilter('all')">All</button>
+      <button onclick="setFilter('pending')">Pending</button>
+      <button onclick="setFilter('accepted')">Accepted</button>
+    </div>
+    <div id="live-indicator" style="font-size:.82rem;font-weight:600;display:flex;align-items:center;gap:.4rem;padding:.3rem .75rem;border-radius:20px;background:#f5f5f5;color:#999">
+      <span id="live-dot" style="width:8px;height:8px;border-radius:50%;background:#ccc;display:inline-block"></span>
+      <span id="live-label">Connecting…</span>
+    </div>
   </div>
 
   <div id="orders-container">
@@ -87,6 +93,8 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:var(--cr
 
 <script>
 let filter = 'all';
+let serverAvailable = false;
+let currentOrders = [];
 
 function setFilter(f) {
   filter = f;
@@ -95,29 +103,72 @@ function setFilter(f) {
   renderOrders();
 }
 
-function getOrders() {
-  return JSON.parse(localStorage.getItem('ia_orders') || '[]');
+// ── Live Indicator ────────────────────────────────────────
+function setLiveStatus(live) {
+  serverAvailable = live;
+  const dot = document.getElementById('live-dot');
+  const label = document.getElementById('live-label');
+  const wrap = document.getElementById('live-indicator');
+  if (live) {
+    dot.style.background = '#2a9d2a';
+    label.textContent = 'Live';
+    wrap.style.background = '#e8f5e9';
+    wrap.style.color = '#2a9d2a';
+  } else {
+    dot.style.background = '#e57373';
+    label.textContent = 'Offline (localStorage)';
+    wrap.style.background = '#fff3e0';
+    wrap.style.color = '#c0392b';
+  }
 }
 
-function saveOrders(orders) {
-  localStorage.setItem('ia_orders', JSON.stringify(orders));
+// ── Data Fetching ─────────────────────────────────────────
+async function fetchOrders() {
+  try {
+    const res = await fetch('/orders');
+    if (!res.ok) throw new Error('non-200');
+    const orders = await res.json();
+    currentOrders = orders;
+    setLiveStatus(true);
+    renderOrders();
+  } catch {
+    setLiveStatus(false);
+    currentOrders = JSON.parse(localStorage.getItem('ia_orders') || '[]');
+    renderOrders();
+  }
 }
 
-function acceptOrder(orderNumber, selectId) {
+async function acceptOrder(orderNumber, selectId) {
   const mins = document.getElementById(selectId).value;
   if (!mins) {
     alert('Please select an estimated time.');
     return;
   }
-  const orders = getOrders();
-  const order = orders.find(o => o.orderNumber === orderNumber);
-  if (order) {
-    order.status = 'accepted';
-    order.estimatedMins = parseInt(mins);
-    order.acceptedAt = new Date().toISOString();
-    saveOrders(orders);
-    renderOrders();
+  const patch = { status: 'accepted', estimatedMins: parseInt(mins), acceptedAt: new Date().toISOString() };
+
+  if (serverAvailable) {
+    try {
+      const res = await fetch('/orders/' + encodeURIComponent(orderNumber), {
+        method: 'PATCH',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(patch)
+      });
+      if (!res.ok) throw new Error('patch failed');
+    } catch {
+      // fall through to localStorage update
+      updateLocalOrder(orderNumber, patch);
+    }
+  } else {
+    updateLocalOrder(orderNumber, patch);
   }
+  fetchOrders();
+}
+
+function updateLocalOrder(orderNumber, patch) {
+  const orders = JSON.parse(localStorage.getItem('ia_orders') || '[]');
+  const order = orders.find(o => o.orderNumber === orderNumber);
+  if (order) Object.assign(order, patch);
+  localStorage.setItem('ia_orders', JSON.stringify(orders));
 }
 
 function formatTime(isoStr) {
@@ -127,7 +178,7 @@ function formatTime(isoStr) {
 
 function renderOrders() {
   const container = document.getElementById('orders-container');
-  let orders = getOrders();
+  let orders = [...currentOrders];
 
   // Sort newest first
   orders.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
@@ -195,9 +246,9 @@ function renderOrders() {
   }).join('');
 }
 
-// Auto-refresh every 5 seconds
-renderOrders();
-setInterval(renderOrders, 5000);
+// Initial load + auto-refresh every 30 seconds
+fetchOrders();
+setInterval(fetchOrders, 30000);
 </script>
 </body>
 </html>
