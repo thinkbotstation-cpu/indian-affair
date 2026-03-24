@@ -278,6 +278,7 @@ let cart = [];
 let orderType = 'pickup';
 let spiceLevel = 'Medium';
 let activeCategory = null;
+const DELIVERY_FEE = 5.00;
 
 // menuItemsById is populated after fetch
 let menuItemsById = {};
@@ -287,6 +288,7 @@ function setOrderType(type) {
   orderType = type;
   document.getElementById('btn-pickup').classList.toggle('active', type === 'pickup');
   document.getElementById('btn-delivery').classList.toggle('active', type === 'delivery');
+  renderCart();
 }
 
 // ==================== RENDER TABS ====================
@@ -395,6 +397,14 @@ function getSubtotal() {
   return cart.reduce((sum, c) => sum + c.price * c.qty, 0);
 }
 
+function getDeliveryFee() {
+  return orderType === 'delivery' ? DELIVERY_FEE : 0;
+}
+
+function getTotal() {
+  return getSubtotal() + getDeliveryFee();
+}
+
 function renderCart() {
   const container = document.getElementById('cart-items');
   const footerArea = document.getElementById('cart-footer-area');
@@ -434,9 +444,17 @@ function renderCart() {
       </div>
     </div>
     <div class="cart-footer">
-      <div class="cart-total">
+      <div class="cart-total" style="font-size:.9rem;font-weight:400;margin-bottom:.2rem">
         <span>Subtotal</span>
         <span>$${getSubtotal().toFixed(2)}</span>
+      </div>
+      ${orderType === 'delivery' ? `<div class="cart-total" style="font-size:.9rem;font-weight:400;margin-bottom:.2rem">
+        <span>Delivery Fee</span>
+        <span>$${DELIVERY_FEE.toFixed(2)}</span>
+      </div>` : ''}
+      <div class="cart-total">
+        <span>Total</span>
+        <span>$${getTotal().toFixed(2)}</span>
       </div>
       <button class="checkout-btn" onclick="openCheckout()">Proceed to Checkout</button>
     </div>
@@ -496,13 +514,19 @@ function placeOrder(e) {
   localStorage.setItem('ia_order_seq', orderSeq);
   const orderNum = '#IA-' + String(orderSeq).padStart(4, '0');
 
+  const deliveryFee = getDeliveryFee();
+  const items = cart.map(c => ({name: c.name, qty: c.qty, price: c.price, lineTotal: c.price * c.qty}));
+  if (deliveryFee > 0) {
+    items.push({name: 'Delivery Fee', qty: 1, price: deliveryFee, lineTotal: deliveryFee});
+  }
+
   const orderDetails = {
     orderNumber: orderNum,
     orderType,
     spiceLevel,
     customer: {name, phone, email, address},
-    items: cart.map(c => ({name: c.name, qty: c.qty, price: c.price, lineTotal: c.price * c.qty})),
-    subtotal: getSubtotal(),
+    items,
+    subtotal: getTotal(),
     payment,
     instructions,
     timestamp: new Date().toISOString(),
@@ -557,18 +581,34 @@ function showConfirmation(order, onServer) {
   renderConfirmContent(order);
   document.getElementById('confirm-modal').classList.add('active');
 
-  // Poll for manager acceptance
+  // Poll for manager acceptance every 15 seconds with status badge
   if (confirmPollTimer) clearInterval(confirmPollTimer);
   confirmPollTimer = setInterval(async () => {
     let updated = null;
+    const badge = document.getElementById('order-status-badge');
     if (onServer) {
       try {
         const res = await fetch('/orders');
         if (res.ok) {
           const orders = await res.json();
           updated = orders.find(o => o.orderNumber === order.orderNumber);
+          if (badge && updated && updated.status === 'pending') {
+            badge.innerHTML = '&#9203; Pending';
+            badge.style.background = '#fff3e0';
+            badge.style.color = '#D4722A';
+          }
+        } else if (badge) {
+          badge.innerHTML = '&#128225; Offline';
+          badge.style.background = '#ffebee';
+          badge.style.color = '#c0392b';
         }
-      } catch {}
+      } catch {
+        if (badge) {
+          badge.innerHTML = '&#128225; Offline';
+          badge.style.background = '#ffebee';
+          badge.style.color = '#c0392b';
+        }
+      }
     } else {
       const orders = JSON.parse(localStorage.getItem('ia_orders') || '[]');
       updated = orders.find(o => o.orderNumber === order.orderNumber);
@@ -578,7 +618,7 @@ function showConfirmation(order, onServer) {
       confirmPollTimer = null;
       renderConfirmContent(updated);
     }
-  }, 2000);
+  }, 15000);
 
   // Reset cart
   cart = [];
@@ -591,6 +631,9 @@ function renderConfirmContent(order) {
   ).join('');
 
   const isAccepted = order.status === 'accepted';
+  const statusBadgeHtml = isAccepted
+    ? `<div id="order-status-badge" style="display:inline-block;padding:.4rem 1rem;border-radius:20px;font-size:.9rem;font-weight:700;background:#e8f5e9;color:#2a9d2a;margin-bottom:.7rem">&#10003; Accepted</div>`
+    : `<div id="order-status-badge" style="display:inline-block;padding:.4rem 1rem;border-radius:20px;font-size:.9rem;font-weight:700;background:#fff3e0;color:#D4722A;margin-bottom:.7rem">&#9203; Pending</div>`;
   const statusHtml = isAccepted
     ? `<div class="check-circle">&#10003;</div>
        <h2>Your order is confirmed!</h2>
@@ -602,6 +645,7 @@ function renderConfirmContent(order) {
   document.getElementById('confirm-content').innerHTML = `
     <div class="confirmation">
       ${statusHtml}
+      ${statusBadgeHtml}
       <p>Thank you, ${order.customer.name}!</p>
       <div class="order-num">${order.orderNumber}</div>
       <p style="color:var(--gray);font-size:.88rem">${order.orderType === 'pickup' ? 'We\'ll have your order ready for pickup.' : 'Your order will be delivered to:'}</p>

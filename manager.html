@@ -47,6 +47,8 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:var(--cr
 .order-actions select{padding:.45rem .6rem;border:1px solid #ccc;border-radius:6px;font-size:.9rem;min-height:40px}
 .btn-accept{padding:.5rem 1.4rem;background:var(--green);color:white;border:none;border-radius:6px;font-size:.9rem;font-weight:600;cursor:pointer;min-height:40px;transition:.15s}
 .btn-accept:hover{background:#228b22}
+.btn-print{padding:.5rem 1rem;background:var(--dark);color:white;border:none;border-radius:6px;font-size:.9rem;font-weight:600;cursor:pointer;min-height:40px;transition:.15s}
+.btn-print:hover{background:#333}
 
 .order-status{display:inline-flex;align-items:center;gap:.4rem;padding:.4rem .8rem;border-radius:6px;font-size:.88rem;font-weight:600}
 .status-pending{background:#fff3e0;color:var(--orange)}
@@ -55,23 +57,57 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:var(--cr
 .back-link{display:inline-block;margin-bottom:1rem;color:var(--orange);text-decoration:none;font-size:.9rem;font-weight:600}
 .back-link:hover{text-decoration:underline}
 
+/* Login Gate */
+.login-overlay{position:fixed;inset:0;background:var(--cream);z-index:500;display:flex;align-items:center;justify-content:center}
+.login-box{background:white;border-radius:14px;padding:2rem;max-width:380px;width:90%;box-shadow:0 4px 20px rgba(0,0,0,.12);text-align:center}
+.login-box h2{color:var(--red);margin-bottom:.3rem;font-size:1.4rem}
+.login-box .login-subtitle{color:var(--gray);font-size:.85rem;margin-bottom:1.5rem}
+.login-box input{width:100%;padding:.65rem .8rem;border:2px solid #ddd;border-radius:8px;font-size:1rem;font-family:inherit;outline:none;transition:.2s}
+.login-box input:focus{border-color:var(--gold)}
+.login-box .login-btn{width:100%;padding:.7rem;background:var(--red);color:white;border:none;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:.8rem;transition:.15s}
+.login-box .login-btn:hover{background:var(--dark-red)}
+.login-error{color:#c00;font-size:.85rem;margin-top:.5rem;min-height:1.2rem}
+
+/* Print styles */
+@media print {
+  body *{visibility:hidden}
+  .print-ticket,.print-ticket *{visibility:visible}
+  .print-ticket{position:absolute;left:0;top:0;width:100%;padding:1rem;font-size:12pt}
+  .print-ticket h2{font-size:14pt;margin-bottom:.5rem}
+  .print-ticket .item-line{display:flex;justify-content:space-between;padding:2px 0}
+  .print-ticket .total-line{border-top:2px solid #000;margin-top:4px;padding-top:4px;font-weight:700}
+}
+
 @media(max-width:768px){
   .header h1{font-size:1.2rem}
   .container{padding:.75rem}
   .order-card{padding:1rem}
-  .order-actions select,.btn-accept{min-height:44px;font-size:.95rem}
+  .order-actions select,.btn-accept,.btn-print{min-height:44px;font-size:.95rem}
   .order-header{flex-direction:column}
 }
 </style>
 </head>
 <body>
 
+<!-- Login Gate -->
+<div class="login-overlay" id="login-overlay">
+  <div class="login-box">
+    <h2>INDIAN AFFAIR</h2>
+    <div class="login-subtitle">Manager Dashboard Login</div>
+    <form onsubmit="attemptLogin(event)">
+      <input type="password" id="login-password" placeholder="Enter password" autofocus>
+      <button type="submit" class="login-btn">Sign In</button>
+    </form>
+    <div class="login-error" id="login-error"></div>
+  </div>
+</div>
+
 <header class="header">
   <h1>INDIAN AFFAIR</h1>
   <div class="subtitle">Manager Dashboard</div>
 </header>
 
-<div class="container">
+<div class="container" id="dashboard" style="display:none">
   <a href="index.html" class="back-link">&larr; Back to Menu</a>
 
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;flex-wrap:wrap;gap:.5rem">
@@ -91,10 +127,69 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:var(--cr
   </div>
 </div>
 
+<!-- Hidden print ticket container -->
+<div id="print-ticket-container"></div>
+
 <script>
+// ── Password Auth ─────────────────────────────────────────
+// SHA-256 hash of "manager123"
+const PASSWORD_HASH = '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9';
+
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function attemptLogin(e) {
+  e.preventDefault();
+  const pw = document.getElementById('login-password').value;
+  const hash = await sha256(pw);
+  if (hash === PASSWORD_HASH) {
+    sessionStorage.setItem('ia_manager_auth', 'true');
+    showDashboard();
+  } else {
+    document.getElementById('login-error').textContent = 'Incorrect password. Please try again.';
+    document.getElementById('login-password').value = '';
+    document.getElementById('login-password').focus();
+  }
+}
+
+function showDashboard() {
+  document.getElementById('login-overlay').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  fetchOrders();
+  setInterval(fetchOrders, 30000);
+}
+
+// Check session on load
+if (sessionStorage.getItem('ia_manager_auth') === 'true') {
+  showDashboard();
+}
+
+// ── Sound Alert (Web Audio API) ───────────────────────────
+let audioCtx = null;
+function playNewOrderSound() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  // Two-tone ping
+  [0, 150].forEach(delay => {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.type = 'sine';
+    osc.frequency.value = delay === 0 ? 880 : 1100;
+    gain.gain.setValueAtTime(0.15, audioCtx.currentTime + delay / 1000);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + delay / 1000 + 0.3);
+    osc.start(audioCtx.currentTime + delay / 1000);
+    osc.stop(audioCtx.currentTime + delay / 1000 + 0.3);
+  });
+}
+
+// ── State ─────────────────────────────────────────────────
 let filter = 'all';
 let serverAvailable = false;
 let currentOrders = [];
+let knownOrderNumbers = new Set();
 
 function setFilter(f) {
   filter = f;
@@ -128,12 +223,20 @@ async function fetchOrders() {
     const res = await fetch('/orders');
     if (!res.ok) throw new Error('non-200');
     const orders = await res.json();
+    // Detect new orders for sound alert
+    const newPending = orders.filter(o => o.status === 'pending' && !knownOrderNumbers.has(o.orderNumber));
+    if (knownOrderNumbers.size > 0 && newPending.length > 0) {
+      playNewOrderSound();
+    }
+    // Update known orders
+    knownOrderNumbers = new Set(orders.map(o => o.orderNumber));
     currentOrders = orders;
     setLiveStatus(true);
     renderOrders();
   } catch {
     setLiveStatus(false);
     currentOrders = JSON.parse(localStorage.getItem('ia_orders') || '[]');
+    knownOrderNumbers = new Set(currentOrders.map(o => o.orderNumber));
     renderOrders();
   }
 }
@@ -176,6 +279,40 @@ function formatTime(isoStr) {
   return d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) + ' ' + d.toLocaleDateString();
 }
 
+// ── Print Ticket ──────────────────────────────────────────
+function printOrder(orderNumber) {
+  const order = currentOrders.find(o => o.orderNumber === orderNumber);
+  if (!order) return;
+
+  const itemsHtml = order.items.map(it =>
+    `<div class="item-line"><span>${it.qty}x ${it.name}</span><span>$${it.lineTotal.toFixed(2)}</span></div>`
+  ).join('');
+
+  const container = document.getElementById('print-ticket-container');
+  container.innerHTML = `
+    <div class="print-ticket">
+      <h2>INDIAN AFFAIR RESTOBAR</h2>
+      <p style="margin-bottom:.5rem;font-size:10pt;color:#666">34 Ruapehu St, Taupo | 07 378 2295</p>
+      <hr style="border:1px dashed #999;margin:.5rem 0">
+      <p><strong>Order:</strong> ${order.orderNumber} &nbsp; <strong>Type:</strong> ${order.orderType.toUpperCase()}</p>
+      <p><strong>Time:</strong> ${formatTime(order.timestamp)}</p>
+      <p><strong>Customer:</strong> ${order.customer.name} — ${order.customer.phone}</p>
+      ${order.orderType === 'delivery' && order.customer.address ? `<p><strong>Deliver to:</strong> ${order.customer.address}</p>` : ''}
+      <hr style="border:1px dashed #999;margin:.5rem 0">
+      ${itemsHtml}
+      <div class="item-line total-line"><span>Total</span><span>$${order.subtotal.toFixed(2)}</span></div>
+      <hr style="border:1px dashed #999;margin:.5rem 0">
+      <p><strong>Spice:</strong> ${order.spiceLevel} &nbsp; <strong>Payment:</strong> ${order.payment.replace(/-/g,' ').replace(/\b\w/g,l=>l.toUpperCase())}</p>
+      ${order.instructions ? `<p><strong>Notes:</strong> ${order.instructions}</p>` : ''}
+      ${order.status === 'accepted' ? `<p><strong>Est. time:</strong> ${order.estimatedMins} mins</p>` : ''}
+    </div>
+  `;
+  window.print();
+  // Clean up after print
+  setTimeout(() => { container.innerHTML = ''; }, 1000);
+}
+
+// ── Render ────────────────────────────────────────────────
 function renderOrders() {
   const container = document.getElementById('orders-container');
   let orders = [...currentOrders];
@@ -240,15 +377,12 @@ function renderOrders() {
         ${o.instructions ? `<div class="order-notes"><strong>Notes:</strong> ${o.instructions}</div>` : ''}
         <div class="order-actions">
           ${actionsHtml}
+          <button class="btn-print" onclick="printOrder('${o.orderNumber}')">&#128424; Print</button>
         </div>
       </div>
     `;
   }).join('');
 }
-
-// Initial load + auto-refresh every 30 seconds
-fetchOrders();
-setInterval(fetchOrders, 30000);
 </script>
 </body>
 </html>

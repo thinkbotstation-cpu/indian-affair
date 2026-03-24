@@ -1,6 +1,6 @@
 {
   "name": "indian-affair-restobar",
-  "version": "0.5.0",
+  "version": "1.0.0",
   "description": "Indian Affair Restobar — online ordering app with Express backend",
   "main": "server.js",
   "scripts": {
