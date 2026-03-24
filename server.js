@@ -11,6 +11,15 @@ const dataDir = path.dirname(DATA_FILE);
 if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
 if (!fs.existsSync(DATA_FILE)) fs.writeFileSync(DATA_FILE, '[]', 'utf8');
 
+// CORS headers for local dev
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  if (req.method === 'OPTIONS') return res.sendStatus(204);
+  next();
+});
+
 app.use(express.json());
 
 // Serve static files (all the HTML, CSS, logo, etc.)
@@ -30,6 +39,12 @@ function writeOrders(orders) {
 }
 
 // ── Routes ───────────────────────────────────────────────
+
+// GET /health — health check
+app.get('/health', (req, res) => {
+  const orders = readOrders();
+  res.json({ status: 'ok', uptime: process.uptime(), orders: orders.length });
+});
 
 // GET /menu — return the full menu
 app.get('/menu', (req, res) => {
@@ -52,6 +67,14 @@ app.post('/orders', (req, res) => {
   if (!order || !order.orderNumber) {
     return res.status(400).json({ error: 'Invalid order data' });
   }
+  // Ensure timestamp is present
+  if (!order.timestamp) {
+    order.timestamp = new Date().toISOString();
+  }
+  // Ensure status is present
+  if (!order.status) {
+    order.status = 'pending';
+  }
   const orders = readOrders();
   // Avoid duplicates (idempotent retry)
   const exists = orders.some(o => o.orderNumber === order.orderNumber);
@@ -60,6 +83,23 @@ app.post('/orders', (req, res) => {
     writeOrders(orders);
   }
   res.status(201).json({ ok: true, orderNumber: order.orderNumber });
+});
+
+// PUT /orders/:id/status — update order status (pending → accepted → ready → completed)
+const VALID_STATUSES = ['pending', 'accepted', 'ready', 'completed'];
+app.put('/orders/:id/status', (req, res) => {
+  const { status } = req.body;
+  if (!status || !VALID_STATUSES.includes(status)) {
+    return res.status(400).json({ error: 'Invalid status. Must be one of: ' + VALID_STATUSES.join(', ') });
+  }
+  const orders = readOrders();
+  const idx = orders.findIndex(o => o.orderNumber === req.params.id);
+  if (idx === -1) return res.status(404).json({ error: 'Order not found' });
+
+  orders[idx].status = status;
+  orders[idx][status + 'At'] = new Date().toISOString();
+  writeOrders(orders);
+  res.json(orders[idx]);
 });
 
 // PATCH /orders/:id — update an order (e.g. accept with estimatedMins)

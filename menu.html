@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Menu — Indian Affair Restaurant &amp; Bar, Taupo</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%238B0000'/><text x='50' y='58' text-anchor='middle' font-size='36' font-weight='bold' fill='%23C9A227' font-family='sans-serif'>IA</text></svg>">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--red:#8B0000;--dark-red:#5C0000;--gold:#C9A227;--light-gold:#F5E6C8;--cream:#FFF8F0;--dark:#1a1a1a;--gray:#666}
@@ -77,6 +78,11 @@ a{color:var(--gold);text-decoration:none}
 .footer-brand span{font-size:1rem;font-weight:700;color:white;letter-spacing:1px}
 .footer-bottom{text-align:center;margin-top:2rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.1);font-size:.8rem;color:var(--gray)}
 
+/* Back to top */
+.back-to-top{position:fixed;bottom:5rem;right:1.2rem;width:44px;height:44px;border-radius:50%;background:var(--red);color:white;border:none;font-size:1.3rem;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.2);z-index:97;opacity:0;pointer-events:none;transition:.3s}
+.back-to-top.visible{opacity:1;pointer-events:all}
+.back-to-top:hover{background:var(--dark-red)}
+
 @media(max-width:768px){
   .site-nav{flex-wrap:wrap}
   .site-nav .nav-links{display:none;flex-direction:column;width:100%;gap:.5rem;padding-top:.8rem}
@@ -114,6 +120,8 @@ a{color:var(--gold);text-decoration:none}
   <a href="index.html">Order Now</a>
 </div>
 
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">&#8679;</button>
+
 <footer class="footer">
   <div class="footer-inner">
     <div class="footer-col">
@@ -137,7 +145,7 @@ a{color:var(--gold);text-decoration:none}
     </div>
     <div class="footer-col">
       <h4>HOURS</h4>
-      <p>Mon - Sun<br>9:00am - 10:00pm</p>
+      <p>Lunch: 11:30am – 2:30pm<br>Dinner: 5:00pm – 9:30pm<br>Open 7 days</p>
     </div>
   </div>
   <div class="footer-bottom">&copy; 2026 Indian Affair Restaurant &amp; Bar. All rights reserved.</div>
@@ -233,6 +241,11 @@ async function initMenu() {
 }
 
 initMenu();
+
+// Back to top visibility
+window.addEventListener('scroll', () => {
+  document.getElementById('backToTop').classList.toggle('visible', window.scrollY > 400);
+});
 </script>
 
 </body>

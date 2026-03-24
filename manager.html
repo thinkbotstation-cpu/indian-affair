@@ -4,9 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Indian Affair - Manager Dashboard</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%238B0000'/><text x='50' y='58' text-anchor='middle' font-size='36' font-weight='bold' fill='%23C9A227' font-family='sans-serif'>IA</text></svg>">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--red:#8B1A1A;--dark-red:#5C1010;--orange:#D4722A;--gold:#D4A43A;--light-gold:#F5E6C8;--cream:#FFF8F0;--dark:#1A1A1A;--gray:#666;--green:#2a9d2a}
+:root{--red:#8B1A1A;--dark-red:#5C1010;--orange:#D4722A;--gold:#D4A43A;--light-gold:#F5E6C8;--cream:#FFF8F0;--dark:#1A1A1A;--gray:#666;--green:#2a9d2a;--blue:#2563eb}
 body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:var(--cream);color:var(--dark);line-height:1.5}
 
 .header{background:linear-gradient(135deg,var(--dark-red),var(--red));color:white;padding:1.2rem 1rem;text-align:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.3)}
@@ -15,6 +16,14 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:var(--cr
 
 .container{max-width:900px;margin:0 auto;padding:1rem}
 
+/* Stats Bar */
+.stats-bar{display:flex;gap:.8rem;margin-bottom:1rem;flex-wrap:wrap}
+.stat-card{flex:1;min-width:120px;background:white;border-radius:10px;padding:.8rem 1rem;box-shadow:0 1px 4px rgba(0,0,0,.06);text-align:center}
+.stat-card .stat-value{font-size:1.5rem;font-weight:700;color:var(--red)}
+.stat-card .stat-label{font-size:.75rem;color:var(--gray);text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+.stat-card.pending-stat .stat-value{color:var(--orange)}
+.stat-card.revenue-stat .stat-value{color:var(--green)}
+
 .filter-bar{display:flex;gap:.5rem;margin-bottom:1rem;flex-wrap:wrap}
 .filter-bar button{padding:.5rem 1.2rem;border:2px solid var(--gold);border-radius:25px;background:transparent;color:var(--dark);font-size:.85rem;cursor:pointer;font-weight:600;transition:.2s}
 .filter-bar button.active{background:var(--gold);color:var(--dark-red)}
@@ -22,7 +31,9 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:var(--cr
 .no-orders{text-align:center;color:var(--gray);padding:3rem 1rem;font-size:1.1rem}
 
 .order-card{background:white;border-radius:12px;padding:1.2rem;margin-bottom:1rem;box-shadow:0 2px 8px rgba(0,0,0,.08);border-left:4px solid var(--orange)}
-.order-card.accepted{border-left-color:var(--green)}
+.order-card.status-accepted{border-left-color:var(--green)}
+.order-card.status-ready{border-left-color:var(--blue)}
+.order-card.status-completed{border-left-color:var(--gray);opacity:.7}
 
 .order-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.5rem;margin-bottom:.7rem}
 .order-number{font-size:1.2rem;font-weight:700;color:var(--red)}
@@ -47,12 +58,18 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:var(--cr
 .order-actions select{padding:.45rem .6rem;border:1px solid #ccc;border-radius:6px;font-size:.9rem;min-height:40px}
 .btn-accept{padding:.5rem 1.4rem;background:var(--green);color:white;border:none;border-radius:6px;font-size:.9rem;font-weight:600;cursor:pointer;min-height:40px;transition:.15s}
 .btn-accept:hover{background:#228b22}
+.btn-ready{padding:.5rem 1.4rem;background:var(--blue);color:white;border:none;border-radius:6px;font-size:.9rem;font-weight:600;cursor:pointer;min-height:40px;transition:.15s}
+.btn-ready:hover{background:#1d4ed8}
+.btn-complete{padding:.5rem 1.4rem;background:var(--gray);color:white;border:none;border-radius:6px;font-size:.9rem;font-weight:600;cursor:pointer;min-height:40px;transition:.15s}
+.btn-complete:hover{background:#444}
 .btn-print{padding:.5rem 1rem;background:var(--dark);color:white;border:none;border-radius:6px;font-size:.9rem;font-weight:600;cursor:pointer;min-height:40px;transition:.15s}
 .btn-print:hover{background:#333}
 
 .order-status{display:inline-flex;align-items:center;gap:.4rem;padding:.4rem .8rem;border-radius:6px;font-size:.88rem;font-weight:600}
 .status-pending{background:#fff3e0;color:var(--orange)}
 .status-accepted{background:#e8f5e9;color:var(--green)}
+.status-ready{background:#dbeafe;color:var(--blue)}
+.status-completed{background:#f3f4f6;color:var(--gray)}
 
 .back-link{display:inline-block;margin-bottom:1rem;color:var(--orange);text-decoration:none;font-size:.9rem;font-weight:600}
 .back-link:hover{text-decoration:underline}
@@ -82,8 +99,11 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:var(--cr
   .header h1{font-size:1.2rem}
   .container{padding:.75rem}
   .order-card{padding:1rem}
-  .order-actions select,.btn-accept,.btn-print{min-height:44px;font-size:.95rem}
+  .order-actions select,.btn-accept,.btn-ready,.btn-complete,.btn-print{min-height:44px;font-size:.95rem}
   .order-header{flex-direction:column}
+  .stats-bar{gap:.5rem}
+  .stat-card{min-width:80px;padding:.6rem .5rem}
+  .stat-card .stat-value{font-size:1.2rem}
 }
 </style>
 </head>
@@ -110,15 +130,38 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:var(--cr
 <div class="container" id="dashboard" style="display:none">
   <a href="index.html" class="back-link">&larr; Back to Menu</a>
 
+  <!-- Stats Bar -->
+  <div class="stats-bar" id="stats-bar">
+    <div class="stat-card">
+      <div class="stat-value" id="stat-today">0</div>
+      <div class="stat-label">Today</div>
+    </div>
+    <div class="stat-card pending-stat">
+      <div class="stat-value" id="stat-pending">0</div>
+      <div class="stat-label">Pending</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="stat-active">0</div>
+      <div class="stat-label">Active</div>
+    </div>
+    <div class="stat-card revenue-stat">
+      <div class="stat-value" id="stat-revenue">$0</div>
+      <div class="stat-label">Revenue Today</div>
+    </div>
+  </div>
+
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;flex-wrap:wrap;gap:.5rem">
     <div class="filter-bar" style="margin-bottom:0">
       <button class="active" onclick="setFilter('all')">All</button>
       <button onclick="setFilter('pending')">Pending</button>
       <button onclick="setFilter('accepted')">Accepted</button>
+      <button onclick="setFilter('ready')">Ready</button>
+      <button onclick="setFilter('completed')">Completed</button>
     </div>
     <div id="live-indicator" style="font-size:.82rem;font-weight:600;display:flex;align-items:center;gap:.4rem;padding:.3rem .75rem;border-radius:20px;background:#f5f5f5;color:#999">
       <span id="live-dot" style="width:8px;height:8px;border-radius:50%;background:#ccc;display:inline-block"></span>
-      <span id="live-label">Connecting…</span>
+      <span id="live-label">Connecting&hellip;</span>
+      <span id="refresh-countdown" style="font-size:.75rem;color:var(--gray);margin-left:.3rem"></span>
     </div>
   </div>
 
@@ -154,11 +197,31 @@ async function attemptLogin(e) {
   }
 }
 
+let refreshInterval = null;
+let countdownInterval = null;
+let countdownSecs = 30;
+const REFRESH_INTERVAL = 30;
+
 function showDashboard() {
   document.getElementById('login-overlay').style.display = 'none';
   document.getElementById('dashboard').style.display = 'block';
   fetchOrders();
-  setInterval(fetchOrders, 30000);
+  startAutoRefresh();
+}
+
+function startAutoRefresh() {
+  if (refreshInterval) clearInterval(refreshInterval);
+  if (countdownInterval) clearInterval(countdownInterval);
+  countdownSecs = REFRESH_INTERVAL;
+  refreshInterval = setInterval(() => {
+    fetchOrders();
+    countdownSecs = REFRESH_INTERVAL;
+  }, REFRESH_INTERVAL * 1000);
+  countdownInterval = setInterval(() => {
+    countdownSecs--;
+    if (countdownSecs < 0) countdownSecs = REFRESH_INTERVAL;
+    document.getElementById('refresh-countdown').textContent = countdownSecs + 's';
+  }, 1000);
 }
 
 // Check session on load
@@ -217,6 +280,20 @@ function setLiveStatus(live) {
   }
 }
 
+// ── Stats ─────────────────────────────────────────────────
+function updateStats() {
+  const today = new Date().toISOString().slice(0, 10);
+  const todayOrders = currentOrders.filter(o => o.timestamp && o.timestamp.startsWith(today));
+  const pendingCount = currentOrders.filter(o => o.status === 'pending').length;
+  const activeCount = currentOrders.filter(o => o.status === 'accepted' || o.status === 'ready').length;
+  const revenue = todayOrders.reduce((sum, o) => sum + (o.subtotal || 0), 0);
+
+  document.getElementById('stat-today').textContent = todayOrders.length;
+  document.getElementById('stat-pending').textContent = pendingCount;
+  document.getElementById('stat-active').textContent = activeCount;
+  document.getElementById('stat-revenue').textContent = '$' + revenue.toFixed(0);
+}
+
 // ── Data Fetching ─────────────────────────────────────────
 async function fetchOrders() {
   try {
@@ -232,11 +309,13 @@ async function fetchOrders() {
     knownOrderNumbers = new Set(orders.map(o => o.orderNumber));
     currentOrders = orders;
     setLiveStatus(true);
+    updateStats();
     renderOrders();
   } catch {
     setLiveStatus(false);
     currentOrders = JSON.parse(localStorage.getItem('ia_orders') || '[]');
     knownOrderNumbers = new Set(currentOrders.map(o => o.orderNumber));
+    updateStats();
     renderOrders();
   }
 }
@@ -258,7 +337,44 @@ async function acceptOrder(orderNumber, selectId) {
       });
       if (!res.ok) throw new Error('patch failed');
     } catch {
-      // fall through to localStorage update
+      updateLocalOrder(orderNumber, patch);
+    }
+  } else {
+    updateLocalOrder(orderNumber, patch);
+  }
+  fetchOrders();
+}
+
+async function markReady(orderNumber) {
+  const patch = { status: 'ready', readyAt: new Date().toISOString() };
+  if (serverAvailable) {
+    try {
+      const res = await fetch('/orders/' + encodeURIComponent(orderNumber), {
+        method: 'PATCH',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(patch)
+      });
+      if (!res.ok) throw new Error('patch failed');
+    } catch {
+      updateLocalOrder(orderNumber, patch);
+    }
+  } else {
+    updateLocalOrder(orderNumber, patch);
+  }
+  fetchOrders();
+}
+
+async function markCompleted(orderNumber) {
+  const patch = { status: 'completed', completedAt: new Date().toISOString() };
+  if (serverAvailable) {
+    try {
+      const res = await fetch('/orders/' + encodeURIComponent(orderNumber), {
+        method: 'PATCH',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(patch)
+      });
+      if (!res.ok) throw new Error('patch failed');
+    } catch {
       updateLocalOrder(orderNumber, patch);
     }
   } else {
@@ -304,11 +420,10 @@ function printOrder(orderNumber) {
       <hr style="border:1px dashed #999;margin:.5rem 0">
       <p><strong>Spice:</strong> ${order.spiceLevel} &nbsp; <strong>Payment:</strong> ${order.payment.replace(/-/g,' ').replace(/\b\w/g,l=>l.toUpperCase())}</p>
       ${order.instructions ? `<p><strong>Notes:</strong> ${order.instructions}</p>` : ''}
-      ${order.status === 'accepted' ? `<p><strong>Est. time:</strong> ${order.estimatedMins} mins</p>` : ''}
+      ${order.estimatedMins ? `<p><strong>Est. time:</strong> ${order.estimatedMins} mins</p>` : ''}
     </div>
   `;
   window.print();
-  // Clean up after print
   setTimeout(() => { container.innerHTML = ''; }, 1000);
 }
 
@@ -317,8 +432,14 @@ function renderOrders() {
   const container = document.getElementById('orders-container');
   let orders = [...currentOrders];
 
-  // Sort newest first
-  orders.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+  // Sort: pending first, then accepted, ready, completed; newest first within each group
+  const statusOrder = {pending: 0, accepted: 1, ready: 2, completed: 3};
+  orders.sort((a, b) => {
+    const sa = statusOrder[a.status] ?? 9;
+    const sb = statusOrder[b.status] ?? 9;
+    if (sa !== sb) return sa - sb;
+    return new Date(b.timestamp) - new Date(a.timestamp);
+  });
 
   if (filter !== 'all') {
     orders = orders.filter(o => o.status === filter);
@@ -335,25 +456,36 @@ function renderOrders() {
     ).join('');
 
     const selectId = 'time-' + i;
-    const isAccepted = o.status === 'accepted';
     const typeBadge = o.orderType === 'delivery'
       ? '<span class="order-type-badge badge-delivery">Delivery</span>'
       : '<span class="order-type-badge badge-pickup">Pickup</span>';
 
-    const actionsHtml = isAccepted
-      ? `<div class="order-status status-accepted">&#10003; Accepted &mdash; ${o.estimatedMins} mins</div>`
-      : `<select id="${selectId}">
-           <option value="">Est. time...</option>
-           <option value="15">15 minutes</option>
-           <option value="20">20 minutes</option>
-           <option value="30">30 minutes</option>
-           <option value="45">45 minutes</option>
-           <option value="60">60 minutes</option>
-         </select>
-         <button class="btn-accept" onclick="acceptOrder('${o.orderNumber}','${selectId}')">Accept Order</button>`;
+    let actionsHtml = '';
+    if (o.status === 'pending') {
+      actionsHtml = `
+        <select id="${selectId}">
+          <option value="">Est. time...</option>
+          <option value="15">15 minutes</option>
+          <option value="20">20 minutes</option>
+          <option value="30">30 minutes</option>
+          <option value="45">45 minutes</option>
+          <option value="60">60 minutes</option>
+        </select>
+        <button class="btn-accept" onclick="acceptOrder('${o.orderNumber}','${selectId}')">Accept Order</button>`;
+    } else if (o.status === 'accepted') {
+      actionsHtml = `
+        <div class="order-status status-accepted">&#10003; Accepted &mdash; ${o.estimatedMins} mins</div>
+        <button class="btn-ready" onclick="markReady('${o.orderNumber}')">&#127860; Mark Ready</button>`;
+    } else if (o.status === 'ready') {
+      actionsHtml = `
+        <div class="order-status status-ready">&#127860; Ready for ${o.orderType === 'delivery' ? 'delivery' : 'pickup'}</div>
+        <button class="btn-complete" onclick="markCompleted('${o.orderNumber}')">&#10004; Complete</button>`;
+    } else if (o.status === 'completed') {
+      actionsHtml = `<div class="order-status status-completed">&#10004; Completed</div>`;
+    }
 
     return `
-      <div class="order-card ${isAccepted ? 'accepted' : ''}">
+      <div class="order-card status-${o.status}">
         <div class="order-header">
           <div>
             <span class="order-number">${o.orderNumber}</span>

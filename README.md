@@ -1,15 +1,24 @@
-# Indian Affair Restobar — Online Ordering App (v1.0)
+# Indian Affair Restobar — Online Ordering System (v1.0)
 
-A multi-page restaurant website and online ordering system for **Indian Affair Restobar**, Taupo, New Zealand.
+A full-featured restaurant website and online ordering system for **Indian Affair Restobar**, Taupo, New Zealand. Built as a client-ready demo for AI/automation consulting.
 
-## What it is
+## What it does
 
-- **home.html** — Landing page
-- **menu.html** — Full menu reference (155 items, 15 categories)
-- **index.html** — Online ordering app (pickup & delivery, delivery fee, chat assistant)
-- **manager.html** — Password-protected manager dashboard (accept/track orders, print tickets, sound alerts)
-- **about.html / contact.html** — Info pages
-- **server.js** — Lightweight Express backend that persists orders to `data/orders.json`
+- **Customer ordering** — browse 155 real menu items across 15 categories, add to cart, choose pickup or delivery, place orders with spice level and payment preferences
+- **Kitchen management** — password-protected manager dashboard with order accept/reject, status progression (Pending → Accepted → Ready → Completed), print tickets, sound alerts on new orders
+- **Real-time sync** — orders persist to server with 30-second auto-refresh; falls back to localStorage if offline
+- **Chat assistant** — built-in knowledge-base chatbot answering hours, location, dietary, delivery, and menu questions
+
+## Pages
+
+| Page | Description |
+|------|-------------|
+| `home.html` | Landing page with hero, features, and CTAs |
+| `menu.html` | Full menu reference (read-only, 155 items with photos) |
+| `index.html` | Online ordering app with cart, checkout, and confirmation |
+| `contact.html` | Contact info, Google Map embed, enquiry form |
+| `about.html` | Restaurant story and team info |
+| `manager.html` | Kitchen dashboard (password: `manager123`) |
 
 ## How to run
 
@@ -18,45 +27,52 @@ npm install
 npm start
 ```
 
-Server starts on **http://localhost:8080** by default. All static files are served from there.
+Server starts on **http://localhost:8080**. All pages served from the same origin.
 
 To change the port:
 ```bash
 PORT=3000 npm start
 ```
 
-## Architecture
-
-- Orders are saved to `data/orders.json` via `POST /orders`
-- Manager dashboard polls `GET /orders` every 30 seconds and shows a **Live** indicator when connected
-- If the server is unreachable, the ordering app falls back to `localStorage` automatically
-- Manager can accept orders via `PATCH /orders/:id` — confirmation screen on the customer side updates automatically
-
-## API
+## API endpoints
 
 | Method | Path | Description |
 |--------|------|-------------|
-| GET | /menu | Return the full menu |
-| GET | /orders | List all orders |
-| POST | /orders | Create a new order |
-| PATCH | /orders/:id | Update an order (e.g. accept) |
-| DELETE | /orders/:id | Remove an order |
+| `GET` | `/health` | Health check (status, uptime, order count) |
+| `GET` | `/menu` | Full menu (from `data/menu.json`) |
+| `GET` | `/orders` | List all orders |
+| `POST` | `/orders` | Create a new order |
+| `PUT` | `/orders/:id/status` | Update order status (pending/accepted/ready/completed) |
+| `PATCH` | `/orders/:id` | Partial update (e.g. accept with estimated time) |
+| `DELETE` | `/orders/:id` | Remove an order |
 
-## What's built
+## Key features
 
-- **Manager authentication** — SHA-256 password gate on the manager dashboard (default: `manager123`), session persists via sessionStorage
-- **Print tickets** — one-click kitchen print from manager dashboard with print-friendly layout
-- **New order sound alerts** — Web Audio API two-tone ping when a new order arrives on the manager dashboard
-- **Order status badge** — live status badge on the customer confirmation screen that polls every 15 seconds (Pending / Accepted / Offline)
-- **Delivery fee** — flat $5.00 delivery fee automatically added when "Delivery" is selected, shown as a line item in cart and order summary
-- **Real-time menu** — 155 items across 15 categories loaded from the server with photos from the official site
-- **Chat assistant** — knowledge-base chatbot for hours, location, dietary needs, menu questions
-- **Mobile-responsive** — full mobile support with touch-friendly cart drawer and navigation
+- **Order number format** — `IA-YYYYMMDD-XXXX` (e.g. `IA-20260325-4821`)
+- **Status progression** — Pending → Accepted (with ETA) → Ready → Completed
+- **Stats dashboard** — today's orders, pending count, active count, revenue
+- **Auto-refresh** — manager dashboard polls every 30s with visual countdown
+- **Sound alerts** — Web Audio API two-tone beep on new pending orders
+- **Print tickets** — one-click kitchen ticket with print-friendly layout
+- **Delivery support** — $5 delivery fee, address field, delivery-specific payment options
+- **Mobile responsive** — full mobile support with slide-up cart drawer and touch targets
+- **Chat assistant** — 20+ knowledge-base topics (hours, dietary, menu, delivery, etc.)
+- **Offline fallback** — orders save to localStorage when server is unreachable
+- **Favicon** — SVG data-URI favicon on all pages (no external file needed)
 
-## What's left to build
+## Customising for a real client
 
-- **Stripe integration** — online payment (placeholder exists in UI)
-- **SMS/email notifications** — notify customer when order is accepted
-- **Order history** — per-customer view with phone number lookup
-- **Delivery zone logic** — restrict delivery radius based on address
-- **Push notifications** — real-time alerts via service worker instead of polling
+1. **Menu data** — edit `data/menu.json` (name, price, category, image URL, description)
+2. **Branding** — replace `logo.png`, update CSS variables in `:root` (colours)
+3. **Contact info** — update address/phone in HTML footers and chat knowledge base
+4. **Manager password** — change the SHA-256 hash in `manager.html` (current: `manager123`)
+5. **Payments** — integrate Stripe in the `placeOrder()` function (placeholder exists)
+6. **Notifications** — add SMS/email via Twilio or similar when order is accepted
+
+## What's next
+
+- Stripe payment integration
+- SMS/email notifications on order acceptance
+- Push notifications via service worker
+- Delivery zone radius validation
+- Per-customer order history with phone lookup
