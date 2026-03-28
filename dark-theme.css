@@ -20,7 +20,7 @@
 
 html, body {
   background: #0e0b08 !important;
-  color: #f2e8d5 !important;
+  color: #c8b99a !important;
   font-family: 'Inter', 'Segoe UI', sans-serif !important;
 }
 
@@ -37,7 +37,7 @@ html, body {
   color: #C9A227 !important;
   border-bottom-color: #C9A227 !important;
 }
-.nav-brand span { color: #f2e8d5 !important; }
+.nav-brand span { color: #d4c4a8 !important; }
 
 /* Sticky top bars (order page tabs) */
 .order-type-bar { background: #141008 !important; border-bottom: 1px solid rgba(201,162,39,0.12) !important; }
@@ -57,14 +57,14 @@ html, body {
 .menu-item:hover, .item-card:hover { background: #1c1710 !important; }
 
 /* Item names & prices */
-.item-name, .item-title, h3, h4 { color: #f2e8d5 !important; }
+.item-name, .item-title, h3, h4 { color: #d4c4a8 !important; }
 .item-price, .price { color: #C9A227 !important; }
-.item-desc, .item-description, .desc, p { color: #8a7860 !important; }
+.item-desc, .item-description, .desc, p { color: #7a6e5e !important; }
 
 /* Buttons */
 .btn-add, .add-btn, button[class*="add"], .btn-primary {
   background: #C9A227 !important;
-  color: #0e0b08 !important;
+  color: #1a1408 !important;
   border-color: #C9A227 !important;
 }
 .btn-secondary, button[class*="secondary"] {
@@ -75,7 +75,7 @@ html, body {
 
 /* Cart / order panel */
 .cart-panel, .order-panel, .cart { background: #141008 !important; border-color: rgba(201,162,39,0.15) !important; }
-.cart-item, .order-item { border-bottom-color: rgba(201,162,39,0.1) !important; color: #f2e8d5 !important; }
+.cart-item, .order-item { border-bottom-color: rgba(201,162,39,0.1) !important; color: #c8b99a !important; }
 .cart-total, .order-total { color: #C9A227 !important; }
 
 /* Inputs & forms */
@@ -100,11 +100,11 @@ footer, .footer {
 .footer h4, .footer-col h4 { color: #C9A227 !important; }
 .footer a, .footer-col a { color: #8a7860 !important; }
 .footer a:hover, .footer-col a:hover { color: #C9A227 !important; }
-.footer-brand span { color: #f2e8d5 !important; }
+.footer-brand span { color: #d4c4a8 !important; }
 .footer-bottom { border-top-color: rgba(201,162,39,0.1) !important; }
 
 /* Section headings */
-h1, h2 { color: #f2e8d5 !important; font-family: 'Playfair Display', serif !important; }
+h1, h2 { color: #e0ceaa !important; font-family: 'Playfair Display', serif !important; }
 
 /* Dividers */
 hr { border-color: rgba(201,162,39,0.1) !important; }
