@@ -358,7 +358,7 @@ function renderMenu(menuData) {
           <div class="price">$${Number(item.price).toFixed(2)}</div>
           ${item.description ? `<div class="desc">${item.description}</div>` : ''}
         </div>
-        <button class="add-btn" onclick="addItem(${JSON.stringify(itemKey)})">Add</button>
+        <button class="add-btn" data-key="${itemKey.replace(/"/g,'&quot;')}">Add</button>
       `;
       section.appendChild(div);
     });
@@ -370,7 +370,7 @@ function renderMenu(menuData) {
 // ==================== CART LOGIC ====================
 function addItem(itemKey) {
   const item = menuItemsById[itemKey];
-  if (!item) return;
+  if (!item) { console.warn('Item not found:', itemKey); return; }
   const existing = cart.find(c => c.id === itemKey);
   if (existing) {
     existing.qty++;
@@ -379,6 +379,12 @@ function addItem(itemKey) {
   }
   renderCart();
 }
+
+// Event delegation for add buttons
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('.add-btn[data-key]');
+  if (btn) addItem(btn.dataset.key);
+});
 
 function addCurry() {
   // Curry builder is no longer used; meat mains come from menu.json directly
