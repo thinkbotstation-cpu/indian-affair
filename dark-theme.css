@@ -49,12 +49,27 @@ html, body {
 
 /* Cards & containers */
 .card, .menu-item, .category-section, .order-summary, .cart-panel,
-.item-card, .section, .contact-section, .about-section {
+.item-card, .section, .contact-section, .about-section,
+.menu-card, .curry-grid, .cat-tabs, .curry-styles {
   background: #141008 !important;
   border-color: rgba(201,162,39,0.12) !important;
-  color: #f2e8d5 !important;
+  color: #c4b49a !important;
 }
-.menu-item:hover, .item-card:hover { background: #1c1710 !important; }
+.menu-item:hover, .item-card:hover, .menu-card:hover { background: #1c1710 !important; }
+
+/* Menu specific */
+.cat-tabs { border-bottom: 1px solid rgba(201,162,39,0.12) !important; }
+.cat-tabs button { color: #6b5f4e !important; background: transparent !important; }
+.cat-tabs button.active { color: #C9A227 !important; border-bottom-color: #C9A227 !important; }
+.curry-styles { background: #1c1710 !important; border: 1px solid rgba(201,162,39,0.1) !important; }
+.curry-styles .style-tag { background: #252015 !important; color: #C9A227 !important; border: 1px solid rgba(201,162,39,0.2) !important; }
+.menu-card .thumb { background: #1c1710 !important; }
+.tag-gf { background: rgba(46,125,50,0.15) !important; color: #81c784 !important; }
+.tag-df { background: rgba(230,81,0,0.15) !important; color: #ffb74d !important; }
+.tag-keto { background: rgba(123,31,162,0.15) !important; color: #ce93d8 !important; }
+.order-cta { background: #0e0b08 !important; border-top: 1px solid rgba(201,162,39,0.15) !important; }
+.order-cta a { background: #C9A227 !important; color: #0e0b08 !important; }
+.back-to-top { background: #C9A227 !important; color: #0e0b08 !important; }
 
 /* Item names & prices */
 .item-name, .item-title, h3, h4 { color: #d4c4a8 !important; }
