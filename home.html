@@ -128,8 +128,16 @@ img{display:block;max-width:100%}
 .footer-col p{font-size:.84rem;color:var(--text-dim);line-height:1.8}
 .footer-bottom{border-top:1px solid var(--border);padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center;font-size:.72rem;color:var(--text-dim);max-width:1100px;margin:0 auto}
 
+/* Bar feature */
+.bar-feature{display:grid;grid-template-columns:1fr 1fr;min-height:480px}
+.bar-img{min-height:380px}
+.bar-text{background:var(--surface);display:flex;flex-direction:column;justify-content:center;padding:4rem}
+
 /* ── Mobile ── */
 @media(max-width:768px){
+  .bar-feature{grid-template-columns:1fr !important;grid-template-rows:300px auto}
+  .bar-img{min-height:300px}
+  .bar-text{padding:2.5rem 1.5rem}
   .nav{padding:1.2rem 1.5rem}
   .nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:rgba(12,10,7,.97);flex-direction:column;padding:1.5rem;gap:1.2rem;border-bottom:1px solid var(--border)}
   .nav-links.open{display:flex}
@@ -246,13 +254,13 @@ img{display:block;max-width:100%}
 </section>
 
 <!-- Bar feature -->
-<section style="display:grid;grid-template-columns:1fr 1fr;min-height:480px;margin-bottom:0">
-  <div style="background:url('img-bar.png') center/cover no-repeat;min-height:380px"></div>
-  <div style="background:var(--surface);display:flex;flex-direction:column;justify-content:center;padding:4rem">
+<section class="bar-feature">
+  <div class="bar-img" style="background:url('img-bar.png') center/cover no-repeat"></div>
+  <div class="bar-text">
     <p style="font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem">The Bar</p>
     <h2 style="font-family:'Playfair Display',serif;font-size:2.2rem;color:var(--text-bright);font-weight:400;line-height:1.2;margin-bottom:1.2rem">Fully stocked.<br>Properly poured.</h2>
     <p style="color:var(--text-dim);font-size:.92rem;line-height:1.85;margin-bottom:1.8rem">Wine, spirits, cocktails, beer on tap. Whether it's a quiet drink before dinner or a night that runs late — the bar's ready when you are.</p>
-    <a href="contact.html" style="display:inline-block;padding:.7rem 1.8rem;border:1px solid rgba(201,162,39,0.3);color:var(--gold);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;transition:.2s;width:fit-content">Reserve a Table</a>
+    <a href="contact.html" style="display:inline-block;padding:.7rem 1.8rem;border:1px solid rgba(201,162,39,0.3);color:var(--gold);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;transition:.2s">Reserve a Table</a>
   </div>
 </section>
 
