@@ -130,7 +130,8 @@ img{display:block;max-width:100%}
 
 /* Bar feature */
 .bar-feature{display:grid;grid-template-columns:1fr 1fr;min-height:480px}
-.bar-img{min-height:380px}
+.bar-img{min-height:380px;position:relative}
+.bar-img::after{content:'';position:absolute;inset:0;background:rgba(12,10,7,0.45)}
 .bar-text{background:var(--surface);display:flex;flex-direction:column;justify-content:center;padding:4rem}
 
 /* ── Mobile ── */
