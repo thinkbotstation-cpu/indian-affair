@@ -105,8 +105,9 @@ img{display:block;max-width:100%}
 .info-address strong{color:var(--text-bright);display:block;margin-bottom:.3rem}
 .info-phone{margin-top:1rem}
 .info-phone a{color:var(--gold);font-size:.9rem;font-weight:500}
-.map-wrap{border:1px solid var(--border);overflow:hidden}
-.map-wrap iframe{width:100%;height:360px;border:0;display:block;filter:grayscale(30%) contrast(1.1)}
+.map-wrap{border:1px solid var(--border);overflow:hidden;position:relative}
+.map-wrap::after{content:'';position:absolute;inset:0;pointer-events:none;background:rgba(12,10,7,0.35);mix-blend-mode:multiply}
+.map-wrap iframe{width:100%;height:360px;border:0;display:block;filter:grayscale(80%) brightness(0.75) contrast(1.1) sepia(20%)}
 
 /* ── CTA Banner ── */
 .cta-banner{margin:0 2.5rem 7rem;border:1px solid var(--border);padding:5rem 4rem;display:flex;align-items:center;justify-content:space-between;gap:3rem;flex-wrap:wrap;background:var(--surface)}
