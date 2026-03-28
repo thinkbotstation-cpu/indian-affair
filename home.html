@@ -6,103 +6,122 @@
 <title>Indian Affair Restaurant &amp; Bar — Taupo's Award Winning Indian Dining</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%238B0000'/><text x='50' y='58' text-anchor='middle' font-size='36' font-weight='bold' fill='%23C9A227' font-family='sans-serif'>IA</text></svg>">
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--red:#8B0000;--dark-red:#5C0000;--gold:#C9A227;--light-gold:#F5E6C8;--cream:#FFF8F0;--dark:#1a1a1a;--gray:#666}
-body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:var(--cream);color:var(--dark);line-height:1.6}
+:root{
+  --gold:#C9A227;
+  --gold-light:#E8C84A;
+  --gold-dim:rgba(201,162,39,0.15);
+  --bg:#0a0a0a;
+  --surface:#111111;
+  --surface2:#181818;
+  --border:rgba(201,162,39,0.15);
+  --text:#f0e8d8;
+  --text-dim:#8a7d6a;
+  --red:#8B0000;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+h1,h2,h3{font-family:'Playfair Display',serif}
 a{color:var(--gold);text-decoration:none}
 
 /* Nav */
-.site-nav{background:linear-gradient(135deg,var(--dark-red),var(--red));position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.3);padding:.6rem 1.5rem;display:flex;align-items:center;justify-content:space-between}
-.site-nav .nav-brand{display:flex;align-items:center;gap:.7rem;text-decoration:none}
-.site-nav .nav-brand img{width:46px;height:46px;border-radius:50%;object-fit:cover;border:2px solid var(--gold)}
-.site-nav .nav-brand span{color:white;font-size:1.15rem;font-weight:700;letter-spacing:1.5px}
-.site-nav .nav-links{display:flex;gap:1.5rem;align-items:center}
-.site-nav .nav-links a{color:var(--light-gold);font-size:.9rem;font-weight:600;transition:.2s;letter-spacing:.5px}
-.site-nav .nav-links a:hover,.site-nav .nav-links a.active{color:white;border-bottom:2px solid var(--gold);padding-bottom:2px}
-.nav-toggle{display:none;background:none;border:none;color:white;font-size:1.6rem;cursor:pointer}
+.site-nav{background:rgba(10,10,10,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;padding:.8rem 2rem;display:flex;align-items:center;justify-content:space-between}
+.site-nav .nav-brand{display:flex;align-items:center;gap:.8rem;text-decoration:none}
+.site-nav .nav-brand img{width:42px;height:42px;border-radius:50%;object-fit:cover;border:1px solid var(--gold)}
+.site-nav .nav-brand span{color:var(--text);font-size:1.1rem;font-weight:600;letter-spacing:2px;font-family:'Playfair Display',serif}
+.site-nav .nav-links{display:flex;gap:2rem;align-items:center}
+.site-nav .nav-links a{color:var(--text-dim);font-size:.85rem;font-weight:500;transition:.2s;letter-spacing:.5px;text-transform:uppercase}
+.site-nav .nav-links a:hover,.site-nav .nav-links a.active{color:var(--gold)}
+.nav-toggle{display:none;background:none;border:none;color:var(--text);font-size:1.6rem;cursor:pointer}
 
 /* Hero */
-.hero{background:linear-gradient(rgba(92,0,0,.75),rgba(139,0,0,.85)),linear-gradient(135deg,var(--dark-red),var(--red));color:white;padding:6rem 1.5rem;text-align:center;position:relative;overflow:hidden;min-height:480px;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C9A227' fill-opacity='0.08'%3E%3Cpath d='M40 40c0-11.046-8.954-20-20-20S0 28.954 0 40s8.954 20 20 20 20-8.954 20-20zm40 0c0-11.046-8.954-20-20-20s-20 8.954-20 20 8.954 20 20 20 20-8.954 20-20z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
-.hero h1{font-size:3.2rem;letter-spacing:2px;margin-bottom:.3rem;position:relative;text-shadow:0 2px 8px rgba(0,0,0,.3)}
-.hero .tagline{font-size:1.3rem;color:var(--gold);margin-bottom:.5rem;position:relative;font-weight:600;letter-spacing:1px}
-.hero .subline{font-size:1.05rem;color:var(--light-gold);margin-bottom:2.5rem;position:relative;max-width:600px}
-.hero-ctas{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;position:relative}
-.hero-ctas a{padding:.85rem 2.2rem;border-radius:8px;font-size:1.05rem;font-weight:700;transition:.2s;letter-spacing:.5px}
-.btn-primary{background:var(--gold);color:var(--dark-red)}
-.btn-primary:hover{background:#d4af37;color:white}
-.btn-secondary{background:transparent;border:2px solid var(--gold);color:var(--gold)}
-.btn-secondary:hover{background:var(--gold);color:var(--dark-red)}
-.btn-outline-white{background:transparent;border:2px solid white;color:white}
-.btn-outline-white:hover{background:white;color:var(--dark-red)}
+.hero{background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.75)),url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1400&q=80') center/cover no-repeat;color:white;padding:8rem 2rem;text-align:center;position:relative;min-height:560px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.hero-eyebrow{font-size:.72rem;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;opacity:.9}
+.hero h1{font-size:4rem;letter-spacing:3px;margin-bottom:.6rem;line-height:1.1;font-weight:700}
+.hero .tagline{font-size:1.1rem;color:rgba(240,232,216,.75);margin-bottom:2.5rem;max-width:520px;font-weight:300;letter-spacing:.5px}
+.hero-ctas{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.hero-ctas a{padding:.85rem 2.2rem;font-size:.9rem;font-weight:600;transition:.2s;letter-spacing:1px;text-transform:uppercase}
+.btn-primary{background:var(--gold);color:#0a0a0a;border:1px solid var(--gold)}
+.btn-primary:hover{background:var(--gold-light)}
+.btn-secondary{background:transparent;border:1px solid rgba(255,255,255,.4);color:white}
+.btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
+.btn-outline-white{background:transparent;border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.8)}
+.btn-outline-white:hover{border-color:white;color:white}
 
 /* About Blurb */
-.about-blurb{background:white;padding:4rem 1.5rem;text-align:center}
-.about-blurb .inner{max-width:800px;margin:0 auto}
-.about-blurb h2{font-size:1.8rem;color:var(--red);margin-bottom:1rem;letter-spacing:1px}
-.about-blurb p{color:var(--gray);font-size:1.05rem;margin-bottom:1.5rem;line-height:1.8}
-.about-blurb a{display:inline-block;padding:.6rem 1.8rem;background:var(--red);color:white;border-radius:8px;font-weight:600;transition:.2s}
-.about-blurb a:hover{background:var(--dark-red)}
+.about-blurb{background:var(--surface);padding:5rem 2rem;text-align:center;border-bottom:1px solid var(--border)}
+.about-blurb .inner{max-width:720px;margin:0 auto}
+.about-blurb .eyebrow{font-size:.68rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
+.about-blurb h2{font-size:2.2rem;color:var(--text);margin-bottom:1.2rem;font-weight:600}
+.about-blurb p{color:var(--text-dim);font-size:1rem;margin-bottom:1.8rem;line-height:1.9;font-weight:300}
+.about-blurb a{display:inline-block;padding:.65rem 2rem;border:1px solid var(--gold);color:var(--gold);font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600;transition:.2s}
+.about-blurb a:hover{background:var(--gold);color:#0a0a0a}
 
 /* Section */
-.section{padding:4rem 1.5rem;max-width:1100px;margin:0 auto}
-.section-title{text-align:center;font-size:1.8rem;color:var(--red);margin-bottom:.5rem;letter-spacing:1px}
-.section-subtitle{text-align:center;color:var(--gray);margin-bottom:2.5rem;font-size:1rem}
+.section{padding:5rem 2rem;max-width:1100px;margin:0 auto}
+.section-title{text-align:center;font-size:2.2rem;color:var(--text);margin-bottom:.4rem;font-weight:600}
+.section-eyebrow{text-align:center;font-size:.68rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem}
+.section-subtitle{text-align:center;color:var(--text-dim);margin-bottom:3rem;font-size:.95rem;font-weight:300}
 
 /* Featured Dishes */
-.dishes{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
-.dish{background:white;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06);transition:.2s}
-.dish:hover{transform:translateY(-4px);box-shadow:0 6px 20px rgba(0,0,0,.1)}
-.dish .thumb{height:140px;background:linear-gradient(135deg,var(--light-gold),#f0d99a);display:flex;align-items:center;justify-content:center;font-size:4.5rem}
-.dish .dish-info{padding:1.4rem}
-.dish .dish-info h3{font-size:1.15rem;color:var(--dark);margin-bottom:.3rem}
-.dish .dish-info .price{color:var(--gold);font-weight:700;font-size:1.05rem}
-.dish .dish-info .desc{color:var(--gray);font-size:.9rem;margin-top:.4rem;line-height:1.5}
+.dishes{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1px;background:var(--border)}
+.dish{background:var(--surface);overflow:hidden;transition:.25s}
+.dish:hover{background:var(--surface2)}
+.dish:hover img{transform:scale(1.04)}
+.dish .thumb{height:200px;overflow:hidden}
+.dish .thumb img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
+.dish .dish-info{padding:1.6rem}
+.dish .dish-info h3{font-size:1.25rem;color:var(--text);margin-bottom:.3rem;font-weight:600}
+.dish .dish-info .price{color:var(--gold);font-weight:600;font-size:.9rem;letter-spacing:.05em;margin-bottom:.5rem}
+.dish .dish-info .desc{color:var(--text-dim);font-size:.87rem;line-height:1.65;font-weight:300}
 
 /* Hours Section */
-.hours-section{background:linear-gradient(135deg,var(--dark-red),var(--red));color:white;padding:3.5rem 1.5rem}
-.hours-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
-.hours-content h2{font-size:1.8rem;margin-bottom:1.5rem;letter-spacing:1px}
-.hours-table{width:100%;font-size:1rem}
-.hours-table td{padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.15)}
-.hours-table td:last-child{text-align:right;color:var(--gold);font-weight:600}
-.hours-contact{margin-top:1.5rem;font-size:1rem}
-.hours-contact p{margin-bottom:.5rem;color:var(--light-gold)}
-.hours-contact a{color:var(--gold);font-weight:600}
-.hours-map{border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.3)}
-.hours-map iframe{width:100%;height:350px;border:0;display:block}
+.hours-section{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:5rem 2rem}
+.hours-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+.hours-content .eyebrow{font-size:.68rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem}
+.hours-content h2{font-size:2.2rem;margin-bottom:2rem;color:var(--text);font-weight:600}
+.hours-table{width:100%;font-size:.9rem}
+.hours-table td{padding:.6rem 0;border-bottom:1px solid var(--border);color:var(--text-dim)}
+.hours-table td:first-child{color:var(--text);font-weight:500}
+.hours-table td:last-child{text-align:right;color:var(--gold)}
+.hours-contact{margin-top:1.8rem;font-size:.9rem}
+.hours-contact p{margin-bottom:.5rem;color:var(--text-dim)}
+.hours-contact a{color:var(--gold);font-weight:500}
+.hours-map{border-radius:4px;overflow:hidden;border:1px solid var(--border)}
+.hours-map iframe{width:100%;height:380px;border:0;display:block;filter:grayscale(20%)}
 
 /* CTA Strip */
-.cta-strip{background:linear-gradient(135deg,var(--gold),#d4af37);text-align:center;padding:3rem 1.5rem}
-.cta-strip h2{font-size:1.6rem;color:var(--dark-red);margin-bottom:.5rem}
-.cta-strip p{font-size:1rem;color:var(--dark-red);opacity:.85;margin-bottom:1.5rem}
+.cta-strip{background:var(--bg);border-top:1px solid var(--border);text-align:center;padding:5rem 2rem}
+.cta-strip .eyebrow{font-size:.68rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem}
+.cta-strip h2{font-size:2.2rem;color:var(--text);margin-bottom:.6rem;font-weight:600}
+.cta-strip p{font-size:.95rem;color:var(--text-dim);margin-bottom:2.5rem;font-weight:300}
 .cta-strip .cta-buttons{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
-.cta-strip .cta-buttons a{padding:.8rem 2rem;border-radius:8px;font-weight:700;font-size:1rem;transition:.2s}
+.cta-strip .cta-buttons a{padding:.85rem 2.2rem;font-size:.85rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;transition:.2s;border:1px solid var(--border)}
 
 /* Footer */
-.footer{background:var(--dark);color:var(--light-gold);padding:2.5rem 1.5rem 1.5rem}
+.footer{background:var(--surface);border-top:1px solid var(--border);color:var(--text-dim);padding:3rem 2rem 1.5rem}
 .footer-inner{max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;gap:2rem}
-.footer-col h4{color:var(--gold);margin-bottom:.7rem;font-size:.95rem;letter-spacing:1px}
-.footer-col a{display:block;color:var(--light-gold);font-size:.88rem;margin-bottom:.4rem;transition:.2s}
-.footer-col a:hover{color:white}
-.footer-col p{font-size:.85rem;opacity:.8}
-.footer-brand{display:flex;align-items:center;gap:.7rem;margin-bottom:.5rem}
-.footer-brand img{width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid var(--gold)}
-.footer-brand span{font-size:1rem;font-weight:700;color:white;letter-spacing:1px}
-.footer-bottom{text-align:center;margin-top:2rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.1);font-size:.8rem;color:var(--gray)}
+.footer-col h4{color:var(--gold);margin-bottom:.8rem;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase}
+.footer-col a{display:block;color:var(--text-dim);font-size:.85rem;margin-bottom:.45rem;transition:.2s}
+.footer-col a:hover{color:var(--gold)}
+.footer-col p{font-size:.84rem;line-height:1.7}
+.footer-brand{display:flex;align-items:center;gap:.7rem;margin-bottom:.6rem}
+.footer-brand img{width:38px;height:38px;border-radius:50%;object-fit:cover;border:1px solid var(--gold)}
+.footer-brand span{font-size:1rem;font-weight:600;color:var(--text);letter-spacing:1.5px;font-family:'Playfair Display',serif}
+.footer-bottom{text-align:center;margin-top:2rem;padding-top:1rem;border-top:1px solid var(--border);font-size:.75rem;color:var(--text-dim);opacity:.6}
 
 @media(max-width:768px){
-  .site-nav{flex-wrap:wrap}
-  .site-nav .nav-links{display:none;flex-direction:column;width:100%;gap:.5rem;padding-top:.8rem}
+  .site-nav{flex-wrap:wrap;padding:.8rem 1.2rem}
+  .site-nav .nav-links{display:none;flex-direction:column;width:100%;gap:.6rem;padding-top:.8rem}
   .site-nav .nav-links.open{display:flex}
   .nav-toggle{display:block}
-  .hero h1{font-size:2rem}
-  .hero .tagline{font-size:1rem}
-  .hero{padding:3.5rem 1rem;min-height:380px}
-  .section{padding:2.5rem 1rem}
-  .hours-inner{grid-template-columns:1fr;gap:2rem}
+  .hero h1{font-size:2.6rem}
+  .hero{padding:5rem 1.5rem;min-height:460px}
+  .section,.about-blurb,.hours-section,.cta-strip{padding:3.5rem 1.2rem}
+  .hours-inner{grid-template-columns:1fr;gap:2.5rem}
   .hours-map iframe{height:280px}
   .footer-inner{flex-direction:column;gap:1.5rem}
+  .dishes{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -124,27 +143,29 @@ a{color:var(--gold);text-decoration:none}
 </nav>
 
 <section class="hero">
+  <p class="hero-eyebrow">Taupo, New Zealand</p>
   <h1>Indian Affair</h1>
-  <p class="tagline">Taupo's Award Winning Indian Dining Experience</p>
-  <p class="subline">A diverse mix of traditional and modern Indian cuisine in the heart of Taupo. Great for friends, functions, and celebrations.</p>
+  <p class="tagline">Where traditional Indian craft meets a modern bar experience. Bold flavours, intimate atmosphere.</p>
   <div class="hero-ctas">
     <a href="index.html" class="btn-primary">Order Online</a>
-    <a href="contact.html" class="btn-secondary">Book a Table</a>
+    <a href="contact.html" class="btn-secondary">Reserve a Table</a>
     <a href="menu.html" class="btn-outline-white">View Menu</a>
   </div>
 </section>
 
 <section class="about-blurb">
   <div class="inner">
-    <h2>Award-Winning Indian Dining</h2>
-    <p>Indian Affair Restaurant &amp; Bar has been delighting locals and visitors in Taupo with authentic Indian cuisine. Our chefs craft every dish using traditional recipes passed down through generations, blending aromatic spices ground fresh in-house with the finest local ingredients. Whether you're craving a rich Butter Chicken, crispy Mo:Mos, or our famous Googley Special, there's something for everyone.</p>
+    <p class="eyebrow">Our Story</p>
+    <h2>Crafted with Intention</h2>
+    <p>Indian Affair is Taupo's award-winning restobar — a space where ancient Indian culinary traditions meet contemporary dining. Every dish is built on spices ground in-house, recipes refined over generations, and ingredients sourced with care. Whether you're here for cocktails and small plates or a full evening of celebration, the experience is always intentional.</p>
     <a href="about.html">Read Our Story</a>
   </div>
 </section>
 
 <section class="section">
-  <h2 class="section-title">Featured Dishes</h2>
-  <p class="section-subtitle">Customer favourites you can't miss</p>
+  <p class="section-eyebrow">On the Menu</p>
+  <h2 class="section-title">House Favourites</h2>
+  <p class="section-subtitle">The dishes our guests keep coming back for</p>
   <div class="dishes">
     <div class="dish">
       <div class="thumb" style="background:none;padding:0;height:160px;overflow:hidden;">
@@ -182,6 +203,7 @@ a{color:var(--gold);text-decoration:none}
 <section class="hours-section">
   <div class="hours-inner">
     <div class="hours-content">
+      <p class="eyebrow">Find Us</p>
       <h2>Visit Us</h2>
       <table class="hours-table">
         <tr><td>Monday</td><td>9:00am - 10:00pm</td></tr>
@@ -204,12 +226,13 @@ a{color:var(--gold);text-decoration:none}
 </section>
 
 <section class="cta-strip">
-  <h2>Ready to Order?</h2>
-  <p>Dine in, takeaway, or order online — we've got you covered.</p>
+  <p class="eyebrow">Join Us Tonight</p>
+  <h2>Your Table is Waiting</h2>
+  <p>Dine in, take away, or order online. Open seven days.</p>
   <div class="cta-buttons">
-    <a href="index.html" class="btn-primary">Order Online</a>
-    <a href="contact.html" style="background:var(--dark-red);color:var(--gold)">Book a Table</a>
-    <a href="menu.html" style="background:transparent;border:2px solid var(--dark-red);color:var(--dark-red)">View Full Menu</a>
+    <a href="index.html" style="background:var(--gold);color:#0a0a0a;border-color:var(--gold)">Order Online</a>
+    <a href="contact.html" style="color:var(--gold)">Reserve a Table</a>
+    <a href="menu.html" style="color:var(--text-dim)">View Full Menu</a>
   </div>
 </section>
 
