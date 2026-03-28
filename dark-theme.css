@@ -1,0 +1,116 @@
+/* ── Indian Affair — Shared Dark Theme Override ──────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  --red:#8B0000;
+  --dark-red:#5C0000;
+  --orange:#C9A227;
+  --gold:#C9A227;
+  --gold-light:#E8C84A;
+  --light-gold:#f2e8d5;
+  --cream:#0e0b08;
+  --dark:#f2e8d5;
+  --gray:#8a7860;
+  --light-gray:#1c1710;
+  --bg:#0e0b08;
+  --surface:#141008;
+  --surface2:#1c1710;
+  --border:rgba(201,162,39,0.12);
+}
+
+html, body {
+  background: #0e0b08 !important;
+  color: #f2e8d5 !important;
+  font-family: 'Inter', 'Segoe UI', sans-serif !important;
+}
+
+/* Nav overrides */
+.site-nav, nav, .nav-bar, header {
+  background: rgba(14,11,8,0.97) !important;
+  border-bottom: 1px solid rgba(201,162,39,0.15) !important;
+  backdrop-filter: blur(12px);
+}
+.site-nav .nav-links a, .nav-links a {
+  color: #8a7860 !important;
+}
+.site-nav .nav-links a:hover, .nav-links a.active, .site-nav .nav-links a.active {
+  color: #C9A227 !important;
+  border-bottom-color: #C9A227 !important;
+}
+.nav-brand span { color: #f2e8d5 !important; }
+
+/* Sticky top bars (order page tabs) */
+.order-type-bar { background: #141008 !important; border-bottom: 1px solid rgba(201,162,39,0.12) !important; }
+.order-type-bar button { border-color: #C9A227 !important; color: #C9A227 !important; background: transparent !important; }
+.order-type-bar button.active { background: #C9A227 !important; color: #0e0b08 !important; }
+.tabs { background: #141008 !important; border-bottom: 1px solid rgba(201,162,39,0.12) !important; }
+.tabs button { color: #8a7860 !important; }
+.tabs button.active { color: #C9A227 !important; border-bottom-color: #C9A227 !important; }
+
+/* Cards & containers */
+.card, .menu-item, .category-section, .order-summary, .cart-panel,
+.item-card, .section, .contact-section, .about-section {
+  background: #141008 !important;
+  border-color: rgba(201,162,39,0.12) !important;
+  color: #f2e8d5 !important;
+}
+.menu-item:hover, .item-card:hover { background: #1c1710 !important; }
+
+/* Item names & prices */
+.item-name, .item-title, h3, h4 { color: #f2e8d5 !important; }
+.item-price, .price { color: #C9A227 !important; }
+.item-desc, .item-description, .desc, p { color: #8a7860 !important; }
+
+/* Buttons */
+.btn-add, .add-btn, button[class*="add"], .btn-primary {
+  background: #C9A227 !important;
+  color: #0e0b08 !important;
+  border-color: #C9A227 !important;
+}
+.btn-secondary, button[class*="secondary"] {
+  background: transparent !important;
+  border-color: rgba(201,162,39,0.4) !important;
+  color: #C9A227 !important;
+}
+
+/* Cart / order panel */
+.cart-panel, .order-panel, .cart { background: #141008 !important; border-color: rgba(201,162,39,0.15) !important; }
+.cart-item, .order-item { border-bottom-color: rgba(201,162,39,0.1) !important; color: #f2e8d5 !important; }
+.cart-total, .order-total { color: #C9A227 !important; }
+
+/* Inputs & forms */
+input, textarea, select {
+  background: #1c1710 !important;
+  border-color: rgba(201,162,39,0.2) !important;
+  color: #f2e8d5 !important;
+}
+input::placeholder, textarea::placeholder { color: #8a7860 !important; }
+input:focus, textarea:focus, select:focus {
+  border-color: #C9A227 !important;
+  outline: none;
+}
+label { color: #8a7860 !important; }
+
+/* Footer */
+footer, .footer {
+  background: #141008 !important;
+  border-top: 1px solid rgba(201,162,39,0.12) !important;
+  color: #8a7860 !important;
+}
+.footer h4, .footer-col h4 { color: #C9A227 !important; }
+.footer a, .footer-col a { color: #8a7860 !important; }
+.footer a:hover, .footer-col a:hover { color: #C9A227 !important; }
+.footer-brand span { color: #f2e8d5 !important; }
+.footer-bottom { border-top-color: rgba(201,162,39,0.1) !important; }
+
+/* Section headings */
+h1, h2 { color: #f2e8d5 !important; font-family: 'Playfair Display', serif !important; }
+
+/* Dividers */
+hr { border-color: rgba(201,162,39,0.1) !important; }
+
+/* Scrollbars */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: #0e0b08; }
+::-webkit-scrollbar-thumb { background: rgba(201,162,39,0.2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(201,162,39,0.4); }
