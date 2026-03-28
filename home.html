@@ -37,8 +37,8 @@ img{display:block;max-width:100%}
 
 /* ── Hero ── */
 .hero{height:100vh;min-height:600px;position:relative;display:flex;align-items:center;padding:0 2.5rem;padding-top:80px}
-.hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=1600&q=85') center/cover no-repeat;transition:transform .1s}
-.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top, rgba(12,10,7,1) 0%, rgba(12,10,7,.6) 40%, rgba(12,10,7,.2) 100%)}
+.hero-bg{position:absolute;inset:0;background:url('img-dining.png') center/cover no-repeat;transition:transform .1s}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top, rgba(12,10,7,1) 0%, rgba(12,10,7,.65) 45%, rgba(12,10,7,.25) 100%)}
 .hero-content{position:relative;max-width:700px}
 .hero-eyebrow{font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;opacity:.8}
 .hero h1{font-family:'Playfair Display',serif;font-size:clamp(3rem,7vw,5.5rem);line-height:1.05;color:var(--text-bright);font-weight:400;margin-bottom:1.2rem}
@@ -90,7 +90,7 @@ img{display:block;max-width:100%}
 
 /* ── Full bleed quote ── */
 .quote-section{padding:8rem 2.5rem;text-align:center;position:relative}
-.quote-section::before{content:'';position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=1200&q=80') center/cover;opacity:.08}
+.quote-section::before{content:'';position:absolute;inset:0;background:url('img-exterior.png') center/cover;opacity:.07}
 .quote-section blockquote{position:relative;font-family:'Playfair Display',serif;font-size:clamp(1.6rem,4vw,2.8rem);color:var(--text-bright);font-weight:400;font-style:italic;max-width:800px;margin:0 auto;line-height:1.4}
 .quote-section cite{display:block;margin-top:1.5rem;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);font-style:normal;font-family:'Inter',sans-serif}
 
@@ -241,6 +241,17 @@ img{display:block;max-width:100%}
         <div class="dish-desc">Two textures of meat, chef's signature sauce. Bold, rich, unforgettable.</div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- Bar feature -->
+<section style="display:grid;grid-template-columns:1fr 1fr;min-height:480px;margin-bottom:0">
+  <div style="background:url('img-bar2.png') center/cover no-repeat;min-height:380px"></div>
+  <div style="background:var(--surface);display:flex;flex-direction:column;justify-content:center;padding:4rem">
+    <p style="font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem">The Bar</p>
+    <h2 style="font-family:'Playfair Display',serif;font-size:2.2rem;color:var(--text-bright);font-weight:400;line-height:1.2;margin-bottom:1.2rem">Fully stocked.<br>Properly poured.</h2>
+    <p style="color:var(--text-dim);font-size:.92rem;line-height:1.85;margin-bottom:1.8rem">Wine, spirits, cocktails, beer on tap. Whether it's a quiet drink before dinner or a night that runs late — the bar's ready when you are.</p>
+    <a href="contact.html" style="display:inline-block;padding:.7rem 1.8rem;border:1px solid rgba(201,162,39,0.3);color:var(--gold);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;transition:.2s;width:fit-content">Reserve a Table</a>
   </div>
 </section>
 
