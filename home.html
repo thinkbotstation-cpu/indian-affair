@@ -3,250 +3,304 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Indian Affair Restaurant &amp; Bar — Taupo's Award Winning Indian Dining</title>
+<title>Indian Affair — Restaurant & Bar, Taupo</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%238B0000'/><text x='50' y='58' text-anchor='middle' font-size='36' font-weight='bold' fill='%23C9A227' font-family='sans-serif'>IA</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
+  --bg:#0c0a07;
+  --surface:#131009;
   --gold:#C9A227;
-  --gold-light:#E8C84A;
-  --gold-dim:rgba(201,162,39,0.12);
-  --bg:#0e0b08;
-  --surface:#141008;
-  --surface2:#1c1710;
-  --border:rgba(201,162,39,0.12);
-  --text:#f2e8d5;
-  --text-dim:#8a7860;
-  --red:#8B0000;
+  --gold-dim:rgba(201,162,39,0.15);
+  --text:#c4b49a;
+  --text-bright:#e8d9be;
+  --text-dim:#6b5f4e;
+  --border:rgba(201,162,39,0.1);
 }
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
-h1,h2,h3{font-family:'Playfair Display',serif}
-a{color:var(--gold);text-decoration:none}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-weight:300;line-height:1.7;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
 
-/* Nav */
-.site-nav{background:rgba(10,10,10,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;padding:.8rem 2rem;display:flex;align-items:center;justify-content:space-between}
-.site-nav .nav-brand{display:flex;align-items:center;gap:.8rem;text-decoration:none}
-.site-nav .nav-brand img{width:42px;height:42px;border-radius:50%;object-fit:cover;border:1px solid var(--gold)}
-.site-nav .nav-brand span{color:var(--text);font-size:1.1rem;font-weight:600;letter-spacing:2px;font-family:'Playfair Display',serif}
-.site-nav .nav-links{display:flex;gap:2rem;align-items:center}
-.site-nav .nav-links a{color:var(--text-dim);font-size:.85rem;font-weight:500;transition:.2s;letter-spacing:.5px;text-transform:uppercase}
-.site-nav .nav-links a:hover,.site-nav .nav-links a.active{color:var(--gold)}
-.nav-toggle{display:none;background:none;border:none;color:var(--text);font-size:1.6rem;cursor:pointer}
+/* ── Nav ── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.4rem 2.5rem;display:flex;align-items:center;justify-content:space-between;transition:background .3s,border .3s}
+.nav.scrolled{background:rgba(12,10,7,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav-brand{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--text-bright);letter-spacing:2px}
+.nav-links{display:flex;gap:2.5rem}
+.nav-links a{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim);transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+.nav-cta{border:1px solid var(--gold-dim);padding:.4rem 1.2rem;color:var(--gold) !important;transition:background .2s !important}
+.nav-cta:hover{background:var(--gold-dim) !important}
+.nav-toggle{display:none;background:none;border:none;color:var(--text-bright);font-size:1.4rem;cursor:pointer}
 
-/* Hero */
-.hero{background:linear-gradient(rgba(14,11,8,.5),rgba(14,11,8,.82)),url('https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=1400&q=80') center/cover no-repeat;color:white;padding:8rem 2rem;text-align:center;position:relative;min-height:560px;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.hero-eyebrow{font-size:.72rem;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;opacity:.9}
-.hero h1{font-size:4rem;letter-spacing:3px;margin-bottom:.6rem;line-height:1.1;font-weight:700}
-.hero .tagline{font-size:1.1rem;color:rgba(240,232,216,.75);margin-bottom:2.5rem;max-width:520px;font-weight:300;letter-spacing:.5px}
-.hero-ctas{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
-.hero-ctas a{padding:.85rem 2.2rem;font-size:.9rem;font-weight:600;transition:.2s;letter-spacing:1px;text-transform:uppercase}
-.btn-primary{background:var(--gold);color:#0a0a0a;border:1px solid var(--gold)}
-.btn-primary:hover{background:var(--gold-light)}
-.btn-secondary{background:transparent;border:1px solid rgba(255,255,255,.4);color:white}
-.btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
-.btn-outline-white{background:transparent;border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.8)}
-.btn-outline-white:hover{border-color:white;color:white}
+/* ── Hero ── */
+.hero{height:100vh;min-height:600px;position:relative;display:flex;align-items:flex-end;padding:0 2.5rem 6rem}
+.hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=1600&q=85') center/cover no-repeat;transition:transform .1s}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top, rgba(12,10,7,1) 0%, rgba(12,10,7,.6) 40%, rgba(12,10,7,.2) 100%)}
+.hero-content{position:relative;max-width:700px}
+.hero-eyebrow{font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;opacity:.8}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(3rem,7vw,5.5rem);line-height:1.05;color:var(--text-bright);font-weight:400;margin-bottom:1.2rem}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero-sub{font-size:.95rem;color:var(--text-dim);max-width:440px;margin-bottom:2.5rem;font-weight:300;line-height:1.8}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap}
+.btn{display:inline-block;padding:.75rem 2rem;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;font-weight:500;transition:.2s;font-family:'Inter',sans-serif}
+.btn-gold{background:var(--gold);color:#0c0a07}
+.btn-gold:hover{background:#d4af37}
+.btn-ghost{border:1px solid rgba(196,180,154,.25);color:var(--text);background:transparent}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+.scroll-hint{position:absolute;bottom:2rem;right:2.5rem;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim);display:flex;align-items:center;gap:.5rem}
+.scroll-hint::before{content:'';width:1px;height:40px;background:var(--gold-dim);display:block}
 
-/* About Blurb */
-.about-blurb{background:var(--surface);padding:5rem 2rem;text-align:center;border-bottom:1px solid var(--border)}
-.about-blurb .inner{max-width:720px;margin:0 auto}
-.about-blurb .eyebrow{font-size:.68rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
-.about-blurb h2{font-size:2.2rem;color:var(--text);margin-bottom:1.2rem;font-weight:600}
-.about-blurb p{color:var(--text-dim);font-size:1rem;margin-bottom:1.8rem;line-height:1.9;font-weight:300}
-.about-blurb a{display:inline-block;padding:.65rem 2rem;border:1px solid var(--gold);color:var(--gold);font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600;transition:.2s}
-.about-blurb a:hover{background:var(--gold);color:#0a0a0a}
+/* ── Fade in on scroll ── */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:none}
+.reveal-left{opacity:0;transform:translateX(-28px);transition:opacity .7s ease,transform .7s ease}
+.reveal-left.visible{opacity:1;transform:none}
+.reveal-right{opacity:0;transform:translateX(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal-right.visible{opacity:1;transform:none}
 
-/* Section */
-.section{padding:5rem 2rem;max-width:1100px;margin:0 auto}
-.section-title{text-align:center;font-size:2.2rem;color:var(--text);margin-bottom:.4rem;font-weight:600}
-.section-eyebrow{text-align:center;font-size:.68rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem}
-.section-subtitle{text-align:center;color:var(--text-dim);margin-bottom:3rem;font-size:.95rem;font-weight:300}
+/* ── Intro strip ── */
+.intro{padding:7rem 2.5rem;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+.intro-text h2{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3rem);color:var(--text-bright);font-weight:400;line-height:1.2;margin-bottom:1.5rem}
+.intro-text p{color:var(--text-dim);font-size:.95rem;line-height:1.9;margin-bottom:1.5rem}
+.intro-text a{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);border-bottom:1px solid var(--gold-dim);padding-bottom:2px;transition:border-color .2s}
+.intro-text a:hover{border-color:var(--gold)}
+.intro-stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+.intro-stat{}
+.intro-stat-num{font-family:'Playfair Display',serif;font-size:2.8rem;color:var(--gold);line-height:1;margin-bottom:.3rem}
+.intro-stat-label{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim)}
 
-/* Featured Dishes */
-.dishes{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1px;background:var(--border)}
-.dish{background:var(--surface);overflow:hidden;transition:.25s}
-.dish:hover{background:var(--surface2)}
-.dish:hover img{transform:scale(1.04)}
-.dish .thumb{height:200px;overflow:hidden}
-.dish .thumb img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
-.dish .dish-info{padding:1.6rem}
-.dish .dish-info h3{font-size:1.25rem;color:var(--text);margin-bottom:.3rem;font-weight:600}
-.dish .dish-info .price{color:var(--gold);font-weight:600;font-size:.9rem;letter-spacing:.05em;margin-bottom:.5rem}
-.dish .dish-info .desc{color:var(--text-dim);font-size:.87rem;line-height:1.65;font-weight:300}
+/* ── Dishes ── */
+.dishes-section{padding:4rem 2.5rem 7rem;max-width:1100px;margin:0 auto}
+.dishes-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:3rem}
+.dishes-header h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.4rem);color:var(--text-bright);font-weight:400}
+.dishes-header a{font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);transition:color .2s}
+.dishes-header a:hover{color:var(--gold)}
+.dishes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--border)}
+.dish{background:var(--bg);overflow:hidden;position:relative;cursor:pointer}
+.dish-img{height:260px;overflow:hidden}
+.dish-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+.dish:hover .dish-img img{transform:scale(1.06)}
+.dish-info{padding:1.4rem 1.4rem 1.8rem}
+.dish-name{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--text-bright);margin-bottom:.3rem;font-weight:400}
+.dish-price{font-size:.8rem;color:var(--gold);letter-spacing:.05em;margin-bottom:.5rem}
+.dish-desc{font-size:.82rem;color:var(--text-dim);line-height:1.6}
 
-/* Hours Section */
-.hours-section{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:5rem 2rem}
-.hours-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
-.hours-content .eyebrow{font-size:.68rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem}
-.hours-content h2{font-size:2.2rem;margin-bottom:2rem;color:var(--text);font-weight:600}
-.hours-table{width:100%;font-size:.9rem}
-.hours-table td{padding:.6rem 0;border-bottom:1px solid var(--border);color:var(--text-dim)}
-.hours-table td:first-child{color:var(--text);font-weight:500}
-.hours-table td:last-child{text-align:right;color:var(--gold)}
-.hours-contact{margin-top:1.8rem;font-size:.9rem}
-.hours-contact p{margin-bottom:.5rem;color:var(--text-dim)}
-.hours-contact a{color:var(--gold);font-weight:500}
-.hours-map{border-radius:4px;overflow:hidden;border:1px solid var(--border)}
-.hours-map iframe{width:100%;height:380px;border:0;display:block;filter:grayscale(20%)}
+/* ── Full bleed quote ── */
+.quote-section{padding:8rem 2.5rem;text-align:center;position:relative}
+.quote-section::before{content:'';position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=1200&q=80') center/cover;opacity:.08}
+.quote-section blockquote{position:relative;font-family:'Playfair Display',serif;font-size:clamp(1.6rem,4vw,2.8rem);color:var(--text-bright);font-weight:400;font-style:italic;max-width:800px;margin:0 auto;line-height:1.4}
+.quote-section cite{display:block;margin-top:1.5rem;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);font-style:normal;font-family:'Inter',sans-serif}
 
-/* CTA Strip */
-.cta-strip{background:var(--bg);border-top:1px solid var(--border);text-align:center;padding:5rem 2rem}
-.cta-strip .eyebrow{font-size:.68rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem}
-.cta-strip h2{font-size:2.2rem;color:var(--text);margin-bottom:.6rem;font-weight:600}
-.cta-strip p{font-size:.95rem;color:var(--text-dim);margin-bottom:2.5rem;font-weight:300}
-.cta-strip .cta-buttons{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
-.cta-strip .cta-buttons a{padding:.85rem 2.2rem;font-size:.85rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;transition:.2s;border:1px solid var(--border)}
+/* ── Hours & Location ── */
+.info-section{padding:7rem 2.5rem;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+.info-block h3{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--text-bright);font-weight:400;margin-bottom:2rem}
+.hours-list{list-style:none}
+.hours-list li{display:flex;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid var(--border);font-size:.88rem}
+.hours-list li span:first-child{color:var(--text-dim)}
+.hours-list li span:last-child{color:var(--gold)}
+.info-address{margin-top:2rem;font-size:.88rem;color:var(--text-dim);line-height:1.8}
+.info-address strong{color:var(--text-bright);display:block;margin-bottom:.3rem}
+.info-phone{margin-top:1rem}
+.info-phone a{color:var(--gold);font-size:.9rem;font-weight:500}
+.map-wrap{border:1px solid var(--border);overflow:hidden}
+.map-wrap iframe{width:100%;height:360px;border:0;display:block;filter:grayscale(30%) contrast(1.1)}
 
-/* Footer */
-.footer{background:var(--surface);border-top:1px solid var(--border);color:var(--text-dim);padding:3rem 2rem 1.5rem}
-.footer-inner{max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;gap:2rem}
-.footer-col h4{color:var(--gold);margin-bottom:.8rem;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase}
-.footer-col a{display:block;color:var(--text-dim);font-size:.85rem;margin-bottom:.45rem;transition:.2s}
+/* ── CTA Banner ── */
+.cta-banner{margin:0 2.5rem 7rem;border:1px solid var(--border);padding:5rem 4rem;display:flex;align-items:center;justify-content:space-between;gap:3rem;flex-wrap:wrap;background:var(--surface)}
+.cta-banner h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.6rem);color:var(--text-bright);font-weight:400;line-height:1.2}
+.cta-banner p{color:var(--text-dim);font-size:.88rem;margin-top:.5rem}
+.cta-banner-actions{display:flex;gap:1rem;flex-shrink:0;flex-wrap:wrap}
+
+/* ── Footer ── */
+.footer{border-top:1px solid var(--border);padding:4rem 2.5rem 2rem}
+.footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
+.footer-brand{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--text-bright);letter-spacing:1px;margin-bottom:.8rem;display:flex;align-items:center;gap:.7rem}
+.footer-brand img{width:36px;height:36px;border-radius:50%;border:1px solid var(--gold-dim);object-fit:cover}
+.footer-tagline{font-size:.82rem;color:var(--text-dim);line-height:1.7;max-width:240px}
+.footer-col h4{font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim);margin-bottom:1rem}
+.footer-col a{display:block;font-size:.85rem;color:var(--text-dim);margin-bottom:.5rem;transition:color .2s}
 .footer-col a:hover{color:var(--gold)}
-.footer-col p{font-size:.84rem;line-height:1.7}
-.footer-brand{display:flex;align-items:center;gap:.7rem;margin-bottom:.6rem}
-.footer-brand img{width:38px;height:38px;border-radius:50%;object-fit:cover;border:1px solid var(--gold)}
-.footer-brand span{font-size:1rem;font-weight:600;color:var(--text);letter-spacing:1.5px;font-family:'Playfair Display',serif}
-.footer-bottom{text-align:center;margin-top:2rem;padding-top:1rem;border-top:1px solid var(--border);font-size:.75rem;color:var(--text-dim);opacity:.6}
+.footer-col p{font-size:.84rem;color:var(--text-dim);line-height:1.8}
+.footer-bottom{border-top:1px solid var(--border);padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center;font-size:.72rem;color:var(--text-dim);max-width:1100px;margin:0 auto}
 
+/* ── Mobile ── */
 @media(max-width:768px){
-  .site-nav{flex-wrap:wrap;padding:.8rem 1.2rem}
-  .site-nav .nav-links{display:none;flex-direction:column;width:100%;gap:.6rem;padding-top:.8rem}
-  .site-nav .nav-links.open{display:flex}
+  .nav{padding:1.2rem 1.5rem}
+  .nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:rgba(12,10,7,.97);flex-direction:column;padding:1.5rem;gap:1.2rem;border-bottom:1px solid var(--border)}
+  .nav-links.open{display:flex}
   .nav-toggle{display:block}
-  .hero h1{font-size:2.6rem}
-  .hero{padding:5rem 1.5rem;min-height:460px}
-  .section,.about-blurb,.hours-section,.cta-strip{padding:3.5rem 1.2rem}
-  .hours-inner{grid-template-columns:1fr;gap:2.5rem}
-  .hours-map iframe{height:280px}
-  .footer-inner{flex-direction:column;gap:1.5rem}
-  .dishes{grid-template-columns:1fr}
+  .hero{padding:0 1.5rem 4rem}
+  .hero h1{font-size:2.8rem}
+  .intro,.info-section{grid-template-columns:1fr;gap:3rem;padding:4rem 1.5rem}
+  .dishes-grid{grid-template-columns:1fr;background:none;gap:2rem}
+  .dishes-section{padding:3rem 1.5rem 5rem}
+  .cta-banner{margin:0 1.5rem 5rem;padding:3rem 2rem;flex-direction:column}
+  .footer-inner{grid-template-columns:1fr 1fr;gap:2rem;padding:0}
+  .footer{padding:3rem 1.5rem 1.5rem}
+  .quote-section{padding:5rem 1.5rem}
+  .footer-bottom{flex-direction:column;gap:.5rem;text-align:center}
 }
 </style>
 </head>
 <body>
 
-<nav class="site-nav">
-  <a href="home.html" class="nav-brand">
-    <img src="logo.png" alt="Indian Affair Logo">
-    <span>INDIAN AFFAIR</span>
-  </a>
-  <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">&#9776;</button>
+<!-- Nav -->
+<nav class="nav" id="mainNav">
+  <a href="home.html" class="nav-brand">Indian Affair</a>
+  <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
   <div class="nav-links">
-    <a href="home.html" class="active">Home</a>
+    <a href="home.html">Home</a>
     <a href="menu.html">Menu</a>
-    <a href="index.html">Order Online</a>
     <a href="about.html">About</a>
     <a href="contact.html">Contact</a>
+    <a href="index.html" class="nav-cta">Order Online</a>
   </div>
 </nav>
 
+<!-- Hero -->
 <section class="hero">
-  <p class="hero-eyebrow">Taupo, New Zealand</p>
-  <h1>Indian Affair</h1>
-  <p class="tagline">Good food, good drinks, no fuss. Come hungry, leave happy.</p>
-  <div class="hero-ctas">
-    <a href="index.html" class="btn-primary">Order Online</a>
-    <a href="contact.html" class="btn-secondary">Reserve a Table</a>
-    <a href="menu.html" class="btn-outline-white">View Menu</a>
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Taupo, New Zealand</p>
+    <h1>Good food.<br><em>Great nights.</em></h1>
+    <p class="hero-sub">Traditional Indian kitchen meets a proper bar. Pull up a chair — the spices are ground fresh, the drinks are cold, and there's always room for one more.</p>
+    <div class="hero-actions">
+      <a href="index.html" class="btn btn-gold">Order Online</a>
+      <a href="contact.html" class="btn btn-ghost">Reserve a Table</a>
+    </div>
+  </div>
+  <div class="scroll-hint">Scroll</div>
+</section>
+
+<!-- Intro -->
+<section class="intro">
+  <div class="intro-text reveal-left">
+    <h2>Taupo's favourite<br>restobar since day one</h2>
+    <p>We built Indian Affair for people who want real food in a real atmosphere — not a rushed table turn, not a theme park version of Indian cuisine. Come for the Butter Chicken, stay for the cocktails.</p>
+    <p>Every spice is ground in-house. Every dish is made to order. The bar is fully stocked and the staff know their stuff.</p>
+    <a href="about.html">Our story →</a>
+  </div>
+  <div class="intro-stat-grid reveal-right">
+    <div class="intro-stat">
+      <div class="intro-stat-num">155</div>
+      <div class="intro-stat-label">Menu items</div>
+    </div>
+    <div class="intro-stat">
+      <div class="intro-stat-num">7</div>
+      <div class="intro-stat-label">Days a week</div>
+    </div>
+    <div class="intro-stat">
+      <div class="intro-stat-num">9am</div>
+      <div class="intro-stat-label">Until late</div>
+    </div>
+    <div class="intro-stat">
+      <div class="intro-stat-num">0</div>
+      <div class="intro-stat-label">Dress code</div>
+    </div>
   </div>
 </section>
 
-<section class="about-blurb">
-  <div class="inner">
-    <p class="eyebrow">Our Story</p>
-    <h2>Real Food, Real Atmosphere</h2>
-    <p>Indian Affair is Taupo's favourite restobar — relaxed enough for a Tuesday night, special enough for a celebration. We cook with spices ground in-house, recipes passed down through generations, and a bar menu built to match. Pull up a chair, order a round, and stay a while.</p>
-    <a href="about.html">Read Our Story</a>
+<!-- Dishes -->
+<section class="dishes-section">
+  <div class="dishes-header reveal">
+    <h2>House Favourites</h2>
+    <a href="menu.html">Full menu →</a>
   </div>
-</section>
-
-<section class="section">
-  <p class="section-eyebrow">On the Menu</p>
-  <h2 class="section-title">House Favourites</h2>
-  <p class="section-subtitle">The dishes our guests keep coming back for</p>
-  <div class="dishes">
-    <div class="dish">
-      <div class="thumb" style="background:none;padding:0;height:160px;overflow:hidden;">
-        <img src="https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=400&q=80" alt="Butter Chicken" style="width:100%;height:100%;object-fit:cover;">
+  <div class="dishes-grid">
+    <div class="dish reveal">
+      <div class="dish-img">
+        <img src="https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=600&q=80" alt="Butter Chicken" loading="lazy">
       </div>
       <div class="dish-info">
-        <h3>Butter Chicken</h3>
-        <p class="price">From $23.90</p>
-        <p class="desc">Tender chicken in our signature creamy tomato makhani sauce. A classic that keeps our guests coming back time after time.</p>
+        <div class="dish-name">Butter Chicken</div>
+        <div class="dish-price">From $23.90</div>
+        <div class="dish-desc">Creamy makhani sauce, tender chicken, ground spices. The classic that keeps people coming back.</div>
       </div>
     </div>
-    <div class="dish">
-      <div class="thumb" style="background:none;padding:0;height:160px;overflow:hidden;">
-        <img src="https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=400&q=80" alt="Mo:Mos dumplings" style="width:100%;height:100%;object-fit:cover;">
+    <div class="dish reveal" style="transition-delay:.1s">
+      <div class="dish-img">
+        <img src="https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=600&q=80" alt="Mo:Mos" loading="lazy">
       </div>
       <div class="dish-info">
-        <h3>Mo:Mos</h3>
-        <p class="price">From $18.90</p>
-        <p class="desc">Authentic Nepali dumplings available steam, fried, kothe, jhol or chilly style. A Taupo favourite you won't find anywhere else.</p>
+        <div class="dish-name">Mo:Mos</div>
+        <div class="dish-price">From $18.90</div>
+        <div class="dish-desc">Nepali dumplings — steam, fried, kothe, jhol or chilly. You won't find these anywhere else in Taupo.</div>
       </div>
     </div>
-    <div class="dish">
-      <div class="thumb" style="background:none;padding:0;height:160px;overflow:hidden;">
-        <img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&q=80" alt="Indian curry special" style="width:100%;height:100%;object-fit:cover;">
+    <div class="dish reveal" style="transition-delay:.2s">
+      <div class="dish-img">
+        <img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600&q=80" alt="Googley Special" loading="lazy">
       </div>
       <div class="dish-info">
-        <h3>Googley Special</h3>
-        <p class="price">From $30.90</p>
-        <p class="desc">Two textures of tender meat in our chef's signature sauce. Bold, rich, and absolutely unforgettable.</p>
+        <div class="dish-name">Googley Special</div>
+        <div class="dish-price">From $30.90</div>
+        <div class="dish-desc">Two textures of meat, chef's signature sauce. Bold, rich, unforgettable.</div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="hours-section">
-  <div class="hours-inner">
-    <div class="hours-content">
-      <p class="eyebrow">Find Us</p>
-      <h2>Visit Us</h2>
-      <table class="hours-table">
-        <tr><td>Monday</td><td>9:00am - 10:00pm</td></tr>
-        <tr><td>Tuesday</td><td>9:00am - 10:00pm</td></tr>
-        <tr><td>Wednesday</td><td>9:00am - 10:00pm</td></tr>
-        <tr><td>Thursday</td><td>9:00am - 10:00pm</td></tr>
-        <tr><td>Friday</td><td>9:00am - 10:00pm</td></tr>
-        <tr><td>Saturday</td><td>9:00am - 10:00pm</td></tr>
-        <tr><td>Sunday</td><td>9:00am - 10:00pm</td></tr>
-      </table>
-      <div class="hours-contact">
-        <p>34 Ruapehu St (corner of Tuwharetoa &amp; Ruapehu), Taupo 3300</p>
-        <p><a href="tel:073782295">07-378 2295</a></p>
-      </div>
+<!-- Quote -->
+<section class="quote-section reveal">
+  <blockquote>
+    "The kind of place you discover on a Tuesday and tell everyone about on a Wednesday."
+  </blockquote>
+  <cite>Indian Affair — Taupo</cite>
+</section>
+
+<!-- Hours & Map -->
+<section class="info-section">
+  <div class="reveal-left">
+    <h3>Come find us</h3>
+    <ul class="hours-list">
+      <li><span>Monday</span><span>9:00am – 10:00pm</span></li>
+      <li><span>Tuesday</span><span>9:00am – 10:00pm</span></li>
+      <li><span>Wednesday</span><span>9:00am – 10:00pm</span></li>
+      <li><span>Thursday</span><span>9:00am – 10:00pm</span></li>
+      <li><span>Friday</span><span>9:00am – 10:00pm</span></li>
+      <li><span>Saturday</span><span>9:00am – 10:00pm</span></li>
+      <li><span>Sunday</span><span>9:00am – 10:00pm</span></li>
+    </ul>
+    <div class="info-address">
+      <strong>34 Ruapehu St, Taupo 3330</strong>
+      Corner of Tuwharetoa & Ruapehu<br>Plenty of street parking nearby
     </div>
-    <div class="hours-map">
-      <iframe src="https://www.google.com/maps?q=Indian+Affair+Restaurant+Bar+34+Ruapehu+St+Taupo+New+Zealand&output=embed" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <div class="info-phone">
+      <a href="tel:073782295">07-378 2295</a>
     </div>
+  </div>
+  <div class="map-wrap reveal-right">
+    <iframe src="https://www.google.com/maps?q=Indian+Affair+Restaurant+Bar+34+Ruapehu+St+Taupo+New+Zealand&output=embed" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
   </div>
 </section>
 
-<section class="cta-strip">
-  <p class="eyebrow">Come In</p>
-  <h2>See You Tonight</h2>
-  <p>Dine in, take away, or order online. Open seven days — no dress code required.</p>
-  <div class="cta-buttons">
-    <a href="index.html" style="background:var(--gold);color:#0a0a0a;border-color:var(--gold)">Order Online</a>
-    <a href="contact.html" style="color:var(--gold)">Reserve a Table</a>
-    <a href="menu.html" style="color:var(--text-dim)">View Full Menu</a>
+<!-- CTA Banner -->
+<div class="cta-banner reveal">
+  <div>
+    <h2>See you tonight.</h2>
+    <p>Dine in, take away, or order online — open seven days.</p>
   </div>
-</section>
+  <div class="cta-banner-actions">
+    <a href="index.html" class="btn btn-gold">Order Online</a>
+    <a href="contact.html" class="btn btn-ghost">Book a Table</a>
+  </div>
+</div>
 
+<!-- Footer -->
 <footer class="footer">
   <div class="footer-inner">
-    <div class="footer-col">
+    <div>
       <div class="footer-brand">
-        <img src="logo.png" alt="Indian Affair Logo">
-        <span>INDIAN AFFAIR</span>
+        <img src="logo.png" alt="Indian Affair">
+        Indian Affair
       </div>
-      <p>Restaurant &amp; Bar<br>Taupo, New Zealand</p>
+      <p class="footer-tagline">Restaurant & Bar. Traditional Indian kitchen meets a modern bar. Taupo, New Zealand.</p>
     </div>
     <div class="footer-col">
-      <h4>QUICK LINKS</h4>
+      <h4>Navigate</h4>
       <a href="home.html">Home</a>
       <a href="menu.html">Menu</a>
       <a href="index.html">Order Online</a>
@@ -254,264 +308,113 @@ a{color:var(--gold);text-decoration:none}
       <a href="contact.html">Contact</a>
     </div>
     <div class="footer-col">
-      <h4>CONTACT</h4>
-      <p>34 Ruapehu St, Taupo 3300<br>Phone: 07-378 2295<br>indianaffair.co.nz</p>
+      <h4>Hours</h4>
+      <p>Mon – Sun<br>9:00am – 10:00pm</p>
     </div>
     <div class="footer-col">
-      <h4>HOURS</h4>
-      <p>Mon - Sun<br>9:00am - 10:00pm</p>
+      <h4>Contact</h4>
+      <p>34 Ruapehu St<br>Taupo 3330<br><br><a href="tel:073782295" style="color:var(--gold)">07-378 2295</a></p>
     </div>
   </div>
-  <div class="footer-bottom">&copy; 2026 Indian Affair Restaurant &amp; Bar. All rights reserved.</div>
+  <div class="footer-bottom">
+    <span>© 2026 Indian Affair Restaurant & Bar</span>
+    <span>Made with care in Taupo</span>
+  </div>
 </footer>
 
-<!-- ── Chatbot Widget ──────────────────────────────────────────── -->
-<style>
-  .chat-bubble {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    z-index: 9999;
-  }
-  .chat-toggle {
-    width: 58px;
-    height: 58px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--dark-red), var(--red));
-    border: 3px solid var(--gold);
-    box-shadow: 0 4px 20px rgba(0,0,0,.3);
-    cursor: pointer;
-    font-size: 1.6rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform .2s;
-  }
-  .chat-toggle:hover { transform: scale(1.08); }
-  .chat-window {
-    display: none;
-    position: absolute;
-    bottom: 70px;
-    right: 0;
-    width: 320px;
-    background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 8px 40px rgba(0,0,0,.18);
-    overflow: hidden;
-    flex-direction: column;
-    border: 1px solid var(--light-gold);
-  }
-  .chat-window.open { display: flex; }
-  .chat-header {
-    background: linear-gradient(135deg, var(--dark-red), var(--red));
-    color: white;
-    padding: 14px 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .chat-header-avatar {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: var(--gold);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    flex-shrink: 0;
-  }
-  .chat-header-info { flex: 1; }
-  .chat-header-name { font-weight: 700; font-size: .9rem; }
-  .chat-header-status { font-size: .72rem; color: var(--light-gold); }
-  .chat-close { background: none; border: none; color: white; font-size: 1.3rem; cursor: pointer; line-height: 1; }
-  .chat-messages {
-    flex: 1;
-    padding: 14px;
-    overflow-y: auto;
-    max-height: 320px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    background: #fdf8f0;
-  }
-  .msg {
-    display: flex;
-    gap: 7px;
-    align-items: flex-end;
-  }
-  .msg.user { flex-direction: row-reverse; }
-  .msg-avatar {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: var(--gold);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: .85rem;
-    flex-shrink: 0;
-  }
-  .msg.user .msg-avatar { background: #ddd; }
-  .msg-text {
-    background: white;
-    border-radius: 12px 12px 12px 2px;
-    padding: 9px 13px;
-    font-size: .82rem;
-    line-height: 1.5;
-    color: #333;
-    max-width: 220px;
-    box-shadow: 0 1px 4px rgba(0,0,0,.07);
-  }
-  .msg.user .msg-text {
-    background: var(--red);
-    color: white;
-    border-radius: 12px 12px 2px 12px;
-  }
-  .chat-quick {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    padding: 8px 14px 0;
-    background: #fdf8f0;
-  }
-  .chat-quick button {
-    background: white;
-    border: 1px solid var(--light-gold);
-    border-radius: 20px;
-    padding: 5px 12px;
-    font-size: .75rem;
-    color: var(--red);
-    cursor: pointer;
-    font-weight: 600;
-    transition: .15s;
-  }
-  .chat-quick button:hover { background: var(--light-gold); }
-  .chat-input-row {
-    display: flex;
-    gap: 8px;
-    padding: 10px 12px;
-    background: white;
-    border-top: 1px solid var(--light-gold);
-  }
-  .chat-input {
-    flex: 1;
-    border: 1px solid #ddd;
-    border-radius: 20px;
-    padding: 8px 14px;
-    font-size: .82rem;
-    outline: none;
-    font-family: inherit;
-  }
-  .chat-input:focus { border-color: var(--gold); }
-  .chat-send {
-    background: var(--red);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 34px;
-    height: 34px;
-    font-size: 1rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: .15s;
-    flex-shrink: 0;
-  }
-  .chat-send:hover { background: var(--dark-red); }
-  .typing { color: #aaa; font-size: .75rem; padding: 0 14px 6px; background: #fdf8f0; font-style: italic; }
-  .typing:empty { display: none; }
-</style>
+<script>
+  // Nav scroll
+  window.addEventListener('scroll', () => {
+    document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 60);
+  });
 
+  // Subtle parallax on hero
+  window.addEventListener('scroll', () => {
+    const el = document.getElementById('heroBg');
+    if (el) el.style.transform = `translateY(${window.scrollY * 0.25}px)`;
+  }, {passive: true});
+
+  // Reveal on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, {threshold: 0.12});
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => observer.observe(el));
+</script>
+
+<!-- Chatbot -->
+<style>
+  .chat-bubble{position:fixed;bottom:24px;right:24px;z-index:9999}
+  .chat-toggle{width:54px;height:54px;border-radius:50%;background:var(--gold);border:none;box-shadow:0 4px 20px rgba(0,0,0,.4);cursor:pointer;font-size:1.4rem;display:flex;align-items:center;justify-content:center;transition:transform .2s}
+  .chat-toggle:hover{transform:scale(1.08)}
+  .chat-window{display:none;position:absolute;bottom:66px;right:0;width:310px;background:#131009;border:1px solid var(--border);border-radius:12px;overflow:hidden;flex-direction:column;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+  .chat-window.open{display:flex}
+  .chat-header{background:#1c1710;padding:12px 14px;display:flex;align-items:center;gap:9px;border-bottom:1px solid var(--border)}
+  .chat-header-icon{width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+  .chat-header-name{font-size:.85rem;font-weight:500;color:var(--text-bright)}
+  .chat-header-status{font-size:.68rem;color:var(--gold);margin-top:1px}
+  .chat-close{margin-left:auto;background:none;border:none;color:var(--text-dim);font-size:1.1rem;cursor:pointer;line-height:1}
+  .chat-msgs{flex:1;padding:12px;overflow-y:auto;max-height:280px;display:flex;flex-direction:column;gap:8px;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+  .msg{display:flex;gap:6px;align-items:flex-end}
+  .msg.user{flex-direction:row-reverse}
+  .msg-av{width:24px;height:24px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0}
+  .msg.user .msg-av{background:#1c1710;border:1px solid var(--border)}
+  .msg-txt{padding:8px 11px;font-size:.78rem;line-height:1.5;max-width:210px;border-radius:10px 10px 10px 2px}
+  .msg-txt{background:#1c1710;color:var(--text);border:1px solid var(--border)}
+  .msg.user .msg-txt{background:var(--gold);color:#0c0a07;border:none;border-radius:10px 10px 2px 10px}
+  .chat-quick{display:flex;flex-wrap:wrap;gap:5px;padding:8px 12px 0;background:#131009}
+  .chat-quick button{background:transparent;border:1px solid var(--border);border-radius:20px;padding:4px 10px;font-size:.72rem;color:var(--gold);cursor:pointer;transition:.15s;font-family:'Inter',sans-serif}
+  .chat-quick button:hover{background:var(--gold-dim)}
+  .typing-row{padding:4px 12px;font-size:.7rem;color:var(--text-dim);font-style:italic;background:#131009;min-height:22px}
+  .chat-input-row{display:flex;gap:6px;padding:8px 10px;background:#1c1710;border-top:1px solid var(--border)}
+  .chat-inp{flex:1;background:#131009;border:1px solid var(--border);border-radius:20px;padding:7px 12px;font-size:.78rem;color:var(--text-bright);outline:none;font-family:'Inter',sans-serif}
+  .chat-inp:focus{border-color:var(--gold)}
+  .chat-send{background:var(--gold);color:#0c0a07;border:none;border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.15s}
+  .chat-send:hover{background:#d4af37}
+</style>
 <div class="chat-bubble">
-  <div class="chat-window" id="chatWindow">
+  <div class="chat-window" id="chatWin">
     <div class="chat-header">
-      <div class="chat-header-avatar">🍛</div>
-      <div class="chat-header-info">
-        <div class="chat-header-name">Indian Affair Assistant</div>
-        <div class="chat-header-status">● Online — ask us anything</div>
-      </div>
+      <div class="chat-header-icon">🍛</div>
+      <div><div class="chat-header-name">Indian Affair</div><div class="chat-header-status">● Ask us anything</div></div>
       <button class="chat-close" onclick="toggleChat()">✕</button>
     </div>
-    <div class="chat-messages" id="chatMessages">
-      <div class="msg">
-        <div class="msg-avatar">🍛</div>
-        <div class="msg-text">Kia ora! 👋 Welcome to Indian Affair Taupo. I can help with our menu, hours, reservations, or directions. What can I help you with?</div>
-      </div>
+    <div class="chat-msgs" id="chatMsgs">
+      <div class="msg"><div class="msg-av">🍛</div><div class="msg-txt">Kia ora! 👋 What can I help you with today?</div></div>
     </div>
-    <div class="chat-quick" id="quickReplies">
-      <button onclick="sendQuick('What are your hours?')">🕐 Hours</button>
-      <button onclick="sendQuick('Where are you located?')">📍 Location</button>
-      <button onclick="sendQuick('How do I book a table?')">🍽️ Book a table</button>
-      <button onclick="sendQuick('Show me the menu')">📋 Menu</button>
+    <div class="chat-quick" id="quickBtns">
+      <button onclick="sq('Hours?')">🕐 Hours</button>
+      <button onclick="sq('Where are you?')">📍 Location</button>
+      <button onclick="sq('Book a table')">🍽 Booking</button>
+      <button onclick="sq('Show me the menu')">📋 Menu</button>
     </div>
-    <div class="typing" id="typingIndicator"></div>
+    <div class="typing-row" id="typingRow"></div>
     <div class="chat-input-row">
-      <input class="chat-input" id="chatInput" type="text" placeholder="Ask anything…" onkeydown="if(event.key==='Enter')sendMessage()">
-      <button class="chat-send" onclick="sendMessage()">➤</button>
+      <input class="chat-inp" id="chatInp" placeholder="Ask anything…" onkeydown="if(event.key==='Enter')send()">
+      <button class="chat-send" onclick="send()">➤</button>
     </div>
   </div>
-  <button class="chat-toggle" onclick="toggleChat()" id="chatToggleBtn" title="Chat with us">🍛</button>
+  <button class="chat-toggle" onclick="toggleChat()">🍛</button>
 </div>
-
 <script>
-  const KB = {
-    hours: { patterns: ['hour','open','close','when','time','trading'], response: '🕐 We\'re open <strong>Monday to Sunday, 9:00am – 10:00pm</strong>. We\'d love to see you!' },
-    location: { patterns: ['where','address','location','find','located','taupo','map','directions','how to get'], response: '📍 We\'re at <strong>34 Ruapehu St (corner of Tuwharetoa & Ruapehu), Taupo 3300</strong>. Right in the heart of town — plenty of parking nearby.' },
-    phone: { patterns: ['phone','call','number','contact','ring'], response: '📞 Give us a call on <strong>07-378 2295</strong> — we\'re happy to help with bookings or any questions.' },
-    booking: { patterns: ['book','reservation','reserve','table','seat'], response: '🍽️ To book a table, call us on <strong>07-378 2295</strong> or use our <a href="contact.html" style="color:var(--red)">contact form</a>. We love hosting functions and celebrations too!' },
-    menu: { patterns: ['menu','food','dish','eat','cuisine','what do you serve','what do you have'], response: '📋 Check out our <a href="menu.html" style="color:var(--red)">full menu here</a>. We serve traditional and modern Indian cuisine — from Butter Chicken and Mo:Mos to our famous Googley Special. Also great cocktails and mocktails 🍹' },
-    order: { patterns: ['order','takeaway','delivery','online','pickup'], response: '🛒 You can <a href="index.html" style="color:var(--red)">order online here</a> for takeaway or dine-in. Easy and fast!' },
-    butter: { patterns: ['butter chicken','butter','makhani'], response: '🍗 Our Butter Chicken is a customer favourite — tender chicken in a creamy tomato makhani sauce, available from <strong>$23.90</strong>. Rich, aromatic, and made fresh daily.' },
-    momos: { patterns: ['mo:mo','momo','dumpling'], response: '🥟 Mo:Mos are our specialty — authentic Nepali dumplings available steam, fried, kothe, jhol or chilly style, from <strong>$18.90</strong>. A Taupo favourite!' },
-    googley: { patterns: ['googley','special'], response: '🥘 The Googley Special is our chef\'s signature — two textures of tender meat in a bold, rich sauce from <strong>$30.90</strong>. Absolutely unforgettable.' },
-    price: { patterns: ['price','cost','cheap','expensive','how much'], response: '💰 Our mains start from around <strong>$18.90</strong>. View the <a href="menu.html" style="color:var(--red)">full menu</a> for all prices — great value for the quality!' },
-    parking: { patterns: ['park','parking'], response: '🚗 There\'s street parking on Ruapehu St and nearby Tuwharetoa St. Usually easy to find a spot, especially in the evenings.' },
-    vegan: { patterns: ['vegan','vegetarian','veggie','plant','dairy free','gluten'], response: '🌱 We have a great selection of vegetarian dishes, and can accommodate dietary requirements — just let us know when you order or book and our chefs will take care of you.' },
-  };
-
-  function toggleChat() {
-    const w = document.getElementById('chatWindow');
-    w.classList.toggle('open');
-    if(w.classList.contains('open')) document.getElementById('chatInput').focus();
-  }
-
-  function getBotResponse(msg) {
-    const lower = msg.toLowerCase();
-    for (const [, entry] of Object.entries(KB)) {
-      if (entry.patterns.some(p => lower.includes(p))) return entry.response;
-    }
-    return "I'm not sure about that one — your best bet is to call us on <strong>07-378 2295</strong> or check our <a href='menu.html' style='color:var(--red)'>menu</a>. We're always happy to help! 🙏";
-  }
-
-  function appendMsg(text, isUser) {
-    const msgs = document.getElementById('chatMessages');
-    const div = document.createElement('div');
-    div.className = 'msg' + (isUser ? ' user' : '');
-    div.innerHTML = `<div class="msg-avatar">${isUser ? '👤' : '🍛'}</div><div class="msg-text">${text}</div>`;
-    msgs.appendChild(div);
-    msgs.scrollTop = msgs.scrollHeight;
-  }
-
-  function sendQuick(text) {
-    document.getElementById('quickReplies').style.display = 'none';
-    sendMessage(text);
-  }
-
-  function sendMessage(override) {
-    const input = document.getElementById('chatInput');
-    const text = override || input.value.trim();
-    if (!text) return;
-    appendMsg(text, true);
-    input.value = '';
-    const typing = document.getElementById('typingIndicator');
-    typing.textContent = 'Typing…';
-    setTimeout(() => {
-      typing.textContent = '';
-      appendMsg(getBotResponse(text), false);
-    }, 600 + Math.random() * 400);
-  }
+  const KB=[
+    {p:['hour','open','close','when','time'],r:'🕐 Open <strong>Mon–Sun, 9am–10pm</strong>. Every day of the week!'},
+    {p:['where','address','location','find','map','directions','taupo'],r:'📍 <strong>34 Ruapehu St, Taupo 3330</strong> — corner of Tuwharetoa & Ruapehu. Street parking nearby.'},
+    {p:['book','reserv','table','seat','function'],r:'🍽 To book, call <strong>07-378 2295</strong> or use our <a href="contact.html" style="color:var(--gold)">contact form</a>. We love hosting functions too!'},
+    {p:['menu','food','dish','eat','cuisine','serve','have'],r:'📋 Check the <a href="menu.html" style="color:var(--gold)">full menu here</a> — 155 items including curries, Mo:Mos, grills, and more. Also a full bar 🍹'},
+    {p:['order','takeaway','delivery','online','pickup'],r:'🛒 <a href="index.html" style="color:var(--gold)">Order online here</a> — easy and fast.'},
+    {p:['butter','makhani'],r:'🍗 Butter Chicken from <strong>$23.90</strong> — creamy makhani sauce, tender chicken, spices ground fresh daily.'},
+    {p:['mo:mo','momo','dumpling'],r:'🥟 Mo:Mos from <strong>$18.90</strong> — steam, fried, kothe, jhol or chilly. A Taupo exclusive!'},
+    {p:['googley','special'],r:'🥘 Googley Special from <strong>$30.90</strong> — chef\'s signature, two textures of meat, bold sauce. Must try.'},
+    {p:['price','cost','how much','cheap','expensive'],r:'💰 Mains from around $18.90. See the <a href="menu.html" style="color:var(--gold)">full menu</a> for all prices.'},
+    {p:['park'],r:'🚗 Street parking on Ruapehu St and Tuwharetoa St — usually easy to find a spot.'},
+    {p:['vegan','vegetarian','veggie','plant','dairy','gluten','allerg'],r:'🌱 Great vegetarian selection and we accommodate dietary requirements — just let us know when ordering or booking.'},
+    {p:['phone','call','number','contact'],r:'📞 Call us on <strong>07-378 2295</strong> — happy to help anytime.'},
+  ];
+  function toggleChat(){document.getElementById('chatWin').classList.toggle('open')}
+  function sq(t){document.getElementById('quickBtns').style.display='none';send(t)}
+  function addMsg(t,u){const m=document.getElementById('chatMsgs');const d=document.createElement('div');d.className='msg'+(u?' user':'');d.innerHTML=`<div class="msg-av">${u?'👤':'🍛'}</div><div class="msg-txt">${t}</div>`;m.appendChild(d);m.scrollTop=m.scrollHeight}
+  function getReply(t){const l=t.toLowerCase();for(const e of KB){if(e.p.some(p=>l.includes(p)))return e.r}return"Not sure on that one — best to call us on <strong>07-378 2295</strong> or check the <a href='menu.html' style='color:var(--gold)'>menu</a>. We're always happy to help! 🙏"}
+  function send(o){const i=document.getElementById('chatInp');const t=o||i.value.trim();if(!t)return;addMsg(t,true);i.value='';const tr=document.getElementById('typingRow');tr.textContent='Typing…';setTimeout(()=>{tr.textContent='';addMsg(getReply(t),false)},500+Math.random()*400)}
 </script>
 </body>
 </html>
