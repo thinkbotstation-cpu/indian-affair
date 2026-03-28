@@ -383,7 +383,10 @@ function addItem(itemKey) {
 // Event delegation for add buttons
 document.addEventListener('click', function(e) {
   const btn = e.target.closest('.add-btn[data-key]');
-  if (btn) addItem(btn.dataset.key);
+  if (btn) {
+    const key = btn.getAttribute('data-key');
+    addItem(key);
+  }
 });
 
 function addCurry() {

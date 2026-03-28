@@ -113,14 +113,29 @@ label { color: #8a7860 !important; }
   border: 1px solid rgba(201,162,39,0.15) !important;
   color: #d4c4a8 !important;
 }
-.modal h2 { color: #C9A227 !important; }
+.modal h2, .modal h3 { color: #C9A227 !important; }
+.modal p, .modal li { color: #8a7860 !important; }
 .modal label { color: #8a7860 !important; }
-.btn-place-order { background: #C9A227 !important; color: #0e0b08 !important; }
+.modal strong { color: #d4c4a8 !important; }
+.btn-place-order { background: #C9A227 !important; color: #0e0b08 !important; border: none !important; font-weight: 700 !important; }
 .modal-actions button { background: #1c1710 !important; color: #d4c4a8 !important; border: 1px solid rgba(201,162,39,0.2) !important; }
 .modal-actions .btn-place-order { background: #C9A227 !important; color: #0e0b08 !important; border: none !important; }
 .radio-group label { color: #d4c4a8 !important; }
-.payment-option { background: #1c1710 !important; border-color: rgba(201,162,39,0.15) !important; }
-.payment-option.selected { border-color: #C9A227 !important; }
+.payment-option { background: #1c1710 !important; border-color: rgba(201,162,39,0.15) !important; color: #d4c4a8 !important; }
+.payment-option.selected { border-color: #C9A227 !important; background: rgba(201,162,39,0.08) !important; }
+/* Confirmation modal */
+#confirm-modal .modal { background: #141008 !important; }
+#order-status-badge { opacity: 1 !important; }
+/* Cart */
+.cart-panel { background: #141008 !important; border-left: 1px solid rgba(201,162,39,0.15) !important; }
+.cart-empty { color: #8a7860 !important; }
+.cart-item-name { color: #d4c4a8 !important; }
+.cart-item-price { color: #C9A227 !important; }
+.checkout-btn { background: #C9A227 !important; color: #0e0b08 !important; font-weight: 700 !important; }
+.subtotal-row { color: #d4c4a8 !important; border-top-color: rgba(201,162,39,0.15) !important; }
+/* Nav sticky header on order page */
+.top-nav { background: rgba(14,11,8,0.97) !important; border-bottom: 1px solid rgba(201,162,39,0.12) !important; }
+.top-nav a, .top-nav span { color: #d4c4a8 !important; }
 
 /* Footer */
 footer, .footer {
