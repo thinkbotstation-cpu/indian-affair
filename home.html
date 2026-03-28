@@ -27,7 +27,8 @@ img{display:block;max-width:100%}
 /* ── Nav ── */
 .nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.4rem 2.5rem;display:flex;align-items:center;justify-content:space-between;transition:background .3s,border .3s}
 .nav.scrolled{background:rgba(12,10,7,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
-.nav-brand{font-family:'Playfair Display',serif;font-size:1.1rem;color:#fff;letter-spacing:2px;text-shadow:0 1px 4px rgba(0,0,0,.6)}
+.nav-brand{font-family:'Playfair Display',serif;font-size:1.1rem;color:#fff;letter-spacing:2px;text-shadow:0 1px 4px rgba(0,0,0,.6);display:flex;align-items:center;gap:.7rem}
+.nav-brand img{width:40px;height:40px;border-radius:50%;object-fit:cover;object-position:center top;border:1px solid rgba(201,162,39,0.4);background:#0c0a07}
 .nav-links{display:flex;gap:2.5rem;align-items:center}
 .nav-links a{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(240,228,200,.75);transition:color .2s;text-shadow:0 1px 4px rgba(0,0,0,.6)}
 .nav-links a:hover{color:var(--gold)}
@@ -160,7 +161,7 @@ img{display:block;max-width:100%}
 
 <!-- Nav -->
 <nav class="nav" id="mainNav">
-  <a href="home.html" class="nav-brand">Indian Affair</a>
+  <a href="home.html" class="nav-brand"><img src="logo.png" alt="Indian Affair">Indian Affair</a>
   <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
   <div class="nav-links">
     <a href="home.html">Home</a>
