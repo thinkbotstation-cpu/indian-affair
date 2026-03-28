@@ -367,12 +367,14 @@ img{display:block;max-width:100%}
 <!-- Chatbot -->
 <style>
   .chat-bubble{position:fixed;bottom:24px;right:24px;z-index:9999}
-  .chat-toggle{width:54px;height:54px;border-radius:50%;background:var(--gold);border:none;box-shadow:0 4px 20px rgba(0,0,0,.4);cursor:pointer;font-size:1.4rem;display:flex;align-items:center;justify-content:center;transition:transform .2s}
+  .chat-toggle{width:54px;height:54px;border-radius:50%;background:var(--gold);border:none;box-shadow:0 4px 20px rgba(0,0,0,.4);cursor:pointer;font-size:1.4rem;display:flex;align-items:center;justify-content:center;transition:transform .2s;overflow:hidden;padding:0}
+  .chat-toggle img{width:100%;height:100%;object-fit:cover;border-radius:50%}
   .chat-toggle:hover{transform:scale(1.08)}
   .chat-window{display:none;position:absolute;bottom:66px;right:0;width:310px;background:#131009;border:1px solid var(--border);border-radius:12px;overflow:hidden;flex-direction:column;box-shadow:0 12px 40px rgba(0,0,0,.5)}
   .chat-window.open{display:flex}
   .chat-header{background:#1c1710;padding:12px 14px;display:flex;align-items:center;gap:9px;border-bottom:1px solid var(--border)}
-  .chat-header-icon{width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+  .chat-header-icon{width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;overflow:hidden;padding:0}
+  .chat-header-icon img{width:100%;height:100%;object-fit:cover;border-radius:50%}
   .chat-header-name{font-size:.85rem;font-weight:500;color:var(--text-bright)}
   .chat-header-status{font-size:.68rem;color:var(--gold);margin-top:1px}
   .chat-close{margin-left:auto;background:none;border:none;color:var(--text-dim);font-size:1.1rem;cursor:pointer;line-height:1}
@@ -397,12 +399,12 @@ img{display:block;max-width:100%}
 <div class="chat-bubble">
   <div class="chat-window" id="chatWin">
     <div class="chat-header">
-      <div class="chat-header-icon">🍛</div>
+      <div class="chat-header-icon"><img src="img-goddess.png" alt="Assistant"></div>
       <div><div class="chat-header-name">Indian Affair</div><div class="chat-header-status">● Ask us anything</div></div>
       <button class="chat-close" onclick="toggleChat()">✕</button>
     </div>
     <div class="chat-msgs" id="chatMsgs">
-      <div class="msg"><div class="msg-av">🍛</div><div class="msg-txt">Kia ora! 👋 What can I help you with today?</div></div>
+      <div class="msg"><div class="msg-av"><img src="img-goddess.png" style="width:100%;height:100%;object-fit:cover;border-radius:50%"></div><div class="msg-txt">Kia ora! 👋 What can I help you with today?</div></div>
     </div>
     <div class="chat-quick" id="quickBtns">
       <button onclick="sq('Hours?')">🕐 Hours</button>
@@ -416,7 +418,7 @@ img{display:block;max-width:100%}
       <button class="chat-send" onclick="send()">➤</button>
     </div>
   </div>
-  <button class="chat-toggle" onclick="toggleChat()">🍛</button>
+  <button class="chat-toggle" onclick="toggleChat()"><img src="img-goddess.png" alt="Chat"></button>
 </div>
 <script>
   const KB=[
@@ -435,7 +437,7 @@ img{display:block;max-width:100%}
   ];
   function toggleChat(){document.getElementById('chatWin').classList.toggle('open')}
   function sq(t){document.getElementById('quickBtns').style.display='none';send(t)}
-  function addMsg(t,u){const m=document.getElementById('chatMsgs');const d=document.createElement('div');d.className='msg'+(u?' user':'');d.innerHTML=`<div class="msg-av">${u?'👤':'🍛'}</div><div class="msg-txt">${t}</div>`;m.appendChild(d);m.scrollTop=m.scrollHeight}
+  function addMsg(t,u){const m=document.getElementById('chatMsgs');const d=document.createElement('div');d.className='msg'+(u?' user':'');d.innerHTML=`<div class="msg-av">${u?'👤':'<img src="img-goddess.png" style="width:100%;height:100%;object-fit:cover;border-radius:50%">'}</div><div class="msg-txt">${t}</div>`;m.appendChild(d);m.scrollTop=m.scrollHeight}
   function getReply(t){const l=t.toLowerCase();for(const e of KB){if(e.p.some(p=>l.includes(p)))return e.r}return"Not sure on that one — best to call us on <strong>07-378 2295</strong> or check the <a href='menu.html' style='color:var(--gold)'>menu</a>. We're always happy to help! 🙏"}
   function send(o){const i=document.getElementById('chatInp');const t=o||i.value.trim();if(!t)return;addMsg(t,true);i.value='';const tr=document.getElementById('typingRow');tr.textContent='Typing…';setTimeout(()=>{tr.textContent='';addMsg(getReply(t),false)},500+Math.random()*400)}
 </script>
